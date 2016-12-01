@@ -359,12 +359,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
           
             
             // this was replaced by the animation ;)
-            imageView.center = CGPoint(x: x, y: y)
+            //imageView.center = CGPoint(x: x, y: y)
             
            // self.imageView.center = CGPoint(x: x, y: y)
            // -----------------
-            /*
-            UIView.animate(withDuration: 0.0,
+            
+            UIView.animate(withDuration: 0.05,
                            delay: 0,
                            usingSpringWithDamping: 1.0,
                            initialSpringVelocity: CGFloat(10),
@@ -375,7 +375,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                             
                             },
                            completion: nil)
-            */
+            
             
         }
  
