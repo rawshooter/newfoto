@@ -301,34 +301,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                          width: imageView.bounds.size.width,
                                          height: imageView.bounds.size.height)
             
-            
-            
-            
-            
-            /*
-             image.frame.width = recognizer.translation(in: view).x
-             
-             image.frame.width = recognizer.translation(in: view).y
-             
-             */
-            
+
             
             // center x
             var x = baseCenterX + trackpadX;
             
             
             
-            // check the boundaries
-            // add some frame butter
-         /*
-            if(x < -10){
-                x = -10
-            }
-            
-            if(x>1930){
-                x = 1930
-            }
-           */
             
             x = getSafeXCenter(x: x)
             //print("current x \(x)")
@@ -336,40 +315,17 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             var y = baseCenterY + trackpadY;
             
-            /*
-             let x = imageView.center.x + trackpadX;
-             let y = imageView.center.y + trackpadY;
-             */
-            
-            //y = getSafeYCenter(y: y)
-            /*
-            if(y<0){
-                y=0
-            }
-            
-            if(y>1024){
-                y=1024
-            }
-            */
+
             y = getSafeYCenter(y: y)
-            // print("current y \(y)")
+
             
-            //imageView.frame = myFrame
-            
-          
-            
-            // this was replaced by the animation ;)
-            //imageView.center = CGPoint(x: x, y: y)
-            
-           // self.imageView.center = CGPoint(x: x, y: y)
-           // -----------------
-            
-            UIView.animate(withDuration: 0.05,
+            UIView.animate(withDuration: 0.1,
                            delay: 0,
-                           usingSpringWithDamping: 1.0,
-                           initialSpringVelocity: CGFloat(10),
+                           usingSpringWithDamping: 1,
+                           initialSpringVelocity: 0,
                          //  options: .beginFromCurrentState,
-                           options: [],
+                         //  options: [.beginFromCurrentState, .curveLinear, .allowUserInteraction
+                            options: [.beginFromCurrentState],
                            animations: { () -> Void in
                                 self.imageView.center = CGPoint(x: x, y: y)
                             
@@ -379,8 +335,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
         }
  
-          //  -----------------------------
-        
+    
         // END OF MOVEMENT
         // MARK: End of Gesture
         
@@ -400,8 +355,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 velX = velX / 10.0
             }
             
+            // velocity is too fast
+            if(velX > 2000){
+                velX = 200
+            }
+            
+            
+            
             if(velY != 0){
                 velY = velY / 10.0
+            }
+            
+            // velocity is too fast
+            if(velY > 2000){
+                velY = 200
             }
             
             
@@ -415,11 +382,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             baseCenterX = getSafeXCenter(x: baseCenterX)
             baseCenterY = getSafeYCenter(y: baseCenterY)
             
-            UIView.animate(withDuration: 3.5,
+            UIView.animate(withDuration: 4,
                            delay: 0,
-                           usingSpringWithDamping: 10,
-                           initialSpringVelocity: 5,
-                           options: .beginFromCurrentState,
+                           usingSpringWithDamping: 1,
+                           initialSpringVelocity: 6,
+                           options: [.beginFromCurrentState],
                            animations: { () -> Void in
                             self.imageView.center = CGPoint(x: self.baseCenterX, y: self.baseCenterY)
                             
