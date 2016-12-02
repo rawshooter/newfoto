@@ -3,3 +3,4 @@
 - Support Double Tap without clicking
 - Zoom by factor 2x
 - Pan over zoomed Image
+- Supports Image bounds in zoomed Image
