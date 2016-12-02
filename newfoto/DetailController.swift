@@ -625,7 +625,32 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
+    
+    // get the real image coordinates of the embedded image
+    // the UIimage in the UIimage view is fit via the aspect ratio
+    // and may render differently on the per pixel screens
+    func displayedImageBounds() -> CGRect {
+        
+        let boundsWidth = imageView.bounds.size.width
+        let boundsHeight = imageView.bounds.size.height
+        let imageSize = imageView.image!.size
+        let imageRatio = imageSize.width / imageSize.height
+        let viewRatio = boundsWidth / boundsHeight
+        if ( viewRatio > imageRatio ) {
+            let scale = boundsHeight / imageSize.height
+            let width = scale * imageSize.width
+            let topLeftX = (boundsWidth - width) * 0.5
+            return CGRect(x: topLeftX, y: 0, width: width, height: boundsHeight)
+        }
+        let scale = boundsWidth / imageSize.width
+        let height = scale * imageSize.height
+        let topLeftY = (boundsHeight - height) * 0.5
+        return CGRect(x: 0, y: topLeftY, width: boundsWidth,height: height)
+    }
+    
+    
+    
     /*
     // MARK: - Navigation
 
