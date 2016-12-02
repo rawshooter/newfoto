@@ -14,7 +14,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // Asset to be displayed - can be NIL when called
     var asset: PHAsset?
     
-    let zoomFactor = 2.0
+    let zoomFactor = 2.5
     let screenWidth = 1920
     let screenHeight = 1080
     
@@ -415,10 +415,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             baseCenterX = getSafeXCenter(x: baseCenterX)
             baseCenterY = getSafeYCenter(y: baseCenterY)
             
-            UIView.animate(withDuration: 2.5,
+            UIView.animate(withDuration: 3.5,
                            delay: 0,
                            usingSpringWithDamping: 10,
-                           initialSpringVelocity: 8,
+                           initialSpringVelocity: 5,
                            options: .beginFromCurrentState,
                            animations: { () -> Void in
                             self.imageView.center = CGPoint(x: self.baseCenterX, y: self.baseCenterY)
@@ -453,20 +453,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // could crash...
         //let imageWidth = imageView.image!.size.width
-        let imageWidth = imageView.bounds.width
+        //let displayImageWidth = imageView.bounds.width
+        let displayImageWidth = displayedImageBounds().width
+        
+        
         
         
         let min: CGFloat
         let max: CGFloat
         
         // scaled image is smaller than screensize
-        if( imageWidth*CGFloat(zoomFactor) <=  CGFloat(screenWidth) ){
-            min = imageWidth*CGFloat(zoomFactor) / 2
-            max = CGFloat(screenWidth) - imageWidth*CGFloat(zoomFactor) / 2
+        if( displayImageWidth*CGFloat(zoomFactor) <=  CGFloat(screenWidth) ){
+            min = displayImageWidth*CGFloat(zoomFactor) / 2
+            max = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomFactor) / 2
         // scaled image is larger than screensize
         } else {
-            min = CGFloat(screenWidth) - imageWidth*CGFloat(zoomFactor) / 2
-            max = imageWidth*CGFloat(zoomFactor) / 2
+            min = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomFactor) / 2
+            max = displayImageWidth*CGFloat(zoomFactor) / 2
         }
 
         
@@ -495,19 +498,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // could crash...
         //let imageHeight = imageView.image!.size.height
-        let imageHeight = imageView.bounds.height
+        //let displayImageHeight = imageView.bounds.height
+        let displayImageHeight = displayedImageBounds().height
         
         let min: CGFloat
         let max: CGFloat
         
         // scaled image is smaller than screensize
-        if( imageHeight*CGFloat(zoomFactor) <=  CGFloat(screenHeight) ){
-            min = imageHeight*CGFloat(zoomFactor) / 2
-            max = CGFloat(screenHeight) - imageHeight*CGFloat(zoomFactor) / 2
+        if( displayImageHeight*CGFloat(zoomFactor) <=  CGFloat(screenHeight) ){
+            min = displayImageHeight*CGFloat(zoomFactor) / 2
+            max = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomFactor) / 2
             // scaled image is larger than screensize
         } else {
-            min = CGFloat(screenHeight) - imageHeight*CGFloat(zoomFactor) / 2
-            max = imageHeight*CGFloat(zoomFactor) / 2
+            min = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomFactor) / 2
+            max = displayImageHeight*CGFloat(zoomFactor) / 2
         }
         
         
