@@ -95,7 +95,7 @@ class OverviewCell: UICollectionViewCell {
             initialPanPosition = pan.location(in: contentView)
             
         case .changed:
-            print("pan changed")
+            //print("pan changed")
             
             if let initialPanPosition = initialPanPosition {
                 let currentPosition = pan.location(in: contentView)

@@ -388,25 +388,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            initialSpringVelocity: 6,
                            options: [.beginFromCurrentState],
                            animations: { () -> Void in
-                            self.imageView.center = CGPoint(x: self.baseCenterX, y: self.baseCenterY)
-                            
-            },
+                                self.imageView.center = CGPoint(x: self.baseCenterX, y: self.baseCenterY)
+                           },
                            completion: nil)
             
-
-        
                     print("End Coordiantes (\(intialCenterX), \(intialCenterY))")
-            
-              //  imageView.center = CGPoint(x: intialCenterX, y: intialCenterY)
-            
-
-            
+    
         
         }
- 
-            
-            
- 
+
     }
     
     
@@ -496,12 +486,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         return newY
     }
     
-    
-    
 
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -511,17 +496,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         intialCenterY = imageView.center.y
         
         print("Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
-        
-       /*
-        let longRec = UILongPressGestureRecognizer(target: self, action: #selector(tapped) )
-        longRec.delegate = self
-        view.addGestureRecognizer(longRec)
-        */
-   /*
-        let swipeRec = UILongPressGestureRecognizer(target: self, action: #selector(tapped) )
-        swipeRec.delegate = self
-        view.addGestureRecognizer(swipeRec)
-     */
+
         
         
         
@@ -531,29 +506,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         view.addGestureRecognizer(panRec)
         
         
-/*
-        // enable double tapping
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped) )
- 
-        
-        tapRecognizer.numberOfTapsRequired = 1
- */
-       // tapRecognizer.allowedPressTypes = [NSNumber()]
-        
-        
-        //tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
-        
-        //tapRecognizer.allowedTouchTypes = [NSNumber(value: UITouchType.indirect.rawValue)]
-        
-      /*
-        tapRecognizer.allowedTouchTypes = [NSNumber(value: UITouchType.indirect.rawValue)]
-        
-        
-        tapRecognizer.delegate = self
-        // let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
-        view.addGestureRecognizer(tapRecognizer)
-        */
-        
+
         
         // load the asset image for the detail view
         
@@ -619,17 +572,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let topLeftY = (boundsHeight - height) * 0.5
         return CGRect(x: 0, y: topLeftY, width: boundsWidth,height: height)
     }
-    
-    
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
 }
