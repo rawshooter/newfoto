@@ -1,4 +1,7 @@
-# tvOS Learning Project
+# newfoto - a tvOS learning project
+
+![newfoto icon](https://raw.githubusercontent.com/rawshooter/newfoto/master/newfoto/icons/AppleTV-Icon-App-Small-400x240.png)
+
 
 # Purpose
 NewFoto is a intuitive way to browse your photos on your tvOS device. Since Apple Photos does not include zooming or insights to more metadata this application provides you more information about your photo library.
