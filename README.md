@@ -10,8 +10,7 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 ## Update 03.12.2016
 
-### NEW
-* 84 Hires Demo Photos can be added via the settings tab to current fotostream. Extremly useful when testing with the tvOS simulator
+* NEW: 84 Hires Demo Photos can be added via the settings tab to current fotostream. Extremly useful when testing with the tvOS simulator
 
 ## Update 02.12.2016
 
