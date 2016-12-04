@@ -95,100 +95,7 @@ class AlbumController: UICollectionViewController {
         
         
         
-        /*
-        
-        
-        // Photostream etc. Assets
-        print("Retrieved asset collection \(myAssetList)")
-        for item in 0..<myAssetList.count{
-            print("item #\(item) is '\(myAssetList.object(at: item))'")
-            
-            assetCol  = myAssetList.object(at: item) as PHAssetCollection
-            
-            
-            
-            
-            
-            
-            
-            
-            print("Number of Items in Asset Collection: \(assetCol.estimatedAssetCount)")
-            assetResult = PHAsset.fetchAssets(in: assetCol, options: nil)
-            
-            print("Anzahl der Bilder: \( assetResult.count)")
-            
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        var assetCol: PHAssetCollection
-        var myAsset: PHAsset
-        var assetResult: PHFetchResult<PHAsset>
-        var fetchOptions: PHFetchOptions = PHFetchOptions()
-        // get all photos
-        var allPhotos: PHFetchResult<PHAsset>!
-        
-        
-        
-        
-        // Create a PHFetchResult object for each section in the table view.
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        
-        print("Alle Bilder \(   allPhotos.count)")
-        print("--------------------------------------------------")
-        
-        
-        
-        
-        
-        print("Retrieved smart folder collection \(myList)")
-        
-        //     PHAssetCollectionSubtypeAlbumMyPhotoStream   = 100,
-        
-        // collections e.g. smart folder
-        //  for item in 0..<myList.count{
-        //print("item #\(item) is '\(myList.object(at: item) )'")
-        //  }
-        
-        // get smart folders: smartFolder
-        let myAssetList: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.any, options: nil)
-        
-        
-        
-        
-        // Photostream etc. Assets
-        print("Retrieved asset collection \(myAssetList)")
-        for item in 0..<myAssetList.count{
-            print("item #\(item) is '\(myAssetList.object(at: item))'")
-            
-            assetCol  = myAssetList.object(at: item) as PHAssetCollection
-            
-            
-            
-            
-            
-            
-            
-            
-            print("Number of Items in Asset Collection: \(assetCol.estimatedAssetCount)")
-            assetResult = PHAsset.fetchAssets(in: assetCol, options: nil)
-            
-            print("Anzahl der Bilder: \( assetResult.count)")
-            
-        }
-        
-        
-        
-        
-*/
+
         
         
         
@@ -229,20 +136,18 @@ class AlbumController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // get the custom album cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumCell
-    
-        // Configure the cell
+
     
         // get the album
-        
-        
-
         // get the asset collection of the selected album
         let assetCollection: PHAssetCollection = colAlbums!.object(at: indexPath.row)
         
         
-        
-        
         cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) photos"
+     
+        
+        
+        //cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) photos \(assetCollection.localizedLocationNames)"
         
         //        cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) Bilder vom \(assetCollection.startDate) bis
         //(assetCollection.endDate)"
@@ -285,5 +190,51 @@ class AlbumController: UICollectionViewController {
     
     }
     */
+    
+    
+    
+    
+    
+    // check selection and push to detail view
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt: IndexPath){
+        print("selected element \(didSelectItemAt.item)")
+        
+        
+        
+        
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as? CollectionViewController{
+            
+            
+            //self.present(controller, animated: true, completion: nil)
+            // set the asset to display in the detail controller
+            
+            let assetCollection =  colAlbums!.object(at: didSelectItemAt.item) as! PHAssetCollection
+            
+            
+            let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
+            print("Number of Photos in selected collection: \(assets.count)")
+            
+            // give the controller all the needed assets
+            controller.allPhotos = assets
+            
+           // controller.asset =  colAlbums.object(at: didSelectItemAt.item) as PHAssetCollection
+            
+            
+            
+            self.show(controller, sender: self)
+            
+            print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+            
+        }
+        
+        
+        
+    }
+    
+    
+
+    
+    
 
 }

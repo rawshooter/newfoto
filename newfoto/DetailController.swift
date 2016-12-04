@@ -524,6 +524,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
         
+        print("trying to load assed: \(asset)")
         
         if let myAsset = asset{
             // Request an image for the asset from the PHCachingImageManager.
@@ -533,7 +534,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
                 // HERE WE GET THE IMAGE
+                if(image == nil){
+                    print("error loading image")
+                }
+         
                 self.imageView.image = image
+                
+                //self.imageView.image = image! as UIImage
                 print("detail image was loaded")
             })
         } else {

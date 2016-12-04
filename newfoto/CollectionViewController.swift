@@ -28,9 +28,12 @@ class CollectionViewController: UICollectionViewController {
         
         
         // Create a PHFetchResult object for each section in the table view.
-        let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        // load only the photos if not set from outside
+        if(allPhotos == nil){
+            let allPhotosOptions = PHFetchOptions()
+            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+        }
         
         // set the number of available photos
         tabBarItem.badgeValue = "\(allPhotos.count)"
@@ -189,6 +192,7 @@ class CollectionViewController: UICollectionViewController {
             // set the asset to display in the detail controller
             controller.asset =  allPhotos.object(at: didSelectItemAt.item) as PHAsset
             
+        
             self.show(controller, sender: self)
             
             print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")

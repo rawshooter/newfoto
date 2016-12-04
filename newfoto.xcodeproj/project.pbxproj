@@ -89,7 +89,6 @@
 		4FFDE34D1DBB954200CC0435 /* newfoto */ = {
 			isa = PBXGroup;
 			children = (
-				4FAC56A41DF34BE400895280 /* icons */,
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
 				4FFDE34E1DBB954200CC0435 /* AppDelegate.swift */,
 				4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */,
@@ -101,6 +100,7 @@
 				4F4C081F1DE9EF10001C6969 /* Media.xcassets */,
 				4FFDE3571DBB954200CC0435 /* Assets.xcassets */,
 				4FFDE3591DBB954200CC0435 /* Info.plist */,
+				4FAC56A41DF34BE400895280 /* icons */,
 			);
 			path = newfoto;
 			sourceTree = "<group>";
