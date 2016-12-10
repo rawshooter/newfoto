@@ -14,6 +14,17 @@ private let reuseIdentifier = "AlbumCell"
 class AlbumController: UICollectionViewController {
     
     
+    // The cells zoom when focused.
+    var focusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.3, y: 1.3)
+    }
+    
+    // The cells zoom when focused.
+    var unFocusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.0, y: 1.0)
+    }
+    
+    
     // collection of albums can be NIL
     var colAlbums: PHFetchResult<PHAssetCollection>?
     
@@ -250,6 +261,58 @@ class AlbumController: UICollectionViewController {
         
         coordinator.addCoordinatedAnimations({ [unowned self] in
             
+            // 3D Rotation
+            
+            let m34 = CGFloat(1.0 / -1250)
+            let minMaxAngle = 5.0
+            let angle = CGFloat(minMaxAngle * M_PI / 180.0)
+            
+            
+            var baseTransform = CATransform3DIdentity
+            baseTransform.m34 = m34
+            
+            
+            // X rotate
+            var rotateYmin = baseTransform
+            rotateYmin = CATransform3DRotate(rotateYmin, -1 * angle, 0.0, 1.0, 0.0);
+            
+            var rotateYmax = baseTransform
+            rotateYmax = CATransform3DRotate(rotateYmax,  angle, 0.0, 1.0, 0.0);
+            
+            
+            //.rotation.x
+            let yRotationMotionEffect = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: .tiltAlongHorizontalAxis)
+            
+         //   yRotationMotionEffect.minimumRelativeValue = -0.5
+         //   yRotationMotionEffect.maximumRelativeValue = 0.5
+            
+            
+            yRotationMotionEffect.minimumRelativeValue = NSValue(caTransform3D: rotateYmin)
+            yRotationMotionEffect.maximumRelativeValue = NSValue(caTransform3D: rotateYmax)
+            
+            // Y rotate
+            
+            var rotateXmin = baseTransform
+            rotateXmin = CATransform3DRotate(rotateXmin, angle, 1.0, 0.0, 0.0);
+            
+            var rotateXmax = baseTransform
+            rotateXmax = CATransform3DRotate(rotateXmax, -1 * angle, 1.0, 0.0, 0.0);
+            
+            
+            //.rotation.x
+            let xRotationMotionEffect = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: .tiltAlongVerticalAxis)
+            
+            //   yRotationMotionEffect.minimumRelativeValue = -0.5
+            //   yRotationMotionEffect.maximumRelativeValue = 0.5
+            
+            
+            xRotationMotionEffect.minimumRelativeValue = NSValue(caTransform3D: rotateXmin)
+            xRotationMotionEffect.maximumRelativeValue = NSValue(caTransform3D: rotateXmax)
+            
+            
+            
+            //////////////
+            
             
             let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
             verticalMotionEffect.minimumRelativeValue = -15
@@ -260,7 +323,7 @@ class AlbumController: UICollectionViewController {
             horizontalMotionEffect.maximumRelativeValue = 15
             
             let motionEffectGroup = UIMotionEffectGroup()
-            motionEffectGroup.motionEffects = [horizontalMotionEffect, verticalMotionEffect]
+            motionEffectGroup.motionEffects = [horizontalMotionEffect, verticalMotionEffect, yRotationMotionEffect, xRotationMotionEffect]
             
             
             if let
@@ -276,10 +339,22 @@ class AlbumController: UICollectionViewController {
                 // white border
                 focusCell.layer.borderColor = UIColor.white.cgColor
                 focusCell.layer.borderWidth = 5
+                focusCell.layer.masksToBounds = false;
+                focusCell.layer.shadowOffset = CGSize(width:15, height:15);
+                focusCell.layer.shadowRadius = 5;
+                focusCell.layer.shadowOpacity = 0.2;
                 
                 
-                
-                
+                UIView.animate(withDuration: 0.3,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                focusCell.transform = self.focusedTransform
+                                //                     nameLabel.transform = CGAffineTransformIdentity
+                },
+                               completion: nil)
                 
             }
             
@@ -295,6 +370,17 @@ class AlbumController: UICollectionViewController {
                 
                 focusCell.layer.borderColor = UIColor.white.cgColor
                 focusCell.layer.borderWidth = 0
+                UIView.animate(withDuration: 0.3,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                focusCell.transform = self.unFocusedTransform
+                                //                     nameLabel.transform = CGAffineTransformIdentity
+                },
+                               completion: nil)
+                
             }
             
             
