@@ -11,12 +11,15 @@ import Photos
 
 private let reuseIdentifier = "AlbumCell"
 
+fileprivate let imageManager = PHCachingImageManager()
+fileprivate var thumbnailSize: CGSize!
+
 class AlbumController: UICollectionViewController {
     
     
     // The cells zoom when focused.
     var focusedTransform: CGAffineTransform {
-        return CGAffineTransform(scaleX: 1.3, y: 1.3)
+        return CGAffineTransform(scaleX: 1.2, y: 1.2)
     }
     
     // The cells zoom when focused.
@@ -79,6 +82,11 @@ class AlbumController: UICollectionViewController {
         
         //------  SMART ALBUMS: camera roll, panoramas, etc//
         
+        
+        
+        
+        
+        // for ph asset collection there are no sort options available from the current tvos and ios API
         colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
         
         
@@ -177,43 +185,75 @@ class AlbumController: UICollectionViewController {
         cell.layer.borderColor = UIColor.white.cgColor
         cell.layer.borderWidth = 0
         
+        self.view.sendSubview(toBack: cell)
+        
+        
+        cell.layer.cornerRadius = 16
+        cell.layer.masksToBounds = true
+        
+        
+        
+        
+        // and now get the first image as a display
+        // add sorting prefix for assets
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // fetch the collection
+        let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
+        print("Number of Photos in selected collection: \(assets.count)")
+        
+        // check if there are available photos in the subalbum
+        if assets.count > 0 {
+            
+            let asset = assets.object(at: 0)
+            
+            // and try to load the first image from the collection
+            
+
+            
+            // Determine the size of the thumbnails to request from the PHCachingImageManager
+            let scale = UIScreen.main.scale
+            let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
+            thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
+
+            
+            // Request an image for the asset from the PHCachingImageManager.
+            //  cell.representedAssetIdentifier = asset.localIdentifier
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset.
+                
+                if(image != nil){
+                    
+                    // HERE WE SET THE IMAGE
+                    cell.imageView?.image = image
+                } else {
+                    print ("error loading thumbail for album overview")
+                }
+
+                
+            })
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+        
         
         
         return cell
     }
     
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
-    
+
     
     
     
@@ -224,17 +264,22 @@ class AlbumController: UICollectionViewController {
         
         
         
-        
+        // instantiate the collection view controller to display the album list
         if let controller = storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as? CollectionViewController{
             
             
-            //self.present(controller, animated: true, completion: nil)
-            // set the asset to display in the detail controller
+
+            // no cast to PHAssetCollection needed
+            let assetCollection =  colAlbums!.object(at: didSelectItemAt.item)
             
-            let assetCollection =  colAlbums!.object(at: didSelectItemAt.item) as! PHAssetCollection
             
-            
-            let assets = PHAsset.fetchAssets(in: assetCollection, options: nil)
+   
+            // add sorting prefix for assets
+            let allPhotosOptions = PHFetchOptions()
+            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+   
+            // fetch the collection
+            let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
             print("Number of Photos in selected collection: \(assets.count)")
             
             // give the controller all the needed assets
@@ -315,15 +360,17 @@ class AlbumController: UICollectionViewController {
             
             
             let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-            verticalMotionEffect.minimumRelativeValue = -15
-            verticalMotionEffect.maximumRelativeValue = 15
+            verticalMotionEffect.minimumRelativeValue = -50
+            verticalMotionEffect.maximumRelativeValue = 50
             
             let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-            horizontalMotionEffect.minimumRelativeValue = -15
-            horizontalMotionEffect.maximumRelativeValue = 15
+            horizontalMotionEffect.minimumRelativeValue = -50
+            horizontalMotionEffect.maximumRelativeValue = 50
             
             let motionEffectGroup = UIMotionEffectGroup()
-            motionEffectGroup.motionEffects = [horizontalMotionEffect, verticalMotionEffect, yRotationMotionEffect, xRotationMotionEffect]
+            
+            //,
+            motionEffectGroup.motionEffects = [yRotationMotionEffect, xRotationMotionEffect, horizontalMotionEffect, verticalMotionEffect]
             
             
             if let
@@ -334,7 +381,17 @@ class AlbumController: UICollectionViewController {
                 print("focus")
                 
                 
+                // bringt to front
+                self.view.bringSubview(toFront: focusCell)
+                
+                
+    
+                
                 focusCell.addMotionEffect(motionEffectGroup)
+                
+                focusCell.layer.cornerRadius = 16
+                focusCell.layer.masksToBounds = true
+                
                 
                 // white border
                 focusCell.layer.borderColor = UIColor.white.cgColor
@@ -367,6 +424,14 @@ class AlbumController: UICollectionViewController {
                 for effect in focusCell.motionEffects{
                     focusCell.removeMotionEffect(effect)
                 }
+                
+                               self.view.sendSubview(toBack: focusCell)
+                
+                
+                focusCell.layer.cornerRadius = 16
+                focusCell.layer.masksToBounds = true
+                
+                
                 
                 focusCell.layer.borderColor = UIColor.white.cgColor
                 focusCell.layer.borderWidth = 0
