@@ -20,3 +20,4 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 * Zoom by factor 2x
 * Pan over zoomed Image
 * Supports Image bounds in zoomed Image
+* Now support for Album collection
