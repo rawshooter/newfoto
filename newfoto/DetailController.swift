@@ -495,7 +495,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         intialCenterX = imageView.center.x
         intialCenterY = imageView.center.y
         
-        print("Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
+        print("--------------------- Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
 
         
         
@@ -535,7 +535,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // HERE WE GET THE IMAGE
                 if(image == nil){
-                    print("error loading image")
+                    print("============= error loading image =========================")
+                    return
                 }
          
                 self.imageView.image = image
