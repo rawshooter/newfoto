@@ -526,10 +526,41 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         print("trying to load assed: \(asset)")
         
+        
+        print("asset mediatype: \(asset?.mediaType)")
+        print("asset mediasubtype: \(asset?.mediaSubtypes)")
+        print("asset location: \(asset?.location)")
+        print("asset creation date: \(asset?.creationDate)")
+        
+        
+        // better photo fetch options
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        
+        /*
+        opportunistic
+        Photos automatically provides one or more results in order to balance image quality and responsiveness.
+        case highQualityFormat
+        Photos provides only the highest-quality image available, regardless of how much time it takes to load.
+        case fastFormat
+       */
+        
+        options.deliveryMode = .highQualityFormat
+        
+        //options.isSynchronous = true
+        options.progressHandler = {
+            (progress, error, stop, info) in
+            print("progress \(progress)")
+            print("error \(error)")
+            print("stop \(stop)")
+            print("info \(info)")
+        }
+        
+        
         if let myAsset = asset{
             // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: myAsset, targetSize: imageSize, contentMode: .aspectFit, options: nil, resultHandler: { image, _ in
+            imageManager.requestImage(for: myAsset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 

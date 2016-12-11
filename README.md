@@ -11,6 +11,7 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 ## Update 11.12.2016
 * Now support for Album collection
 * 3D Tilting in Album Browser
+* PHImageRequestOptions added with handler to get better image quality and network requests. huge improvement
 
 ## Update 03.12.2016
 
