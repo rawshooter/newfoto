@@ -8,6 +8,10 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 # History
 
+## Update 11.12.2016
+* Now support for Album collection
+* 3D Tilting in Album Browser
+
 ## Update 03.12.2016
 
 * NEW: 84 Hires Demo Photos can be added via the settings tab to current fotostream. Extremly useful when testing with the tvOS simulator
@@ -20,4 +24,4 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 * Zoom by factor 2x
 * Pan over zoomed Image
 * Supports Image bounds in zoomed Image
-* Now support for Album collection
+
