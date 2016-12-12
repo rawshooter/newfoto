@@ -14,7 +14,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // Asset to be displayed - can be NIL when called
     var asset: PHAsset?
     
-    let zoomFactor = 2.5
+    let zoomFactor = 2
     let screenWidth = 1920
     let screenHeight = 1080
     
@@ -535,6 +535,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // better photo fetch options
         let options: PHImageRequestOptions = PHImageRequestOptions()
+        
+        // important for loading network resources and progressive handling with callback handler
         options.isNetworkAccessAllowed = true
         
         /*
@@ -545,32 +547,45 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         case fastFormat
        */
         
+        //
+        //options.deliveryMode = .opportunistic
         options.deliveryMode = .highQualityFormat
+       
+        options.version = .current
         
-        //options.isSynchronous = true
-        options.progressHandler = {
-            (progress, error, stop, info) in
+        // only on async the handler is being requested
+        options.isSynchronous = true
+        
+        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+            // your code
+            print("---------------------------------------------==============")
             print("progress \(progress)")
             print("error \(error)")
             print("stop \(stop)")
             print("info \(info)")
+            
         }
+        
+        options.progressHandler = handler
+        
         
         
         if let myAsset = asset{
             // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: myAsset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+            imageManager.requestImage(for: myAsset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
+                
+                print("Load information \(infoArray)")
                 // HERE WE GET THE IMAGE
-                if(image == nil){
+                if(imageResult == nil){
                     print("============= error loading image =========================")
                     return
                 }
          
-                self.imageView.image = image
+                self.imageView.image = imageResult
                 
                 //self.imageView.image = image! as UIImage
                 print("detail image was loaded")
