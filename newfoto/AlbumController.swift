@@ -319,10 +319,10 @@ class AlbumController: UICollectionViewController {
             
             // X rotate
             var rotateYmin = baseTransform
-            rotateYmin = CATransform3DRotate(rotateYmin, -1 * angle, 0.0, 1.0, 0.0);
+            rotateYmin = CATransform3DRotate(rotateYmin,  angle, 0.0, 1.0, 0.0);
             
             var rotateYmax = baseTransform
-            rotateYmax = CATransform3DRotate(rotateYmax,  angle, 0.0, 1.0, 0.0);
+            rotateYmax = CATransform3DRotate(rotateYmax, -1 * angle, 0.0, 1.0, 0.0);
             
             
             //.rotation.x
@@ -338,10 +338,10 @@ class AlbumController: UICollectionViewController {
             // Y rotate
             
             var rotateXmin = baseTransform
-            rotateXmin = CATransform3DRotate(rotateXmin, angle, 1.0, 0.0, 0.0);
+            rotateXmin = CATransform3DRotate(rotateXmin, -1 * angle, 1.0, 0.0, 0.0);
             
             var rotateXmax = baseTransform
-            rotateXmax = CATransform3DRotate(rotateXmax, -1 * angle, 1.0, 0.0, 0.0);
+            rotateXmax = CATransform3DRotate(rotateXmax,  angle, 1.0, 0.0, 0.0);
             
             
             //.rotation.x
@@ -360,12 +360,12 @@ class AlbumController: UICollectionViewController {
             
             
             let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-            verticalMotionEffect.minimumRelativeValue = -50
-            verticalMotionEffect.maximumRelativeValue = 50
+            verticalMotionEffect.minimumRelativeValue = -20
+            verticalMotionEffect.maximumRelativeValue = 20
             
             let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-            horizontalMotionEffect.minimumRelativeValue = -50
-            horizontalMotionEffect.maximumRelativeValue = 50
+            horizontalMotionEffect.minimumRelativeValue = -20
+            horizontalMotionEffect.maximumRelativeValue = 20
             
             let motionEffectGroup = UIMotionEffectGroup()
             
@@ -391,6 +391,10 @@ class AlbumController: UICollectionViewController {
                 
                 focusCell.layer.cornerRadius = 16
                 focusCell.layer.masksToBounds = true
+
+                // also set the image view some nice corner radius
+                focusCell.imageView?.layer.cornerRadius = 16
+                focusCell.imageView?.layer.masksToBounds = true
                 
                 
                 // white border

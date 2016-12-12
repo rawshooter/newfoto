@@ -554,16 +554,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.version = .current
         
         // only on async the handler is being requested
+        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
         options.isSynchronous = true
         
         let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
             // your code
-            print("---------------------------------------------==============")
-            print("progress \(progress)")
-            print("error \(error)")
-            print("stop \(stop)")
-            print("info \(info)")
-            
+            DispatchQueue.main.async {
+                print("---------------------------------------------==============")
+                print("progress \(progress)")
+                print("error \(error)")
+                print("stop \(stop)")
+                print("info \(info)")
+            }
         }
         
         options.progressHandler = handler
