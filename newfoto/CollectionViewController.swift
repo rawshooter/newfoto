@@ -115,6 +115,15 @@ class CollectionViewController: UICollectionViewController {
                   else { fatalError("unexpected cell in collection view") }
         
         
+        // use the indexpath as an unique identifier
+        // to check for asny loading if this is the right cell
+        cell.indexPath = indexPath
+        
+        
+        // set abstract loading icon
+        // this image is set and the abstract thumbnail imageloading mechanics 
+        // can work in the background
+        cell.image?.image = UIImage(named: "ic_image_white_48pt")
         
         /*guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: OverviewCell.self), for: indexPath) as? OverviewCell
          else { fatalError("unexpected cell in collection view") }
@@ -132,31 +141,18 @@ class CollectionViewController: UICollectionViewController {
       //  cell.representedAssetIdentifier = asset.localIdentifier
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             // The cell may have been recycled by the time this handler gets called;
-            // set the cell's thumbnail image only if it's still showing the same asset.
-            
-        // HERE WE SET THE IMAGE
-            cell.image?.image = image
-            
-            // nice cell radius
-            cell.image?.layer.cornerRadius = 16
-            cell.image?.layer.masksToBounds = true
-            
-            
-            // image label
-            let date = asset.creationDate
-            
-            
-            let myLocale = Locale(identifier: "de_DE")
-            
-            let formatter = DateFormatter()
-            formatter.locale = myLocale
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .medium
-            
-            let dateStr = formatter.string(from: date!)
+            // set the cell's thumbnail image only if it's still showing the same asset
+            if(cell.indexPath == indexPath){
+                
+                // HERE WE SET THE IMAGE
+                cell.image?.image = image
+                
+            } else {
+                print ("INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image  ------------------------------------------------")
+            }
+            // if not let the image unchanged
             
 
-            cell.label?.text = "\(dateStr)"
             
             
             //cell.label?.text = "\(asset.creationDate)"
@@ -165,6 +161,27 @@ class CollectionViewController: UICollectionViewController {
         })
       //  cell.backgroundColor = UIColor.lightGray
 
+        // nice cell radius
+        cell.image?.layer.cornerRadius = 16
+        cell.image?.layer.masksToBounds = true
+        
+        
+        // image label
+        let date = asset.creationDate
+        
+        
+        let myLocale = Locale(identifier: "de_DE")
+        
+        let formatter = DateFormatter()
+        formatter.locale = myLocale
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        
+        let dateStr = formatter.string(from: date!)
+        
+        
+        cell.label?.text = "\(dateStr)"
+        
         
         return cell
         

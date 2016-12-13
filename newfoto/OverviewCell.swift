@@ -11,6 +11,13 @@ import UIKit
 
 class OverviewCell: UICollectionViewCell {
     
+
+    // unique information for the cell when setting the
+    // image asyncronously the call back handler can check the validity of the 
+    // indexpath
+    var indexPath: IndexPath? = nil
+    
+    
     @IBOutlet weak var image: UIImageView!{
         willSet(image) {
             print("image setter called \(image)")

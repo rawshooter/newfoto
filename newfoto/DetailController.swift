@@ -14,7 +14,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // Asset to be displayed - can be NIL when called
     var asset: PHAsset?
     
-    let zoomFactor = 2
+    let zoomFactor = 2.5
     let screenWidth = 1920
     let screenHeight = 1080
     
