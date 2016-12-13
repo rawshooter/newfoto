@@ -11,8 +11,29 @@ import Photos
 
 class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
+    
+    // current asset list to be iterated through
+    var phAssetResult: PHFetchResult<PHAsset>!
+    
+    // current pointer in photo list
+    var indexPosition: Int = 0
+    
+    
     // Asset to be displayed - can be NIL when called
-    var asset: PHAsset?
+    //var asset: PHAsset?
+    
+    // returns the current asset from the indexPosition and Album Collection
+    func getAsset() -> PHAsset {
+        
+        if(phAssetResult.count > 0){
+            return phAssetResult.object(at: indexPosition) as PHAsset
+        } else {
+            print("Warning: No image. swichting to backup image")
+            return PHAsset();
+        }
+        
+
+    }
     
     let zoomFactor = 2.5
     let screenWidth = 1920
@@ -64,10 +85,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var touchBeginTime: CFTimeInterval = CACurrentMediaTime()
     var touchEndedTime: CFTimeInterval = CACurrentMediaTime()
     var clickCount  = 0
+    
+    // maximum time the finger can rest on the trackpad and after raising to count this as a tap
     let maxTouchTime = 0.5
+    
+    // maximum pause time between a double tap
     let maxPauseIntervalForTupleTap = 0.5
     
+    // was the finger accidently moved, so that this is not a tap but a move?
     var hasMoved: Bool = false
+    
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
@@ -245,7 +274,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-
+    // we have the signature as a tabrecognizer
+    func clicked(_ recognizer: UITapGestureRecognizer ){
+        print("clicked ah tabbed")
+    
+        indexPosition = indexPosition + 1
+        
+        if(phAssetResult.count > 0){
+            
+            // did we reach the end of the list, then switch to the start
+            if(indexPosition == phAssetResult.count){
+                indexPosition = 0
+            }
+            
+        }
+    
+        loadImage()
+    }
+    
     
     // we have the signature as a panrecognizer
     func panned(_ recognizer: UIPanGestureRecognizer ){
@@ -487,26 +533,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
 
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        intialCenterX = imageView.center.x
-        intialCenterY = imageView.center.y
-        
-        print("--------------------- Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
+    func loadImage(){
 
         
-        
-        
-        
-        let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
-        //panRec.delegate = self
-        view.addGestureRecognizer(panRec)
-        
-        
-
         
         // load the asset image for the detail view
         
@@ -520,17 +549,17 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("size width: \(imageFrame.width) height: \(imageFrame.height)")
         let scale = UIScreen.main.scale
         
-
+        
         
         imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
         
-        print("trying to load assed: \(asset)")
+        print("trying to load assed: \(getAsset())")
         
         
-        print("asset mediatype: \(asset?.mediaType)")
-        print("asset mediasubtype: \(asset?.mediaSubtypes)")
-        print("asset location: \(asset?.location)")
-        print("asset creation date: \(asset?.creationDate)")
+        print("asset mediatype: \(getAsset().mediaType)")
+        print("asset mediasubtype: \(getAsset().mediaSubtypes)")
+        print("asset location: \(getAsset().location)")
+        print("asset creation date: \(getAsset().creationDate)")
         
         
         // better photo fetch options
@@ -540,17 +569,17 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.isNetworkAccessAllowed = true
         
         /*
-        opportunistic
-        Photos automatically provides one or more results in order to balance image quality and responsiveness.
-        case highQualityFormat
-        Photos provides only the highest-quality image available, regardless of how much time it takes to load.
-        case fastFormat
-       */
+         opportunistic
+         Photos automatically provides one or more results in order to balance image quality and responsiveness.
+         case highQualityFormat
+         Photos provides only the highest-quality image available, regardless of how much time it takes to load.
+         case fastFormat
+         */
         
         //
         //options.deliveryMode = .opportunistic
         options.deliveryMode = .highQualityFormat
-       
+        
         options.version = .current
         
         // only on async the handler is being requested
@@ -572,10 +601,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
-        if let myAsset = asset{
-            // Request an image for the asset from the PHCachingImageManager.
+    
+        // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: myAsset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
+            imageManager.requestImage(for: getAsset(), targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -586,16 +615,43 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     print("============= error loading image =========================")
                     return
                 }
-         
+                
                 self.imageView.image = imageResult
                 
                 //self.imageView.image = image! as UIImage
                 print("detail image was loaded")
             })
-        } else {
-            print("missing asset for detail view")
-        }
+ 
+            
 
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        intialCenterX = imageView.center.x
+        intialCenterY = imageView.center.y
+        
+        print("--------------------- Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
+        
+        
+        
+        
+        // add pan gesture recognizer
+        let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
+        view.addGestureRecognizer(panRec)
+        
+        
+        // add tap gesture for a click to get next photo
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked) )
+        view.addGestureRecognizer(tapRecognizer)
+        
+        
+        
+        loadImage()
+        
+        
         
         
     }

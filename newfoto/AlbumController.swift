@@ -285,6 +285,7 @@ class AlbumController: UICollectionViewController {
             // give the controller all the needed assets
             controller.allPhotos = assets
             
+            
             // controller.asset =  colAlbums.object(at: didSelectItemAt.item) as PHAssetCollection
             
             
