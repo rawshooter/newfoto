@@ -375,12 +375,12 @@ class AlbumController: UICollectionViewController {
             // motion effect for glossy layer
             
             let verticalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-            verticalGlossyEffect.minimumRelativeValue = -100
-            verticalGlossyEffect.maximumRelativeValue = 100
+            verticalGlossyEffect.minimumRelativeValue = -150
+            verticalGlossyEffect.maximumRelativeValue = 150
             
             let horizontalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-            horizontalGlossyEffect.minimumRelativeValue = -100
-            horizontalGlossyEffect.maximumRelativeValue = 100
+            horizontalGlossyEffect.minimumRelativeValue = -150
+            horizontalGlossyEffect.maximumRelativeValue = 150
             
             let motionGlossyGroup = UIMotionEffectGroup()
             motionGlossyGroup.motionEffects = [horizontalGlossyEffect, verticalGlossyEffect]
