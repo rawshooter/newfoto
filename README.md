@@ -8,6 +8,10 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 # History
 
+## Update 14.12.2016
+* Added first glossy effects for collection view
+
+
 ## Update 13.12.2016
 * Added better thumnbail loading for async collection list with no flickering
 * Photos can be clicked in detail view to cycle through album as a ring 

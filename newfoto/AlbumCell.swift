@@ -14,4 +14,7 @@ class AlbumCell: UICollectionViewCell {
     @IBOutlet weak var subTitleLabel: UILabel!
 
     @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var glossyView: UIImageView!
+
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1FE00E1E01D17000EEEE29 /* glossy_gradient_gimp.xcf in Resources */ = {isa = PBXBuildFile; fileRef = 4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */; };
+		4F1FE00F1E01D17000EEEE29 /* glossy_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */; };
 		4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */; };
 		4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */; };
 		4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F4C081F1DE9EF10001C6969 /* Media.xcassets */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = glossy_gradient_gimp.xcf; sourceTree = "<group>"; };
+		4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glossy_gradient.png; sourceTree = "<group>"; };
 		4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
 		4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
 		4F4C081F1DE9EF10001C6969 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 		4FAC56A41DF34BE400895280 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */,
+				4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */,
 				4FAC56A51DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png */,
 				4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */,
 				4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */,
@@ -169,8 +175,10 @@
 				4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */,
 				4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */,
 				4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */,
+				4F1FE00E1E01D17000EEEE29 /* glossy_gradient_gimp.xcf in Resources */,
 				4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */,
 				4FAC56A91DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png in Resources */,
+				4F1FE00F1E01D17000EEEE29 /* glossy_gradient.png in Resources */,
 				4FFDE3561DBB954200CC0435 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

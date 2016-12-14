@@ -19,7 +19,7 @@ class AlbumController: UICollectionViewController {
     
     // The cells zoom when focused.
     var focusedTransform: CGAffineTransform {
-        return CGAffineTransform(scaleX: 1.2, y: 1.2)
+        return CGAffineTransform(scaleX: 1.15, y: 1.15)
     }
     
     // The cells zoom when focused.
@@ -156,6 +156,9 @@ class AlbumController: UICollectionViewController {
         // get the custom album cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumCell
         
+        
+        // intially we don´t want to have a glossy cell
+        cell.glossyView!.layer.opacity = 0
         
         // get the album
         // get the asset collection of the selected album
@@ -368,9 +371,22 @@ class AlbumController: UICollectionViewController {
             horizontalMotionEffect.minimumRelativeValue = -20
             horizontalMotionEffect.maximumRelativeValue = 20
             
+            
+            // motion effect for glossy layer
+            
+            let verticalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
+            verticalGlossyEffect.minimumRelativeValue = -100
+            verticalGlossyEffect.maximumRelativeValue = 100
+            
+            let horizontalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
+            horizontalGlossyEffect.minimumRelativeValue = -100
+            horizontalGlossyEffect.maximumRelativeValue = 100
+            
+            let motionGlossyGroup = UIMotionEffectGroup()
+            motionGlossyGroup.motionEffects = [horizontalGlossyEffect, verticalGlossyEffect]
+            
             let motionEffectGroup = UIMotionEffectGroup()
             
-            //,
             motionEffectGroup.motionEffects = [yRotationMotionEffect, xRotationMotionEffect, horizontalMotionEffect, verticalMotionEffect]
             
             
@@ -387,8 +403,19 @@ class AlbumController: UICollectionViewController {
                 
                 
     
-                
+                // add the motion effects to the cell
                 focusCell.addMotionEffect(motionEffectGroup)
+                
+                
+                // reduce the brightness
+                focusCell.glossyView?.layer.opacity = 0.5
+                
+                // give the glossy image an effect
+                focusCell.glossyView?.addMotionEffect(motionGlossyGroup)
+                
+                
+                
+
                 
                 focusCell.layer.cornerRadius = 16
                 focusCell.layer.masksToBounds = true
@@ -430,7 +457,18 @@ class AlbumController: UICollectionViewController {
                     focusCell.removeMotionEffect(effect)
                 }
                 
-                               self.view.sendSubview(toBack: focusCell)
+                // remove effect from glossy cell
+                for effects in focusCell.glossyView!.motionEffects{
+                    focusCell.glossyView!.removeMotionEffect(effects)
+                }
+                
+                // make the image invisible
+                focusCell.glossyView!.layer.opacity = 0
+                
+
+                
+                
+                self.view.sendSubview(toBack: focusCell)
                 
                 
                 focusCell.layer.cornerRadius = 16
