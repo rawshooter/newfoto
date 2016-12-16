@@ -19,6 +19,16 @@ class CollectionViewController: UICollectionViewController {
     // get all photos
     var allPhotos: PHFetchResult<PHAsset>!
 
+    // The cells zoom when focused.
+    var focusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.15, y: 1.15)
+    }
+    
+    // The cells zoom when focused.
+    var unFocusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.0, y: 1.0)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +64,201 @@ class CollectionViewController: UICollectionViewController {
     
 
     
-    
+    override  func collectionView(_ collectionView: UICollectionView,
+                                  didUpdateFocusIn context: UICollectionViewFocusUpdateContext,
+                                  with coordinator: UIFocusAnimationCoordinator) {
+        
+        coordinator.addCoordinatedAnimations({ [unowned self] in
+            
+            // 3D Rotation
+            
+            let m34 = CGFloat(1.0 / -1250)
+            let minMaxAngle = 7.0
+            let angle = CGFloat(minMaxAngle * M_PI / 180.0)
+            
+            
+            var baseTransform = CATransform3DIdentity
+            baseTransform.m34 = m34
+            
+            
+            // X rotate
+            var rotateYmin = baseTransform
+            rotateYmin = CATransform3DRotate(rotateYmin,  angle, 0.0, 1.0, 0.0);
+            
+            var rotateYmax = baseTransform
+            rotateYmax = CATransform3DRotate(rotateYmax, -1 * angle, 0.0, 1.0, 0.0);
+            
+            
+            //.rotation.x
+            let yRotationMotionEffect = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: .tiltAlongHorizontalAxis)
+            
+            //   yRotationMotionEffect.minimumRelativeValue = -0.5
+            //   yRotationMotionEffect.maximumRelativeValue = 0.5
+            
+            
+            yRotationMotionEffect.minimumRelativeValue = NSValue(caTransform3D: rotateYmin)
+            yRotationMotionEffect.maximumRelativeValue = NSValue(caTransform3D: rotateYmax)
+            
+            // Y rotate
+            
+            var rotateXmin = baseTransform
+            rotateXmin = CATransform3DRotate(rotateXmin, -1 * angle, 1.0, 0.0, 0.0);
+            
+            var rotateXmax = baseTransform
+            rotateXmax = CATransform3DRotate(rotateXmax,  angle, 1.0, 0.0, 0.0);
+            
+            
+            //.rotation.x
+            let xRotationMotionEffect = UIInterpolatingMotionEffect(keyPath: "layer.transform", type: .tiltAlongVerticalAxis)
+            
+            //   yRotationMotionEffect.minimumRelativeValue = -0.5
+            //   yRotationMotionEffect.maximumRelativeValue = 0.5
+            
+            
+            xRotationMotionEffect.minimumRelativeValue = NSValue(caTransform3D: rotateXmin)
+            xRotationMotionEffect.maximumRelativeValue = NSValue(caTransform3D: rotateXmax)
+            
+            
+            
+            //////////////
+            
+            
+            let verticalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
+            verticalMotionEffect.minimumRelativeValue = -20
+            verticalMotionEffect.maximumRelativeValue = 20
+            
+            let horizontalMotionEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
+            horizontalMotionEffect.minimumRelativeValue = -20
+            horizontalMotionEffect.maximumRelativeValue = 20
+            
+            
+            // motion effect for glossy layer
+            
+            let verticalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
+            verticalGlossyEffect.minimumRelativeValue = -400
+            verticalGlossyEffect.maximumRelativeValue = 400
+            
+            let horizontalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
+            horizontalGlossyEffect.minimumRelativeValue = -400
+            horizontalGlossyEffect.maximumRelativeValue = 400
+            
+            let motionGlossyGroup = UIMotionEffectGroup()
+            motionGlossyGroup.motionEffects = [horizontalGlossyEffect, verticalGlossyEffect]
+            
+            let motionEffectGroup = UIMotionEffectGroup()
+            
+            motionEffectGroup.motionEffects = [yRotationMotionEffect, xRotationMotionEffect, horizontalMotionEffect, verticalMotionEffect]
+            
+            
+            if let
+                nextIndexPath = context.nextFocusedIndexPath,
+                let focusCell = collectionView.cellForItem(at: nextIndexPath) as? OverviewCell
+            {
+                
+                print("focus")
+                
+                
+                // bringt to front
+                self.view.bringSubview(toFront: focusCell)
+                
+                
+                
+                // add the motion effects to the cell
+                focusCell.addMotionEffect(motionEffectGroup)
+                
+                
+                // reduce the brightness
+                focusCell.glossyView?.layer.opacity = 0.4
+                
+                // give the glossy image an effect
+                focusCell.glossyView?.addMotionEffect(motionGlossyGroup)
+                
+                
+                
+                
+                
+                focusCell.layer.cornerRadius = 16
+                focusCell.layer.masksToBounds = true
+                
+                // also set the image view some nice corner radius
+                focusCell.image?.layer.cornerRadius = 16
+                focusCell.image?.layer.masksToBounds = true
+                
+                // white border
+                //focusCell.layer.borderColor = UIColor.white.cgColor
+                //focusCell.layer.borderWidth = 5
+                focusCell.layer.masksToBounds = false;
+                focusCell.layer.shadowOffset = CGSize(width:15, height:15);
+                focusCell.layer.shadowRadius = 5;
+                focusCell.layer.shadowOpacity = 0.2;
+                
+                
+                UIView.animate(withDuration: 0.3,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                focusCell.transform = self.focusedTransform
+                                //                     nameLabel.transform = CGAffineTransformIdentity
+                },
+                               completion: nil)
+                
+            }
+            
+            if let
+                previousIndexPath = context.previouslyFocusedIndexPath,
+                let focusCell = collectionView.cellForItem(at: previousIndexPath) as? OverviewCell
+            {
+                print("unfocus")
+                // and remove all effects from unfocused cell
+                for effect in focusCell.motionEffects{
+                    focusCell.removeMotionEffect(effect)
+                }
+                
+                // remove effect from glossy cell
+                for effects in focusCell.glossyView!.motionEffects{
+                    focusCell.glossyView!.removeMotionEffect(effects)
+                }
+                
+                // make the image invisible
+                focusCell.glossyView!.layer.opacity = 0
+                
+                
+                
+                
+                self.view.sendSubview(toBack: focusCell)
+                
+                
+                focusCell.layer.cornerRadius = 16
+                focusCell.layer.masksToBounds = true
+                focusCell.layer.shadowOffset = CGSize(width:0, height:0);
+                focusCell.layer.shadowRadius = 0;
+                
+                
+                
+                //focusCell.layer.borderColor = UIColor.white.cgColor
+                //focusCell.layer.borderWidth = 0
+                UIView.animate(withDuration: 0.3,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                focusCell.transform = self.unFocusedTransform
+                                //                     nameLabel.transform = CGAffineTransformIdentity
+                },
+                               completion: nil)
+                
+            }
+            
+            
+            
+            
+            }, completion: nil)
+    }
+
+    /*
     
     override  func collectionView(_ collectionView: UICollectionView,
                                   didUpdateFocusIn context: UICollectionViewFocusUpdateContext,
@@ -83,7 +287,7 @@ class CollectionViewController: UICollectionViewController {
         
     }
     
-       
+      */
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -120,10 +324,43 @@ class CollectionViewController: UICollectionViewController {
         cell.indexPath = indexPath
         
         
+        
+        // intially we don´t want to have a glossy cell
+        cell.glossyView!.layer.opacity = 0
+        
+        
+        
+        
+        
+        // and remove all effects from unfocused cell
+        // to remove hicups of fast scrolling
+        for effect in cell.motionEffects{
+            cell.removeMotionEffect(effect)
+        }
+        
+        // white border
+        //cell.layer.borderColor = UIColor.white.cgColor
+        //cell.layer.borderWidth = 0
+        
+        self.view.sendSubview(toBack: cell)
+        
+        // configure rounded cornders
+        cell.layer.cornerRadius = 16
+        cell.layer.masksToBounds = true
+        
+        
+        cell.glossyParentView?.layer.cornerRadius = 16
+        cell.glossyParentView?.layer.masksToBounds = true
+        
+        
+        
+        
+        
+        
         // set abstract loading icon
         // this image is set and the abstract thumbnail imageloading mechanics 
         // can work in the background
-        cell.image?.image = UIImage(named: "ic_image_white_48pt")
+      //  cell.image?.image = UIImage(named: "ic_image_white_48pt")
         
         /*guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: OverviewCell.self), for: indexPath) as? OverviewCell
          else { fatalError("unexpected cell in collection view") }
@@ -134,7 +371,9 @@ class CollectionViewController: UICollectionViewController {
         // Determine the size of the thumbnails to request from the PHCachingImageManager
         let scale = UIScreen.main.scale
         let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-        thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
+        //thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
+        thumbnailSize = CGSize(width: 380, height: 280)
+        
         print("thumbnail size: \(thumbnailSize)")
         
         // Request an image for the asset from the PHCachingImageManager.
@@ -180,7 +419,7 @@ class CollectionViewController: UICollectionViewController {
         let dateStr = formatter.string(from: date!)
         
         
-        cell.label?.text = "\(dateStr)"
+        cell.label?.text = "\(dateStr) Uhr"
         
         
         return cell

@@ -17,29 +17,18 @@ class OverviewCell: UICollectionViewCell {
     // indexpath
     var indexPath: IndexPath? = nil
     
+    @IBOutlet weak var glossyParentView: UIView!
     
-    @IBOutlet weak var image: UIImageView!{
-        willSet(image) {
-            print("image setter called \(image)")
-        }
-    }
-
+    @IBOutlet weak var glossyView: UIImageView!
+    
+    @IBOutlet weak var image: UIImageView!
 
     @IBOutlet weak var label: UILabel!
 
     
-    // The cells zoom when focused.
-    var focusedTransform: CGAffineTransform {
-        return CGAffineTransform(scaleX: 1.2, y: 1.2)
-    }
+
     
-    // The cells zoom when focused.
-    var unFocusedTransform: CGAffineTransform {
-        return CGAffineTransform(scaleX: 1.0, y: 1.0)
-    }
-    
-    
-    
+    /*
     
     func setFocused(focused: Bool,
                     withAnimationCoordinator coordinator: UIFocusAnimationCoordinator){
@@ -175,7 +164,7 @@ class OverviewCell: UICollectionViewCell {
     
     
 
-    
+    */
 
     
     
