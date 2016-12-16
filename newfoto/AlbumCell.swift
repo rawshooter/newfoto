@@ -17,4 +17,42 @@ class AlbumCell: UICollectionViewCell {
     
     @IBOutlet weak var glossyView: UIImageView!
 
+
+    
+         
+     var centerGlossyX : CGFloat {
+        get {
+            return centerGlossyX
+        }
+        set (aNewValue) {
+            //I've contrived some condition on which this property can be set
+            //(prevents same value being set)
+            if (aNewValue != centerGlossyX) {
+                centerGlossyX = aNewValue * 2
+               
+            }
+             glossyView.center.x = centerGlossyX
+        }
+    }
+    
+    var centerGlossyY : CGFloat {
+        get {
+            return centerGlossyY
+        }
+        set (aNewValue) {
+            //I've contrived some condition on which this property can be set
+            //(prevents same value being set)
+            if (aNewValue != centerGlossyY) {
+                centerGlossyY = aNewValue * 2
+                print("new y \(centerGlossyY)")
+            }
+            
+             glossyView.center.y = centerGlossyY
+            
+        }
+    }
+    
+
+    
 }
+

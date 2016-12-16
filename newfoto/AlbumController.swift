@@ -185,8 +185,8 @@ class AlbumController: UICollectionViewController {
         }
         
         // white border
-        cell.layer.borderColor = UIColor.white.cgColor
-        cell.layer.borderWidth = 0
+        //cell.layer.borderColor = UIColor.white.cgColor
+        //cell.layer.borderWidth = 0
         
         self.view.sendSubview(toBack: cell)
         
@@ -313,7 +313,7 @@ class AlbumController: UICollectionViewController {
             // 3D Rotation
             
             let m34 = CGFloat(1.0 / -1250)
-            let minMaxAngle = 5.0
+            let minMaxAngle = 6.0
             let angle = CGFloat(minMaxAngle * M_PI / 180.0)
             
             
@@ -375,12 +375,12 @@ class AlbumController: UICollectionViewController {
             // motion effect for glossy layer
             
             let verticalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-            verticalGlossyEffect.minimumRelativeValue = -150
-            verticalGlossyEffect.maximumRelativeValue = 150
+            verticalGlossyEffect.minimumRelativeValue = -400
+            verticalGlossyEffect.maximumRelativeValue = 400
             
             let horizontalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-            horizontalGlossyEffect.minimumRelativeValue = -150
-            horizontalGlossyEffect.maximumRelativeValue = 150
+            horizontalGlossyEffect.minimumRelativeValue = -400
+            horizontalGlossyEffect.maximumRelativeValue = 400
             
             let motionGlossyGroup = UIMotionEffectGroup()
             motionGlossyGroup.motionEffects = [horizontalGlossyEffect, verticalGlossyEffect]
@@ -408,7 +408,7 @@ class AlbumController: UICollectionViewController {
                 
                 
                 // reduce the brightness
-                focusCell.glossyView?.layer.opacity = 0.5
+                focusCell.glossyView?.layer.opacity = 0.4
                 
                 // give the glossy image an effect
                 focusCell.glossyView?.addMotionEffect(motionGlossyGroup)
@@ -426,8 +426,8 @@ class AlbumController: UICollectionViewController {
                 
                 
                 // white border
-                focusCell.layer.borderColor = UIColor.white.cgColor
-                focusCell.layer.borderWidth = 5
+                //focusCell.layer.borderColor = UIColor.white.cgColor
+                //focusCell.layer.borderWidth = 5
                 focusCell.layer.masksToBounds = false;
                 focusCell.layer.shadowOffset = CGSize(width:15, height:15);
                 focusCell.layer.shadowRadius = 5;
@@ -473,11 +473,13 @@ class AlbumController: UICollectionViewController {
                 
                 focusCell.layer.cornerRadius = 16
                 focusCell.layer.masksToBounds = true
+                focusCell.layer.shadowOffset = CGSize(width:0, height:0);
+                focusCell.layer.shadowRadius = 0;
                 
                 
                 
-                focusCell.layer.borderColor = UIColor.white.cgColor
-                focusCell.layer.borderWidth = 0
+                //focusCell.layer.borderColor = UIColor.white.cgColor
+                //focusCell.layer.borderWidth = 0
                 UIView.animate(withDuration: 0.3,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
