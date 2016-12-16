@@ -121,9 +121,9 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baO-qx-tK7">
-                                            <rect key="frame" x="4" y="0.0" width="372" height="55"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="376" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -140,6 +140,7 @@
                                     </subviews>
                                 </view>
                                 <connections>
+                                    <outlet property="glossyParentView" destination="ZVw-M7-LOL" id="yVn-6l-0bm"/>
                                     <outlet property="glossyView" destination="SnS-xV-5qr" id="eAa-lb-LH9"/>
                                     <outlet property="imageView" destination="AzB-0x-Gan" id="Vif-iM-qTB"/>
                                     <outlet property="subTitleLabel" destination="baO-qx-tK7" id="zm0-3C-55K"/>

@@ -165,7 +165,7 @@ class AlbumController: UICollectionViewController {
         let assetCollection: PHAssetCollection = colAlbums!.object(at: indexPath.row)
         
         
-        cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) photos"
+        cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount)"
         
         
         
@@ -190,9 +190,14 @@ class AlbumController: UICollectionViewController {
         
         self.view.sendSubview(toBack: cell)
         
-        
+        // configure rounded cornders
         cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
+        
+        
+        cell.glossyParentView?.layer.cornerRadius = 16
+        cell.glossyParentView?.layer.masksToBounds = true
+        
         
         
         
@@ -423,8 +428,7 @@ class AlbumController: UICollectionViewController {
                 // also set the image view some nice corner radius
                 focusCell.imageView?.layer.cornerRadius = 16
                 focusCell.imageView?.layer.masksToBounds = true
-                
-                
+
                 // white border
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 5
