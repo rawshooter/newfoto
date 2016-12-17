@@ -13,6 +13,7 @@
 		4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */; };
 		4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F4C081F1DE9EF10001C6969 /* Media.xcassets */; };
 		4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F578F2C1DD7A61500252331 /* OverviewCell.swift */; };
+		4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8BB96F1E05E4F6004D3505 /* MapKit.framework */; };
 		4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFC1DF0CBBA00DA3104 /* LICENSE */; };
 		4F94ADFF1DF0CBC200DA3104 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 4F94ADFE1DF0CBC200DA3104 /* README.md */; };
 		4FA1D3481DE1E84200C60391 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1D3471DE1E84200C60391 /* SettingsController.swift */; };
@@ -34,6 +35,7 @@
 		4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
 		4F4C081F1DE9EF10001C6969 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4F578F2C1DD7A61500252331 /* OverviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewCell.swift; sourceTree = "<group>"; };
+		4F8BB96F1E05E4F6004D3505 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4F94ADFC1DF0CBBA00DA3104 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4F94ADFE1DF0CBC200DA3104 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4FA1D3471DE1E84200C60391 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -55,12 +57,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F8BB96E1E05E4F6004D3505 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F8BB96F1E05E4F6004D3505 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4FAC56A41DF34BE400895280 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +92,7 @@
 				4FFDE34C1DBB954200CC0435 /* Products */,
 				4F94ADFC1DF0CBBA00DA3104 /* LICENSE */,
 				4F94ADFE1DF0CBC200DA3104 /* README.md */,
+				4F8BB96E1E05E4F6004D3505 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,6 +156,11 @@
 					4FFDE34A1DBB954100CC0435 = {
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};

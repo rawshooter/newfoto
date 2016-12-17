@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 import Photos
 
 class DetailController: UIViewController, UIGestureRecognizerDelegate {
@@ -18,6 +19,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // current pointer in photo list
     var indexPosition: Int = 0
     
+    @IBOutlet weak var mapView: MKMapView!
     
     // Asset to be displayed - can be NIL when called
     //var asset: PHAsset?
