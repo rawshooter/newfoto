@@ -252,22 +252,22 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <mapView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wrb-gj-Owd">
-                                <rect key="frame" x="1482" y="762" width="418" height="298"/>
+                            <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" mapType="hybrid" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrb-gj-Owd">
+                                <rect key="frame" x="1424" y="714" width="476" height="346"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-rR-aw7">
-                                <rect key="frame" x="20" y="755" width="418" height="305"/>
+                                <rect key="frame" x="20" y="872" width="667" height="188"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="46P-UJ-coa">
-                                    <rect key="frame" x="0.0" y="0.0" width="418" height="305"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="667" height="188"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="01.01.2016" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkx-UX-oSG">
-                                            <rect key="frame" x="8" y="8" width="402" height="289"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Image Metadata" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nkx-UX-oSG">
+                                            <rect key="frame" x="8" y="8" width="651" height="172"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
@@ -279,6 +279,7 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                     </view>
                     <connections>
                         <outlet property="imageView" destination="C19-ky-ieZ" id="YSS-Pk-BGS"/>
+                        <outlet property="infoTextView" destination="nkx-UX-oSG" id="1zt-bz-gp3"/>
                         <outlet property="mapView" destination="Wrb-gj-Owd" id="bDA-fL-7ya"/>
                     </connections>
                 </viewController>

@@ -17,6 +17,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var phAssetResult: PHFetchResult<PHAsset>!
     
     // current pointer in photo list
+    @IBOutlet weak var infoTextView: UITextView!
     var indexPosition: Int = 0
     
     @IBOutlet weak var mapView: MKMapView!
@@ -89,10 +90,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var clickCount  = 0
     
     // maximum time the finger can rest on the trackpad and after raising to count this as a tap
-    let maxTouchTime = 0.5
+    let maxTouchTime = 0.4
     
     // maximum pause time between a double tap
-    let maxPauseIntervalForTupleTap = 0.5
+    let maxPauseIntervalForTupleTap = 0.4
     
     // was the finger accidently moved, so that this is not a tap but a move?
     var hasMoved: Bool = false
@@ -146,7 +147,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("ImageView size: \(imageFrame)")
         print("Image size \(imageView.image?.size)")
         
-        print("ImageView center: \(imageView.center)")
+        //print("ImageView center: \(imageView.center)")
         
         // zoom in or zoom out
         if(isZoomMode){
@@ -268,7 +269,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
 
- 
+        // dont send gestures to sub views
         if (touch.view?.isDescendant(of: self.view))!{
             return false
         }
@@ -564,6 +565,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("asset creation date: \(getAsset().creationDate)")
         
         
+        infoTextView.text = "creation date: \(getAsset().creationDate) \nlocation: \(getAsset().location)"
+        
         // better photo fetch options
         let options: PHImageRequestOptions = PHImageRequestOptions()
         
@@ -582,6 +585,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         //options.deliveryMode = .opportunistic
         options.deliveryMode = .highQualityFormat
         
+        // latest version of the asset
         options.version = .current
         
         // only on async the handler is being requested
@@ -602,8 +606,40 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.progressHandler = handler
         
         
+        if (getAsset().location != nil){
+            mapView.isHidden = false
+            
+            // zoom of map in meters
+            let regionRadius: CLLocationDistance = 200
+            
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(getAsset().location!.coordinate,
+                                                                      regionRadius, regionRadius)
+            mapView!.setRegion(coordinateRegion, animated: true)
+            
+            
+
+            
+            // remove all old annotations
+            mapView.removeAnnotations(mapView.annotations)
+            
+            // pin the current annotation
+            //var pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(your latitude, your longitude)
+            let objectAnnotation = MKPointAnnotation()
+            objectAnnotation.coordinate = getAsset().location!.coordinate
+            
+            //objectAnnotation.title = your title
+            
+            mapView.addAnnotation(objectAnnotation)
+            
+            
+            //print("setting map on location \(getAsset().location)")
+        } else {
+            mapView.isHidden = true
+        }
         
     
+        // MARK: Display Metadata
+        
         // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
             imageManager.requestImage(for: getAsset(), targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
@@ -611,7 +647,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
                 
-                print("Load information \(infoArray)")
+                // general information about the loaded asset
+                //print("Load information \(infoArray)")
                 // HERE WE GET THE IMAGE
                 if(imageResult == nil){
                     print("============= error loading image =========================")
@@ -638,16 +675,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("--------------------- Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
         
         
+        // add tap gesture for a click to get next photo
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked) )
+        view.addGestureRecognizer(tapRecognizer)
+        
         
         
         // add pan gesture recognizer
         let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
         view.addGestureRecognizer(panRec)
-        
-        
-        // add tap gesture for a click to get next photo
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked) )
-        view.addGestureRecognizer(tapRecognizer)
         
         
         
