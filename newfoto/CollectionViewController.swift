@@ -132,6 +132,13 @@ class CollectionViewController: UICollectionViewController {
             horizontalMotionEffect.maximumRelativeValue = 20
             
             
+            // alpha blacken effect
+            
+            let darkenEffect = UIInterpolatingMotionEffect(keyPath: "layer.alpha", type: .tiltAlongVerticalAxis)
+            darkenEffect.minimumRelativeValue = 0.0
+            darkenEffect.maximumRelativeValue = 1
+            
+            
             // motion effect for glossy layer
             
             let verticalGlossyEffect = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
@@ -163,16 +170,20 @@ class CollectionViewController: UICollectionViewController {
                 
                 
                 
+                
+                
                 // add the motion effects to the cell
                 focusCell.addMotionEffect(motionEffectGroup)
                 
                 
                 // reduce the brightness
-                focusCell.glossyView?.layer.opacity = 0.4
+                focusCell.glossyView?.layer.opacity = 0.3
                 
                 // give the glossy image an effect
                 focusCell.glossyView?.addMotionEffect(motionGlossyGroup)
                 
+                // remove color and light when the trackpad moves from the image
+                focusCell.image?.addMotionEffect(darkenEffect)
                 
                 
                 

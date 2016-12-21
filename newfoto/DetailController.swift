@@ -140,6 +140,87 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    // MARK: DYANMIC SYSTEM STUFF
+    
+    var animator: UIDynamicAnimator?
+    var currentLocation: CGPoint?
+    var attachment: UIAttachmentBehavior?
+    var snap: UISnapBehavior?
+    
+    // now boot the dynamic system
+    func addDynamics(){
+        animator =   UIDynamicAnimator(referenceView: self.view)
+    
+    //    let gravity = UIGravityBehavior(items: [imageView])
+        
+        // not needed as stated in current documentation
+        // let vector = CGVector(dx: 0.0, dy: 1.0)
+        // gravity.gravityDirection = vector
+        
+      //  animator?.addBehavior(gravity)
+
+    
+    }
+    
+    
+    func dynamicPan(_ recognizer: UIPanGestureRecognizer){
+        
+        if (recognizer.state == UIGestureRecognizerState.began){
+            
+            if (snap != nil) {
+                animator?.removeBehavior(snap!)
+            }
+            
+            
+            baseCenterX = imageView.center.x
+            baseCenterY = imageView.center.y
+            
+            
+            
+            currentLocation = CGPoint(x: baseCenterX + recognizer.translation(in: view).x, y: baseCenterY + recognizer.translation(in: view).y )
+            
+            
+            
+          //  currentLocation = theTouch.location(in: self.view)
+            
+            attachment = UIAttachmentBehavior(item: imageView!,
+                                              attachedToAnchor: currentLocation!)
+            
+            animator?.addBehavior(attachment!)
+        }
+        
+
+        if (recognizer.state == UIGestureRecognizerState.changed){
+            
+            
+               currentLocation = CGPoint(x: baseCenterX + recognizer.translation(in: view).x, y: baseCenterY + recognizer.translation(in: view).y )
+            attachment?.anchorPoint = currentLocation!
+            
+            
+        }
+        
+        
+        
+        
+        if (recognizer.state == UIGestureRecognizerState.ended){
+        
+                animator?.removeBehavior(attachment!)
+            
+            
+   
+            
+            snap = UISnapBehavior(item: imageView, snapTo: CGPoint(x: baseCenterX, y: baseCenterY))
+            animator?.addBehavior(snap!)
+            
+            
+        }
+        
+
+        
+    }
+    
+    
+    
     func switchZoomMode(){
         
         let imageFrame = imageView.frame
@@ -152,6 +233,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // zoom in or zoom out
         if(isZoomMode){
             isZoomMode = false
+            
+            // add dynamic system
+            addDynamics()
             
             
             // zoom out
@@ -308,6 +392,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // do no image movement since we´re not in zoom mode
         if(!isZoomMode){
             print("ignoring gestures - recognizer could also be removed")
+            
+            dynamicPan(recognizer)
+            
             return
         }
         
@@ -317,6 +404,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
  */
 
         
+        // this should directly read the position
         if (recognizer.state == UIGestureRecognizerState.began){
             
                     print("began")
@@ -688,6 +776,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         loadImage()
+        
+        mapView.layer.masksToBounds = false;
+        mapView.layer.shadowOffset = CGSize(width:15, height:15);
+        mapView.layer.shadowRadius = 5;
+        mapView.layer.shadowOpacity = 0.2;
+        mapView.layer.cornerRadius = 16
+        
         
         
         
