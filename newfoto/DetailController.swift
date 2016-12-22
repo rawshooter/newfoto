@@ -59,8 +59,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var isZoomMode: Bool = false
 
     
-    var intialCenterX: CGFloat = 0
-    var intialCenterY: CGFloat = 0
+    var initialCenterX: CGFloat = 0
+    var initialCenterY: CGFloat = 0
     
     var baseCenterX: CGFloat = 0
     var baseCenterY: CGFloat = 0
@@ -167,34 +167,74 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         if (recognizer.state == UIGestureRecognizerState.began){
             
+            /*
             if (snap != nil) {
                 animator?.removeBehavior(snap!)
+                
             }
+            */
+            
+            animator?.removeAllBehaviors()
             
             
-            baseCenterX = imageView.center.x
-            baseCenterY = imageView.center.y
+            // add some gravity
+            let gravity = UIGravityBehavior(items: [imageView])
+            
+            gravity.magnitude = 0.1
             
             
+            //animator?.addBehavior(gravity)
+   
             
-            currentLocation = CGPoint(x: baseCenterX + recognizer.translation(in: view).x, y: baseCenterY + recognizer.translation(in: view).y )
+            
+            var itemBehaviour: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView])
+            itemBehaviour.elasticity = 1
+            itemBehaviour.density = 2
+            
+            animator?.addBehavior(itemBehaviour)
+            
+            
+            var transX = recognizer.translation(in: view).x / 2
+            var transY = recognizer.translation(in: view).y / 2
+            
+            // only move the X axis
+           // currentLocation = CGPoint(x: initialCenterX + recognizer.translation(in: view).x, y: initialCenterY  )
+            
+           currentLocation = CGPoint(x: initialCenterX +  transX, y: initialCenterY + transY )
             
             
             
           //  currentLocation = theTouch.location(in: self.view)
             
-            attachment = UIAttachmentBehavior(item: imageView!,
+            
+            
+            
+            // make the attachment a bit off the center to provide some rotation
+            attachment = UIAttachmentBehavior(item: imageView!, offsetFromCenter: UIOffsetMake(0, -50),
                                               attachedToAnchor: currentLocation!)
             
+           // attachment = UIAttachmentBehavior(item: imageView!, attachedToAnchor: currentLocation!)
+       
+            
+             //  attachment?.frequency = 0
+            //attachment?.frictionTorque = 1
+            
+          //  attachment?.length = 10
+            
+           // attachment?.damping = 1
             animator?.addBehavior(attachment!)
         }
         
 
         if (recognizer.state == UIGestureRecognizerState.changed){
             
-            
-               currentLocation = CGPoint(x: baseCenterX + recognizer.translation(in: view).x, y: baseCenterY + recognizer.translation(in: view).y )
+            // only translate in the X axis to keep most of the image on the screen
+         //   currentLocation = CGPoint(x: initialCenterX + recognizer.translation(in: view).x, y: initialCenterY  )
+            var transX = recognizer.translation(in: view).x / 2
+            var transY = recognizer.translation(in: view).y / 2
+            currentLocation = CGPoint(x: initialCenterX + transX, y: initialCenterY + transY  )
             attachment?.anchorPoint = currentLocation!
+            
             
             
         }
@@ -207,10 +247,105 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.removeBehavior(attachment!)
             
             
-   
             
-            snap = UISnapBehavior(item: imageView, snapTo: CGPoint(x: baseCenterX, y: baseCenterY))
-            animator?.addBehavior(snap!)
+            print("Speed X: \(recognizer.velocity(in: view).x)")
+            
+            let velX: CGFloat = recognizer.velocity(in: view).x
+            let velY: CGFloat = recognizer.velocity(in: view).y
+            
+            
+            // keep moving when the velocity is high enough
+            // next image
+            if(velX > 1000){
+                
+                print("speed reached")
+                let gravity = UIGravityBehavior(items: [imageView])
+                
+                
+           
+                gravity.gravityDirection = CGVector(dx: velX / 100, dy: velY / 100)
+                
+                animator?.addBehavior(gravity)
+               
+                
+                
+                gravity.action = { _ in
+                    if (self.imageView.center.x > CGFloat(self.screenWidth * 2) ){
+                        print("off screen for next image")
+                        self.animator?.removeAllBehaviors()
+                        self.loadNextImage()
+                 
+                        self.imageView.transform = self.normalTransform
+                        self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+                        //self.imageView.alpha = 0
+                        
+                       /* UIView.animate(withDuration: 2,
+                                       delay: 0,
+                                       usingSpringWithDamping: 0.10,
+                                       initialSpringVelocity: 0,
+                                       options: .beginFromCurrentState,
+                                       animations: { () -> Void in
+                                        self.imageView.alpha = 1
+                                        
+                                        
+                        }, completion: nil)
+                        */
+                    }
+                    
+             
+
+                }
+                
+                return
+                
+            }
+            
+            
+            
+            // keep moving when the velocity is high enough
+            // next image
+            if(velX < -1000){
+                
+                print("NAGTIVE speed reached")
+                let gravity = UIGravityBehavior(items: [imageView])
+                
+                
+              //  gravity.gravityDirection = CGVector(dx: -1, dy: 0)
+                gravity.gravityDirection = CGVector(dx: velX / 100, dy: velY / 100)
+                
+                animator?.addBehavior(gravity)
+                
+                
+                
+                gravity.action = { _ in
+                    if (self.imageView.center.x < CGFloat(self.screenWidth * -2) ){
+                        print("off screen for previous image")
+                        self.animator?.removeAllBehaviors()
+                        self.loadPreviousImage()
+                        self.imageView.transform = self.normalTransform
+                        self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+                        
+           
+                        
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                return
+                
+            }
+            
+            
+            // default case - just snap back
+                snap = UISnapBehavior(item: imageView, snapTo: CGPoint(x: initialCenterX, y: initialCenterY))
+                snap?.damping =  2
+                animator?.addBehavior(snap!)
+ 
+            
+            
             
             
         }
@@ -246,7 +381,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            options: .beginFromCurrentState,
                            animations: { () -> Void in
                             self.imageView.transform = self.normalTransform
-                            self.imageView.center = CGPoint(x: self.intialCenterX, y: self.intialCenterY)
+                            self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
             }, completion: nil)
             
             
@@ -360,11 +495,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         return true
     }
     
-    
-    // we have the signature as a tabrecognizer
-    func clicked(_ recognizer: UITapGestureRecognizer ){
-        print("clicked ah tabbed")
-    
+    func loadNextImage(){
         indexPosition = indexPosition + 1
         
         if(phAssetResult.count > 0){
@@ -375,8 +506,32 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
         }
-    
+        
         loadImage()
+    }
+    
+    
+    func loadPreviousImage(){
+        indexPosition = indexPosition - 1
+        
+        if(phAssetResult.count > 0){
+            
+            // did we reach the end of the list, then switch to the start
+            if(indexPosition < 0){
+                indexPosition = phAssetResult.count - 1
+            }
+            
+        }
+        
+        loadImage()
+    }
+    
+    
+    // we have the signature as a tabrecognizer
+    func clicked(_ recognizer: UITapGestureRecognizer ){
+        print("clicked ah tabbed")
+        loadNextImage()
+
     }
     
     
@@ -391,7 +546,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // do no image movement since we´re not in zoom mode
         if(!isZoomMode){
-            print("ignoring gestures - recognizer could also be removed")
+            
             
             dynamicPan(recognizer)
             
@@ -529,7 +684,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            },
                            completion: nil)
             
-                    print("End Coordiantes (\(intialCenterX), \(intialCenterY))")
+                    print("End Coordiantes (\(initialCenterX), \(initialCenterY))")
     
         
         }
@@ -757,10 +912,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         
-        intialCenterX = imageView.center.x
-        intialCenterY = imageView.center.y
+        initialCenterX = imageView.center.x
+        initialCenterY = imageView.center.y
         
-        print("--------------------- Initial Coordiantes (\(intialCenterX), \(intialCenterY))")
+        print("--------------------- Initial Coordiantes (\(initialCenterX), \(initialCenterY))")
         
         
         // add tap gesture for a click to get next photo
@@ -768,10 +923,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         view.addGestureRecognizer(tapRecognizer)
         
         
-        
-        // add pan gesture recognizer
-        let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
-        view.addGestureRecognizer(panRec)
+   
         
         
         
@@ -785,6 +937,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
+        // add pan gesture recognizer
+        let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
+        view.addGestureRecognizer(panRec)
+        
+        addDynamics()
         
         
     }
