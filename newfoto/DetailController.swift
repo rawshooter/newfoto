@@ -273,7 +273,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     if (self.imageView.center.x > CGFloat(self.screenWidth * 2) ){
                         print("off screen for next image")
                         self.animator?.removeAllBehaviors()
-                        self.loadNextImage()
+                        self.loadPreviousImage()()
                  
                         self.imageView.transform = self.normalTransform
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
@@ -321,7 +321,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     if (self.imageView.center.x < CGFloat(self.screenWidth * -2) ){
                         print("off screen for previous image")
                         self.animator?.removeAllBehaviors()
-                        self.loadPreviousImage()
+                        self.loadNextImage()
                         self.imageView.transform = self.normalTransform
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                         
