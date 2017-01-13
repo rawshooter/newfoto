@@ -271,7 +271,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 gravity.action = { _ in
                     if (self.imageView.center.x > CGFloat(self.screenWidth * 2) ){
-                        print("off screen for next image")
+                        print("off screen for previous image")
                         self.animator?.removeAllBehaviors()
                         self.loadPreviousImage()
                  
@@ -319,7 +319,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 gravity.action = { _ in
                     if (self.imageView.center.x < CGFloat(self.screenWidth * -2) ){
-                        print("off screen for previous image")
+                        print("off screen for next image")
                         self.animator?.removeAllBehaviors()
                         self.loadNextImage()
                         self.imageView.transform = self.normalTransform
@@ -547,7 +547,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // do no image movement since we´re not in zoom mode
         if(!isZoomMode){
             
-            
+            // we are panning and moving the image not in
+            // zoom mode so just reset our click/tap count by default
+            // otherwise this could lead to confusing situations and change internally to zoom mode
+            // print("resetting click count due panning in switch mode")
+            clickCount = 0
             dynamicPan(recognizer)
             
             return
