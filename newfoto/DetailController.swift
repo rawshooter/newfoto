@@ -47,9 +47,22 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             print("Warning: No image. swichting to backup image")
             return PHAsset();
         }
-        
-
     }
+    
+    // returns the current asset from the indexPosition and Album Collection
+    func getAsset(atIndex: Int) -> PHAsset {
+        
+        if(phAssetResult.count > 0){
+            return phAssetResult.object(at: atIndex) as PHAsset
+        } else {
+            print("Warning: No image. swichting to backup image")
+            return PHAsset();
+        }
+        
+        
+    }
+
+    
     
     let zoomFactor = 2.5
     let screenWidth = 1920
@@ -214,7 +227,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // load the image - currently only dummy
         // previous image
-        imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        //imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        loadPreviousPreviewImage()
         
         // activate it
         imageView2.alpha = 1.0
@@ -260,7 +274,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // load the image - currently only dummy
         // next image
-        imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        //imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        loadNextPreviewImage()
         
         // activate it
         imageView2.alpha = 1.0
@@ -1035,6 +1050,175 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
        // print("safe y \(y) min: \(min) max: \(max) ")
         return newY
     }
+    
+    
+    func loadPreviousPreviewImage(){
+        // load the asset image for the detail view
+        
+        
+        var previewPosition: Int = indexPosition - 1
+        
+        if(phAssetResult.count > 0){
+            
+            // did we reach the end of the list, then switch to the start
+            if(previewPosition < 0){
+                previewPosition = phAssetResult.count - 1
+            }
+            
+        }
+        
+ 
+        
+        
+        let asset: PHAsset = getAsset(atIndex: previewPosition)
+        
+        
+        let imageManager = PHCachingImageManager()
+        var imageSize: CGSize
+        
+        let imageFrame = imageView.frame
+        
+        
+        print("size width: \(imageFrame.width) height: \(imageFrame.height)")
+        let scale = UIScreen.main.scale
+        
+        
+        
+        imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
+        
+        // better photo fetch options
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        
+        // important for loading network resources and progressive handling with callback handler
+        options.isNetworkAccessAllowed = true
+        
+        
+        //
+        //options.deliveryMode = .opportunistic
+        options.deliveryMode = .highQualityFormat
+        
+        // latest version of the asset
+        options.version = .current
+        
+        // only on async the handler is being requested
+        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
+        options.isSynchronous = true
+        
+        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+            // your code
+            DispatchQueue.main.async {
+                print("---------------------------------------------==============")
+                print("progress \(progress)")
+                print("error \(error)")
+                print("stop \(stop)")
+                print("info \(info)")
+            }
+        }
+        
+        options.progressHandler = handler
+        
+        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
+            
+            if(imageResult == nil){
+                print("============= error loading image =========================")
+                return
+            }
+            
+            self.imageView2.image = imageResult
+            
+            //self.imageView.image = image! as UIImage
+            print("detail image was loaded")
+        })
+        
+        
+    }
+
+    
+    
+    func loadNextPreviewImage(){
+        // load the asset image for the detail view
+        
+        
+        var previewPosition: Int = indexPosition + 1
+        
+        if(phAssetResult.count > 0){
+            
+            // did we reach the end of the list, then switch to the start
+            if(previewPosition == phAssetResult.count){
+                previewPosition = 0
+            }
+            
+        }
+        
+        
+        let asset: PHAsset = getAsset(atIndex: previewPosition)
+
+
+        let imageManager = PHCachingImageManager()
+        var imageSize: CGSize
+        
+        let imageFrame = imageView.frame
+        
+        
+        print("size width: \(imageFrame.width) height: \(imageFrame.height)")
+        let scale = UIScreen.main.scale
+        
+
+        
+        imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
+
+        // better photo fetch options
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        
+        // important for loading network resources and progressive handling with callback handler
+        options.isNetworkAccessAllowed = true
+        
+        
+        //
+        //options.deliveryMode = .opportunistic
+        options.deliveryMode = .highQualityFormat
+        
+        // latest version of the asset
+        options.version = .current
+        
+        // only on async the handler is being requested
+        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
+        options.isSynchronous = true
+        
+        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+            // your code
+            DispatchQueue.main.async {
+                print("---------------------------------------------==============")
+                print("progress \(progress)")
+                print("error \(error)")
+                print("stop \(stop)")
+                print("info \(info)")
+            }
+        }
+        
+        options.progressHandler = handler
+
+        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
+        
+            if(imageResult == nil){
+                print("============= error loading image =========================")
+                return
+            }
+            
+            self.imageView2.image = imageResult
+            
+            //self.imageView.image = image! as UIImage
+            print("detail image was loaded")
+        })
+
+        
+    }
+
+    
+    
+    
+    
+    
     
 
     func loadImage(){
