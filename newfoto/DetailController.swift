@@ -141,6 +141,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         super.touchesBegan(touches, with: event)
       print("touches began")
         
+        
+        // ignore while transition
+        if(isImageTransition){
+            return
+        }
+        
         touchBeginTime = CACurrentMediaTime()
         hasMoved = false;
         
@@ -483,7 +489,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // snap back also the preview image
                 // default case - just snap back
                 snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: screenWidth / 2, y: screenHeight / 2 ))
-                snap2?.damping =  2
+                snap2?.damping =  1.3
                 animator?.addBehavior(snap2!)
                 
                 // reset the preview mode since we are loading a new image
@@ -505,7 +511,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // to observe if the image was moved 
                 // off the visible screen and can be replaced by the previous image
                 gravity!.action = { _ in
-                    if (self.imageView.center.x > CGFloat(self.screenWidth * 12) ){
+                    if (self.imageView.center.x > CGFloat(self.screenWidth * 11) ){
                         print("off screen for previous image")
                         
                         
@@ -562,7 +568,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // snap back also the preview image
                 // default case - just snap back
                 snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: screenWidth / 2, y: screenHeight / 2 ))
-                snap2?.damping =  2
+                snap2?.damping =  1.3
                 animator?.addBehavior(snap2!)
                 
                 // reset the preview mode since we are loading a new image
@@ -584,7 +590,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // to observe if the image was moved
                 // off the visible screen and can be replaced by the next image
                 gravity.action = { _ in
-                    if (self.imageView.center.x < CGFloat(self.screenWidth * -12) ){
+                    if (self.imageView.center.x < CGFloat(self.screenWidth * -11) ){
                         print("off screen for next image")
                         self.animator?.removeAllBehaviors()
                         self.isZoomMode = false;
