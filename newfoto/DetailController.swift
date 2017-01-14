@@ -165,6 +165,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var attachment2: UIAttachmentBehavior?
     
     var snap: UISnapBehavior?
+    var snap2: UISnapBehavior?
+    
     
     // now boot the dynamic system
     func addDynamics(){
@@ -199,6 +201,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         
+        if let snap=snap2{
+            animator?.removeBehavior(snap)
+        }
     
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
@@ -239,6 +244,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if let behaviour=attachment2{
             animator?.removeBehavior(behaviour)
         }
+
+        if let snap=snap2{
+            animator?.removeBehavior(snap)
+        }
+
         
         
         // hide the imageview while setting the stage
@@ -437,6 +447,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // next image
             if(velX > 1000){
                 
+                // reset the preview mode since we are loading a new image
+                previewMode = previewStates.none
+                
                 print("speed reached")
                 let gravity = UIGravityBehavior(items: [imageView])
                 
@@ -487,6 +500,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // keep moving when the velocity is high enough
             // next image
             if(velX < -1000){
+                
+                // reset the preview mode since we are loading a new image
+                previewMode = previewStates.none
                 
                 print("NEGATIVE speed reached")
                 let gravity = UIGravityBehavior(items: [imageView])
@@ -539,9 +555,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
                 // snap back also the preview image
                 // default case - just snap back
-                var snapPreview: UISnapBehavior = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: -(screenWidth / 2), y: screenHeight / 2 ))
-                 snapPreview.damping =  2
-                    animator?.addBehavior(snapPreview)
+                snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: -(screenWidth / 2), y: screenHeight / 2 ))
+                snap2?.damping =  2
+                animator?.addBehavior(snap2!)
+                
+                // reset the preview mode since we are loading a new image
+                previewMode = previewStates.none
+                
                 print("snap back preview left")
                 
             }
@@ -555,9 +575,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 // snap back also the preview image
                 // default case - just snap back
-                var snapPreview: UISnapBehavior = UISnapBehavior(item: imageView2, snapTo: CGPoint(x:  screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
-                snapPreview.damping =  2
-                animator?.addBehavior(snapPreview)
+                snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x:  screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
+                snap2?.damping =  2
+                animator?.addBehavior(snap2!)
+                
+                // reset the preview mode since we are loading a new image
+                previewMode = previewStates.none
+                
                 print("snap back preview right")
             }
             
