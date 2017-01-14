@@ -248,6 +248,10 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GaK-K8-PjO">
+                                <rect key="frame" x="1958" y="44" width="389" height="1036"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C19-ky-ieZ">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -279,6 +283,7 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                     </view>
                     <connections>
                         <outlet property="imageView" destination="C19-ky-ieZ" id="YSS-Pk-BGS"/>
+                        <outlet property="imageView2" destination="GaK-K8-PjO" id="VHr-wn-W9I"/>
                         <outlet property="infoTextView" destination="nkx-UX-oSG" id="1zt-bz-gp3"/>
                         <outlet property="mapView" destination="Wrb-gj-Owd" id="bDA-fL-7ya"/>
                     </connections>

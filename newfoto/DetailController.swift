@@ -12,6 +12,19 @@ import Photos
 
 class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
+    // defines the different states for the preview image
+    // that slides in from left or right
+    enum previewStates {
+        case none
+        case initializedLeft
+        case initiailzedRight
+        case snapToCenter
+    }
+    
+    // to obtain the current mode of the preview image
+    // for handling the gestures
+    var previewMode: previewStates = previewStates.none
+    
     
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
@@ -65,7 +78,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var baseCenterX: CGFloat = 0
     var baseCenterY: CGFloat = 0
     
+    // standard primary image view
     @IBOutlet weak var imageView: UIImageView!
+    
+    // secondary image view
+    @IBOutlet weak var imageView2: UIImageView!
     
     @IBAction func buttonAction(_ sender: UIButton) {
 
@@ -145,6 +162,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var animator: UIDynamicAnimator?
     var currentLocation: CGPoint?
     var attachment: UIAttachmentBehavior?
+    var attachment2: UIAttachmentBehavior?
+    
     var snap: UISnapBehavior?
     
     // now boot the dynamic system
@@ -162,29 +181,147 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     }
     
+ 
+    // remove the dynamic system
+    func removeDynamics(){
+        //animator =   UIDynamicAnimator(referenceView: self.view)
+        
+        
+        animator?.removeAllBehaviors()
+    }
+ 
     
+    func setPreviewLeft(){
+        
+        // remove old dynamic behaviour
+        if let behaviour=attachment2{
+            animator?.removeBehavior(behaviour)
+        }
+        
+        
+    
+        // hide the imageview while setting the stage
+        imageView2.alpha = 0.0
+        
+        // set the boundaries for the image on the left side
+        imageView2.frame = CGRect(x: -screenWidth  , y: 0, width: screenWidth, height: screenHeight)
+        
+        
+        // load the image - currently only dummy
+        // previous image
+        imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        
+        // activate it
+        imageView2.alpha = 1.0
+        
+        
+        // enable dynamic system
+        var itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
+        itemBehaviourPreview.elasticity = 1
+        itemBehaviourPreview.density = 2
+       // animator?.addBehavior(itemBehaviourPreview)
+        
+        // make the attachment not a bit off the center to provide some rotation
+        attachment2 = UIAttachmentBehavior(item: imageView2!, offsetFromCenter: UIOffsetMake(0, 20),
+                                           attachedToAnchor: CGPoint(x: -(screenWidth / 2) , y: screenHeight / 2 ))
+        // create the intial attachment
+        animator?.addBehavior(attachment2!)
+        
+        // preview image setup is done for state left
+        previewMode = previewStates.initializedLeft
+        print("preview image positioned on the left")
+    }
+    
+    
+    func setPreviewRight(){
+        
+        // remove old dynamic behaviour
+        if let behaviour=attachment2{
+            animator?.removeBehavior(behaviour)
+        }
+        
+        
+        // hide the imageview while setting the stage
+        imageView2.alpha = 0.0
+        
+        // set the boundaries for the image on the left side
+        imageView2.frame = CGRect(x: screenWidth , y: 0, width: screenWidth, height: screenHeight)
+        
+        
+        // load the image - currently only dummy
+        // next image
+        imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
+        
+        // activate it
+        imageView2.alpha = 1.0
+        
+        
+        // enable dynamic system
+        var itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
+        itemBehaviourPreview.elasticity = 1
+        itemBehaviourPreview.density = 2
+       // animator?.addBehavior(itemBehaviourPreview)
+        
+        // make the attachment not a bit off the center to provide some rotation
+        attachment2 = UIAttachmentBehavior(item: imageView2!, offsetFromCenter: UIOffsetMake(0, 20),
+                                           attachedToAnchor: CGPoint(x: screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
+        // create the intial attachment
+        animator?.addBehavior(attachment2!)
+        
+        
+        
+        // preview image setup is done for state right
+        previewMode = previewStates.initiailzedRight
+        print("preview image positioned on the right")
+    
+    }
+    
+    
+    // MARK: Handling of movement when zoomed out
     func dynamicPan(_ recognizer: UIPanGestureRecognizer){
         
+        
+        // add the dynamic system initially
+        // for later movement in the "changed" phase
+        // release the anchors later in "ended"
         if (recognizer.state == UIGestureRecognizerState.began){
             
-            /*
-            if (snap != nil) {
-                animator?.removeBehavior(snap!)
-                
-            }
-            */
-            
+            // we are starting a new animation so
+            // reset all dynamic animations and setup it like a new stage
             animator?.removeAllBehaviors()
             
             
-            // add some gravity
-            let gravity = UIGravityBehavior(items: [imageView])
+            // get the x and y coordinates of the panning gesture
+            // dampen a bit the x translation
+            // and avoid division by zero
+            var transX = recognizer.translation(in: view).x
+            if(transX != 0){
+                transX =  transX / 2
+            }
+            // we don´t want to have much y movement
+            // since the images should be swiped left or right
+            // and avoid division by zero
+            var transY = recognizer.translation(in: view).y
+            if(transY != 0){
+                transY =  transY / 3
+            }
             
-            gravity.magnitude = 0.1
+            
+            // moving to the right, so assume to get the previous image
+            // set up the preview image if it hasn´t been done
+            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+                setPreviewLeft()
+                
+            }
             
             
-            //animator?.addBehavior(gravity)
-   
+            
+            // moving to the left, so assume to get the next image
+            // set up the preview image if it hasn´t been done
+            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+                setPreviewRight()
+            }
+            
             
             
             var itemBehaviour: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView])
@@ -193,18 +330,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             animator?.addBehavior(itemBehaviour)
             
-            
-            var transX = recognizer.translation(in: view).x / 2
-            var transY = recognizer.translation(in: view).y / 2
-            
-            // only move the X axis
-           // currentLocation = CGPoint(x: initialCenterX + recognizer.translation(in: view).x, y: initialCenterY  )
+
             
            currentLocation = CGPoint(x: initialCenterX +  transX, y: initialCenterY + transY )
             
-            
-            
-          //  currentLocation = theTouch.location(in: self.view)
             
             
             
@@ -213,27 +342,77 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             attachment = UIAttachmentBehavior(item: imageView!, offsetFromCenter: UIOffsetMake(0, -50),
                                               attachedToAnchor: currentLocation!)
             
-           // attachment = UIAttachmentBehavior(item: imageView!, attachedToAnchor: currentLocation!)
-       
             
-             //  attachment?.frequency = 0
-            //attachment?.frictionTorque = 1
             
-          //  attachment?.length = 10
             
-           // attachment?.damping = 1
             animator?.addBehavior(attachment!)
+
+            
         }
         
 
         if (recognizer.state == UIGestureRecognizerState.changed){
             
-            // only translate in the X axis to keep most of the image on the screen
-         //   currentLocation = CGPoint(x: initialCenterX + recognizer.translation(in: view).x, y: initialCenterY  )
-            var transX = recognizer.translation(in: view).x / 2
-            var transY = recognizer.translation(in: view).y / 2
+            // get the x and y coordinates of the panning gesture
+            // dampen a bit the x translation
+            // and avoid division by zero
+            var transX = recognizer.translation(in: view).x
+            if(transX != 0){
+                transX =  transX / 2
+            }
+            // we don´t want to have much y movement
+            // since the images should be swiped left or right
+            // and avoid division by zero
+            var transY = recognizer.translation(in: view).y
+            if(transY != 0){
+                transY =  transY / 3
+            }
+            
+
+            // direction change and we have to reset the preview image position?
+            if(transX > 0  &&  previewMode == previewStates.initiailzedRight){
+                setPreviewLeft()
+                
+            }
+            
+            
+            // direction change and we have to reset the preview image position?
+            if(transX < 0  &&  previewMode == previewStates.initializedLeft){
+                setPreviewRight()
+                
+            }
+            
+            
+            
+            // move preview image from left
+            if(transX > 0  &&  previewMode == previewStates.initializedLeft){
+                
+                
+                var previewLocation: CGPoint = CGPoint(x: Int(transX) - (screenWidth / 2), y: screenHeight / 2 )
+                attachment2?.anchorPoint = previewLocation
+            }
+            
+            
+            // move preview image from right
+            if(transX < 0  &&  previewMode == previewStates.initiailzedRight){
+                
+             
+                
+                var previewLocation: CGPoint = CGPoint(x:  screenWidth + (screenWidth / 2) + Int(transX), y: screenHeight / 2 )
+                attachment2?.anchorPoint = previewLocation
+            }
+            
+            
+
+          
+            // show the next or previous image as a sneak preview
+            // on the left or right
+            //movePreviewImage(offsetX: Int(transX))
+            
             currentLocation = CGPoint(x: initialCenterX + transX, y: initialCenterY + transY  )
             attachment?.anchorPoint = currentLocation!
+            
+            
             
             
             
@@ -245,7 +424,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if (recognizer.state == UIGestureRecognizerState.ended){
         
                 animator?.removeBehavior(attachment!)
-            
+  //             animator?.removeBehavior(attachment2!)
             
             
             print("Speed X: \(recognizer.velocity(in: view).x)")
@@ -268,11 +447,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.addBehavior(gravity)
                
                 
-                
+                // append an action to the gravity
+                // to observe if the image was moved 
+                // off the visible screen and can be replaced by the previous image
                 gravity.action = { _ in
                     if (self.imageView.center.x > CGFloat(self.screenWidth * 2) ){
                         print("off screen for previous image")
                         self.animator?.removeAllBehaviors()
+                        self.isZoomMode = false;
                         self.loadPreviousImage()
                  
                         self.imageView.transform = self.normalTransform
@@ -306,7 +488,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // next image
             if(velX < -1000){
                 
-                print("NAGTIVE speed reached")
+                print("NEGATIVE speed reached")
                 let gravity = UIGravityBehavior(items: [imageView])
                 
                 
@@ -316,11 +498,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.addBehavior(gravity)
                 
                 
-                
+                // append an action to the gravity
+                // to observe if the image was moved
+                // off the visible screen and can be replaced by the next image
                 gravity.action = { _ in
                     if (self.imageView.center.x < CGFloat(self.screenWidth * -2) ){
                         print("off screen for next image")
                         self.animator?.removeAllBehaviors()
+                        self.isZoomMode = false;
                         self.loadNextImage()
                         self.imageView.transform = self.normalTransform
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
@@ -345,6 +530,42 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.addBehavior(snap!)
  
             
+            if(previewMode == previewStates.initializedLeft){
+                
+                // remove old dynamic behaviour
+                if let behaviour=attachment2{
+                    animator?.removeBehavior(behaviour)
+                }
+            
+                // snap back also the preview image
+                // default case - just snap back
+                var snapPreview: UISnapBehavior = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: -(screenWidth / 2), y: screenHeight / 2 ))
+                 snapPreview.damping =  2
+                    animator?.addBehavior(snapPreview)
+                print("snap back preview left")
+                
+            }
+            
+
+            
+            if(previewMode == previewStates.initiailzedRight){
+                // remove old dynamic behaviour
+                if let behaviour=attachment2{
+                    animator?.removeBehavior(behaviour)
+                }
+                // snap back also the preview image
+                // default case - just snap back
+                var snapPreview: UISnapBehavior = UISnapBehavior(item: imageView2, snapTo: CGPoint(x:  screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
+                snapPreview.damping =  2
+                animator?.addBehavior(snapPreview)
+                print("snap back preview right")
+            }
+            
+            
+            
+            
+ 
+            
             
             
             
@@ -360,14 +581,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         let imageFrame = imageView.frame
         
-        print("ImageView size: \(imageFrame)")
-        print("Image size \(imageView.image?.size)")
+        //print("ImageView size: \(imageFrame)")
+        //print("Image size \(imageView.image?.size)")
         
         //print("ImageView center: \(imageView.center)")
         
         // zoom in or zoom out
         if(isZoomMode){
             isZoomMode = false
+            print("Zoom disabled")
             
             // add dynamic system
             addDynamics()
@@ -387,6 +609,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
         } else {
             isZoomMode = true
+            print("Zoom enabled")
+            
+            
+            // add dynamic system to avoid animation issues with the 
+            // upcoming ui animation of the image
+            removeDynamics()
             
             // zoom in
             
@@ -530,6 +758,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // we have the signature as a tabrecognizer
     func clicked(_ recognizer: UITapGestureRecognizer ){
         print("clicked ah tabbed")
+   
         loadNextImage()
 
     }
@@ -552,6 +781,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // otherwise this could lead to confusing situations and change internally to zoom mode
             // print("resetting click count due panning in switch mode")
             clickCount = 0
+            hasMoved = true
             dynamicPan(recognizer)
             
             return
@@ -789,6 +1019,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // load the asset image for the detail view
         
+    
         
         let imageManager = PHCachingImageManager()
         var imageSize: CGSize

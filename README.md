@@ -8,6 +8,9 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 # History
 
+## Update 14.01.2017
+* Fixes an issue when swiping the image to the next or last image and then going into zoom mode. Lesson learned: Always set the UIDynamic objects on right position before enabling the engine. 
+
 ## Update 23.12.2016
 * Swiping to Next and Previous image possible
 * usage of UIDynamics for better UXP
