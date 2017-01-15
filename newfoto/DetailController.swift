@@ -246,9 +246,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
        // animator?.addBehavior(itemBehaviourPreview)
         
         // make the attachment not a bit off the center to provide some rotation
+        /*
         attachment2 = UIAttachmentBehavior(item: imageView2!, offsetFromCenter: UIOffsetMake(0, 5),
                                            attachedToAnchor: CGPoint(x: -(screenWidth / 2) , y: screenHeight / 2 ))
-        // create the intial attachment
+        
+        */
+        
+        attachment2 = UIAttachmentBehavior(item: imageView2!, attachedToAnchor: CGPoint(x: -(screenWidth / 2) , y: screenHeight / 2 ))
+
+        
+ // create the intial attachment
         animator?.addBehavior(attachment2!)
         
         // preview image setup is done for state left
@@ -293,9 +300,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
        // animator?.addBehavior(itemBehaviourPreview)
         
         // make the attachment not a bit off the center to provide some rotation
+        /*
         attachment2 = UIAttachmentBehavior(item: imageView2!, offsetFromCenter: UIOffsetMake(0, 5),
                                            attachedToAnchor: CGPoint(x: screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
-        // create the intial attachment
+            */
+        attachment2 = UIAttachmentBehavior(item: imageView2!,  attachedToAnchor: CGPoint(x: screenWidth + (screenWidth / 2) , y: screenHeight / 2 ))
+
+        
+ // create the intial attachment
         animator?.addBehavior(attachment2!)
         
         
@@ -458,7 +470,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
-        
+        // MARK: Snap back or switch to next image
         if (recognizer.state == UIGestureRecognizerState.ended){
         
                 animator?.removeBehavior(attachment!)
@@ -486,11 +498,28 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     animator?.removeBehavior(behaviour)
                 }
                 
+                
+                UIView.animate(withDuration: 0.6,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                               self.imageView2.center = CGPoint(x: self.screenWidth / 2, y: self.screenHeight / 2 )
+                },
+                               completion: nil)
+                
+                
+                /*
                 // snap back also the preview image
                 // default case - just snap back
                 snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: screenWidth / 2, y: screenHeight / 2 ))
-                snap2?.damping =  1.3
+                snap2?.damping =  5
+                //snap2?.damping =  1.3
+                
                 animator?.addBehavior(snap2!)
+                */
+                
                 
                 // reset the preview mode since we are loading a new image
                 previewMode = previewStates.none
@@ -511,7 +540,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // to observe if the image was moved 
                 // off the visible screen and can be replaced by the previous image
                 gravity!.action = { _ in
-                    if (self.imageView.center.x > CGFloat(self.screenWidth * 11) ){
+                    if (self.imageView.center.x > CGFloat(self.screenWidth * 4) ){
                         print("off screen for previous image")
                         
                         
@@ -565,11 +594,26 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     animator?.removeBehavior(behaviour)
                 }
                 
+                /*
                 // snap back also the preview image
                 // default case - just snap back
                 snap2 = UISnapBehavior(item: imageView2, snapTo: CGPoint(x: screenWidth / 2, y: screenHeight / 2 ))
-                snap2?.damping =  1.3
+                //snap2?.damping =  1.3
+                snap2?.damping = 5
+                
                 animator?.addBehavior(snap2!)
+                */
+                
+                
+                UIView.animate(withDuration: 0.6,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                               self.imageView2.center = CGPoint(x: self.screenWidth / 2, y: self.screenHeight / 2 )
+                },
+                               completion: nil)
                 
                 // reset the preview mode since we are loading a new image
                 previewMode = previewStates.none
@@ -590,7 +634,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // to observe if the image was moved
                 // off the visible screen and can be replaced by the next image
                 gravity.action = { _ in
-                    if (self.imageView.center.x < CGFloat(self.screenWidth * -11) ){
+                    if (self.imageView.center.x < CGFloat(self.screenWidth * -4) ){
                         print("off screen for next image")
                         self.animator?.removeAllBehaviors()
                         self.isZoomMode = false;
