@@ -226,6 +226,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
         
+        // reset to identity transform
+        imageView2.transform = CGAffineTransform.identity
+        
+        
         // set the boundaries for the image on the left side
         imageView2.frame = CGRect(x: -screenWidth  , y: 0, width: screenWidth, height: screenHeight)
         
@@ -280,6 +284,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
         
+        // reset to identity transform
+        imageView2.transform = CGAffineTransform.identity
+        
         // set the boundaries for the image on the left side
         imageView2.frame = CGRect(x: screenWidth , y: 0, width: screenWidth, height: screenHeight)
         
@@ -326,7 +333,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // image transition running to the next or last image
         // do not disturb
         if(isImageTransition){
-            print("image transition in process - do not disturb - ignoring events")
+           // print("image transition in process - do not disturb - ignoring events")
             return
         }
         
@@ -418,7 +425,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 transY =  transY / 3
             }
             
-
+            // moving to the right, so assume to get the previous image
+            // set up the preview image if it hasn´t been done
+            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+                setPreviewLeft()
+                
+            }
+            
+            
+            
+            // moving to the left, so assume to get the next image
+            // set up the preview image if it hasn´t been done
+            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+                setPreviewRight()
+            }
+            
+            
+            
             // direction change and we have to reset the preview image position?
             if(transX > 0  &&  previewMode == previewStates.initiailzedRight){
                 setPreviewLeft()
@@ -473,19 +496,63 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // MARK: Snap back or switch to next image
         if (recognizer.state == UIGestureRecognizerState.ended){
         
+            // get the x and y coordinates of the panning gesture
+            // dampen a bit the x translation
+            // and avoid division by zero
+            var transX = recognizer.translation(in: view).x
+            if(transX != 0){
+                transX =  transX / 2
+            }
+            // we don´t want to have much y movement
+            // since the images should be swiped left or right
+            // and avoid division by zero
+            var transY = recognizer.translation(in: view).y
+            if(transY != 0){
+                transY =  transY / 3
+            }
+            
+            // moving to the right, so assume to get the previous image
+            // set up the preview image if it hasn´t been done
+            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+                setPreviewLeft()
+                
+            }
+            
+            
+            // moving to the right, so assume to get the previous image
+            // set up the preview image if it hasn´t been done
+            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+                setPreviewLeft()
+                
+            }
+            
+            
+            
+            // moving to the left, so assume to get the next image
+            // set up the preview image if it hasn´t been done
+            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+                setPreviewRight()
+            }
+            
+            
+            
                 animator?.removeBehavior(attachment!)
   //             animator?.removeBehavior(attachment2!)
             
             
             print("Speed X: \(recognizer.velocity(in: view).x)")
             
-            let velX: CGFloat = recognizer.velocity(in: view).x
-            let velY: CGFloat = recognizer.velocity(in: view).y
+            var velX: CGFloat = recognizer.velocity(in: view).x
+            var velY: CGFloat = recognizer.velocity(in: view).y
             
             
             // keep moving when the velocity is high enough
-            // next image
-            if(velX > 1000){
+            // next image or the position is far enought away
+            if(velX > 1500  || transX > 700){
+                
+              //  if(velX < 1000){
+                    velX = 8000
+               // }
                 
                 isImageTransition = true
                 
@@ -578,8 +645,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             // keep moving when the velocity is high enough
-            // next image
-            if(velX < -1000){
+            // next image or the position is far enought away
+            if(velX < -1500 || transX < -700){
+                
+               // if(velX > -1000){
+                    velX = -8000
+               // }
                 
                 isImageTransition = true
                 
@@ -1325,10 +1396,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func loadImage(){
 
         
-        
-        // hide the preview image
-        
-        imageView2.alpha = 0
+
         
         
         // load the asset image for the detail view
@@ -1347,15 +1415,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
-        
+        /*
         print("trying to load assed: \(getAsset())")
+       
         
         
         print("asset mediatype: \(getAsset().mediaType)")
         print("asset mediasubtype: \(getAsset().mediaSubtypes)")
         print("asset location: \(getAsset().location)")
         print("asset creation date: \(getAsset().creationDate)")
-        
+        */
         
         infoTextView.text = "creation date: \(getAsset().creationDate) \nlocation: \(getAsset().location)"
         
@@ -1447,7 +1516,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     return
                 }
                 
+                
+
+                
+                // hide the preview image before setting the real image...
+                self.imageView2.alpha = 0
+                
                 self.imageView.image = imageResult
+
                 
                 //self.imageView.image = image! as UIImage
                 print("detail image was loaded")
