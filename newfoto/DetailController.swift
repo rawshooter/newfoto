@@ -173,9 +173,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             super.touchesMoved(touches, with: event)
         
         // reset our doubleclick counter and movement
-        
         hasMoved = true
-            var clickCount  = 0
+        //var clickCount  = 0
         
       //  print("touches moved")
         return
@@ -244,7 +243,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // enable dynamic system
-        var itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
+        let itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
         itemBehaviourPreview.elasticity = 1
         itemBehaviourPreview.density = 2
        // animator?.addBehavior(itemBehaviourPreview)
@@ -301,7 +300,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // enable dynamic system
-        var itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
+        let itemBehaviourPreview: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView2])
         itemBehaviourPreview.elasticity = 1
         itemBehaviourPreview.density = 2
        // animator?.addBehavior(itemBehaviourPreview)
@@ -381,7 +380,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             
-            var itemBehaviour: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView])
+            let itemBehaviour: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [imageView])
             itemBehaviour.elasticity = 1
             itemBehaviour.density = 2
             
@@ -461,7 +460,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             if(transX > 0  &&  previewMode == previewStates.initializedLeft){
                 
                 
-                var previewLocation: CGPoint = CGPoint(x: Int(transX) - (screenWidth / 2), y: screenHeight / 2 )
+                let previewLocation: CGPoint = CGPoint(x: Int(transX) - (screenWidth / 2), y: screenHeight / 2 )
                 attachment2?.anchorPoint = previewLocation
             }
             
@@ -471,7 +470,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
              
                 
-                var previewLocation: CGPoint = CGPoint(x:  screenWidth + (screenWidth / 2) + Int(transX), y: screenHeight / 2 )
+                let previewLocation: CGPoint = CGPoint(x:  screenWidth + (screenWidth / 2) + Int(transX), y: screenHeight / 2 )
                 attachment2?.anchorPoint = previewLocation
             }
             
@@ -543,7 +542,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             print("Speed X: \(recognizer.velocity(in: view).x)")
             
             var velX: CGFloat = recognizer.velocity(in: view).x
-            var velY: CGFloat = recognizer.velocity(in: view).y
+            let velY: CGFloat = recognizer.velocity(in: view).y
             
             
             // keep moving when the velocity is high enough
@@ -789,13 +788,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     func switchZoomMode(){
-        
-        let imageFrame = imageView.frame
-        
-        //print("ImageView size: \(imageFrame)")
-        //print("Image size \(imageView.image?.size)")
-        
-        //print("ImageView center: \(imageView.center)")
+    
         
         // zoom in or zoom out
         if(isZoomMode){
@@ -918,15 +911,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        
 
-        if let reg = (gestureRecognizer as? UIPanGestureRecognizer){
         
-            //print(reg.translation(in: view))
-            //print(reg.velocity(in:  view))
-        }
-        
-
         // dont send gestures to sub views
         if (touch.view?.isDescendant(of: self.view))!{
             return false
@@ -1032,22 +1018,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 trackpadY = trackpadY / 1.0
             }
             
-            // set new position based on touch input
-            
-            let myFrame: CGRect = CGRect(x: trackpadX,y: trackpadY,
-                                         width: imageView.bounds.size.width,
-                                         height: imageView.bounds.size.height)
-            
 
             
             // center x
             var x = baseCenterX + trackpadX;
-            
-            
-            
-            
             x = getSafeXCenter(x: x)
-            //print("current x \(x)")
             
             
             var y = baseCenterY + trackpadY;

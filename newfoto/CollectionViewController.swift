@@ -365,27 +365,8 @@ class CollectionViewController: UICollectionViewController {
         
         
         
-        
-        
-        
-        // set abstract loading icon
-        // this image is set and the abstract thumbnail imageloading mechanics 
-        // can work in the background
-      //  cell.image?.image = UIImage(named: "ic_image_white_48pt")
-        
-        /*guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: OverviewCell.self), for: indexPath) as? OverviewCell
-         else { fatalError("unexpected cell in collection view") }
-        
-*/
-        //print("Cell found \(cell)")
-
-        // Determine the size of the thumbnails to request from the PHCachingImageManager
-        let scale = UIScreen.main.scale
-        let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-        //thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
         thumbnailSize = CGSize(width: 380, height: 280)
         
-        print("thumbnail size: \(thumbnailSize)")
         
         // Request an image for the asset from the PHCachingImageManager.
       //  cell.representedAssetIdentifier = asset.localIdentifier
@@ -398,11 +379,9 @@ class CollectionViewController: UICollectionViewController {
                 cell.image?.image = image
                 
             } else {
-                print ("INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image  ------------------------------------------------")
+                // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
             }
             // if not let the image unchanged
-            
-
             
             
             //cell.label?.text = "\(asset.creationDate)"
