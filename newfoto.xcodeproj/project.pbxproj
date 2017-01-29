@@ -15,7 +15,6 @@
 		4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F578F2C1DD7A61500252331 /* OverviewCell.swift */; };
 		4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8BB96F1E05E4F6004D3505 /* MapKit.framework */; };
 		4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFC1DF0CBBA00DA3104 /* LICENSE */; };
-		4F94ADFF1DF0CBC200DA3104 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFE1DF0CBC200DA3104 /* README.md */; };
 		4FA1D3481DE1E84200C60391 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1D3471DE1E84200C60391 /* SettingsController.swift */; };
 		4FAC56A91DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A51DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png */; };
 		4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */; };
@@ -187,7 +186,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F94ADFF1DF0CBC200DA3104 /* README.md in Resources */,
 				4FAC56AC1DF34BE400895280 /* original.jpg in Resources */,
 				4FFDE3581DBB954200CC0435 /* Assets.xcassets in Resources */,
 				4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */,
