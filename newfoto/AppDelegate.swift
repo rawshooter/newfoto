@@ -12,21 +12,22 @@ import Photos
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    
     var window: UIWindow?
     
 
-
+/*
     func myHandler(status: PHAuthorizationStatus) -> Void {
         NSLog("super handler")
     }
-    
-    
+    */
+  
 
     
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+      /*
         
         
         
@@ -78,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         
-        
+        */
         return true
     }
 
