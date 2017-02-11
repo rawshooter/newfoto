@@ -29,6 +29,6 @@
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>I want to see all photos</string>
+	<string>Display your Photo Library</string>
 </dict>
 </plist>

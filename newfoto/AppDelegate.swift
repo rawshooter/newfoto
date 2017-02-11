@@ -30,9 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-
-        
-        
         var assetCol: PHAssetCollection
         var myAsset: PHAsset
         var assetResult: PHFetchResult<PHAsset>
@@ -52,21 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
         
-        print("Alle Bilder \(   allPhotos.count)")
-        print("--------------------------------------------------")
-        
-
+        // print("Alle Bilder \(   allPhotos.count)")
+        // print("Retrieved smart folder collection \(myList)")
 
         
-        
-        print("Retrieved smart folder collection \(myList)")
-        
-    //     PHAssetCollectionSubtypeAlbumMyPhotoStream   = 100,
-        
-        // collections e.g. smart folder
-      //  for item in 0..<myList.count{
-            //print("item #\(item) is '\(myList.object(at: item) )'")
-      //  }
         
         // get smart folders: smartFolder
         let myAssetList: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.any, options: nil)
@@ -81,13 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             assetCol  = myAssetList.object(at: item) as PHAssetCollection
             
-            
-
-
-            
-            
-            
-            
+           
+    
             print("Number of Items in Asset Collection: \(assetCol.estimatedAssetCount)")
             assetResult = PHAsset.fetchAssets(in: assetCol, options: nil)
             
