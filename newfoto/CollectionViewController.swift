@@ -30,23 +30,55 @@ class CollectionViewController: UICollectionViewController {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewDidAppear(_ animated: Bool) {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
+        let helper: LibraryHelper = LibraryHelper()
+        if( helper.checkStatus() == false){
+            
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "DisclaimerController") as? DisclaimerViewController{
+                print("Controller found")
+                
+                // show it on the highest level
+                
+                // showDetailViewController(controller, sender: nil)
+                // self.show(controller, sender: self)
+                
+                present(controller, animated: false, completion: nil)
+                
+                   print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+                print("Controller is shown")
+                return
+            }
+        } else {
+            print("Access granted to library")
+            // Create a PHFetchResult object for each section in the table view.
+            // load only the photos if not set from outside
+            if(allPhotos == nil){
+                print("loading photos")
+                let allPhotosOptions = PHFetchOptions()
+                allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
+                collectionView?.reloadData()
+                
+                
+            }
+        
+            
+        }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
 
         
-        
-        // Create a PHFetchResult object for each section in the table view.
-        // load only the photos if not set from outside
-        if(allPhotos == nil){
-            let allPhotosOptions = PHFetchOptions()
-            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
-        }
-        
+
         // set the number of available photos
-        tabBarItem.badgeValue = "\(allPhotos.count)"
+        //tabBarItem.badgeValue = "\(allPhotos.count)"
     }
     
     
@@ -310,6 +342,11 @@ class CollectionViewController: UICollectionViewController {
       
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("triggering collectionview numbers of items in section")
+        if(allPhotos == nil){
+            return 0
+        }
+        
         return allPhotos.count
     }
     

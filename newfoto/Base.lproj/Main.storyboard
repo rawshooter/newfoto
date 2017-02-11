@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
@@ -23,6 +23,10 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="20" minY="20" maxX="20" maxY="20"/>
                         </collectionViewFlowLayout>
+                        <imageView key="backgroundView" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" id="C19-ky-ieZ">
+                            <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OverviewCell" id="fXE-Nu-ZC9" customClass="OverviewCell" customModule="newfoto" customModuleProvider="target">
                                 <rect key="frame" x="20" y="20" width="380" height="363"/>
@@ -77,12 +81,12 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMq-Tt-18I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3323" y="-2020"/>
+            <point key="canvasLocation" x="3183" y="-2649"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ixz-uw-XAQ">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="62x-79-U6D" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="62x-79-U6D" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="eQg-gA-82k">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -98,6 +102,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6r-hs-Jp1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="495" y="-3505"/>
+        </scene>
+        <!--Disclaimer View Controller-->
+        <scene sceneID="rgb-yb-Njl">
+            <objects>
+                <viewController storyboardIdentifier="DisclaimerController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fYG-kt-ghM" customClass="DisclaimerViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="esY-5q-QUu"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZyW-mx-1bL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TvB-bz-Mum">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
+                                <rect key="frame" x="330" y="155" width="1156" height="389"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Welcome
+
+please enable photo access in the privacy settings to browse your photo library.</string>
+                                        <attributes>
+                                            <font key="NSFont" size="35" name=".SFNSDisplay"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="🖼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AX-94-wkD">
+                                <rect key="frame" x="825" y="327" width="287" height="334"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="256"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
+                                <rect key="frame" x="549" y="653" width="841" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="Yes, please request access to photo library..."/>
+                                <connections>
+                                    <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sZ6-RU-xr6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1415" y="-1805"/>
         </scene>
         <!--Albums-->
         <scene sceneID="f42-N0-Xov">
@@ -252,10 +308,6 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                                 <rect key="frame" x="1958" y="44" width="389" height="1036"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C19-ky-ieZ">
-                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" mapType="hybrid" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsCompass="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrb-gj-Owd">
                                 <rect key="frame" x="1424" y="714" width="476" height="346"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -290,7 +342,7 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikn-t2-xV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5564" y="-1604"/>
+            <point key="canvasLocation" x="4736" y="-1224"/>
         </scene>
     </scenes>
     <resources>

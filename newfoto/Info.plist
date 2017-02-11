@@ -29,6 +29,6 @@
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Display your Photo Library</string>
+	<string>Browse your Photo Library and Display Photos with a Map Overlay</string>
 </dict>
 </plist>
