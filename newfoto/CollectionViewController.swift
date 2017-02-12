@@ -30,29 +30,28 @@ class CollectionViewController: UICollectionViewController {
     }
     
     
-    
+    // check when the controller is shown if we have access to the photo library
     override func viewDidAppear(_ animated: Bool) {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
-        let helper: LibraryHelper = LibraryHelper()
-        if( helper.checkStatus() == false){
-            
+        // do we have access to the photo library? if not just display a info disclaimer view controller
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        if (status != PHAuthorizationStatus.authorized) {
             if let controller = storyboard?.instantiateViewController(withIdentifier: "DisclaimerController") as? DisclaimerViewController{
-                print("Controller found")
                 
-                // show it on the highest level
-                
-                // showDetailViewController(controller, sender: nil)
-                // self.show(controller, sender: self)
-                
+                // show it on the highest level as a modal view
                 present(controller, animated: false, completion: nil)
                 
-                   print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
-                print("Controller is shown")
+                // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+                // print("Controller is shown")
                 return
             }
-        } else {
+        }
+        
+        // it seems have have access, lets get the photos
+        if (status == PHAuthorizationStatus.authorized) {
             print("Access granted to library")
             // Create a PHFetchResult object for each section in the table view.
             // load only the photos if not set from outside
@@ -62,12 +61,10 @@ class CollectionViewController: UICollectionViewController {
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
                 collectionView?.reloadData()
-                
-                
             }
-        
             
         }
+        
     }
     
     

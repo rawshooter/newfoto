@@ -11,8 +11,25 @@ import Photos
 
 class DisclaimerViewController: UIViewController {
 
+    @IBOutlet weak var actionButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // if access to the library is not
+        // determined yet and not accessed or denied
+        // show the get access button
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        if (status == PHAuthorizationStatus.notDetermined) {
+            actionButton.isHidden = false
+        } else {
+
+                actionButton.isHidden = true
+
+        }
+        
 
         // Do any additional setup after loading the view.//
         print("Disclaimer View Controller was loaded")

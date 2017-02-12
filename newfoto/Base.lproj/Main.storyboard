@@ -146,6 +146,9 @@ please enable photo access in the privacy settings to browse your photo library.
                             </button>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="actionButton" destination="rtm-B5-emi" id="Dz0-mv-c2Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZ6-RU-xr6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
