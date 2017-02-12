@@ -7,6 +7,11 @@
 NewFoto is a intuitive way to browse your photos on your tvOS device. Since Apple Photos does not include zooming or insights to more metadata this application provides you more information about your photo library.
 
 # History
+## Update 12.02.2017
+* Current version detects correctly the access status of your photo library
+* Removed compiler and assembly warnings
+* Streamlined code from unneeded classes
+
 ## Update 29.01.2017
 * Changed Tab Bar item order
 * Removed unneeded art assets
