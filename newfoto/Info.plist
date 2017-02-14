@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>get-task-allow</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -22,13 +20,15 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Browse your Photo Library and Display Photos with a Map Overlay</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Automatic</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Browse your Photo Library and Display Photos with a Map Overlay</string>
+	<key>get-task-allow</key>
+	<false/>
 </dict>
 </plist>

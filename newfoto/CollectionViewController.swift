@@ -42,7 +42,11 @@ class CollectionViewController: UICollectionViewController {
             if let controller = storyboard?.instantiateViewController(withIdentifier: "DisclaimerController") as? DisclaimerViewController{
                 
                 // show it on the highest level as a modal view
-                present(controller, animated: false, completion: nil)
+               // present(controller, animated: false, completion: nil)
+                
+                // show it on the highest level as a modal view
+                show(controller, sender: self)
+                
                 
                 // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
                 // print("Controller is shown")
