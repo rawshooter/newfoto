@@ -13,9 +13,55 @@ class DisclaimerViewController: UIViewController {
 
     @IBOutlet weak var actionButton: UIButton!
     
+    @IBOutlet weak var imageView: UIImageView!
+    
+    
+    // The cells zoom when focused.
+    var focusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.2, y: 1.2)
+    }
+    
+    // The cells zoom when focused.
+    var unFocusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.0, y: 1.0)
+    }
+    
+    
+    func zoomIn(){
+        UIView.animate(withDuration: 30,
+                       delay: 0,
+                       options: [.beginFromCurrentState, .curveLinear],
+                       animations: { () -> Void in self.imageView.transform = self.focusedTransform}
+        ,
+                       completion: { (completed: Bool) -> Void in  self.zoomOut() }
+        )
+    }
+    
+    func zoomOut(){
+        
+        
+        UIView.animate(withDuration: 30,
+                       delay: 0,
+                       options: [.beginFromCurrentState, .curveLinear],
+                       animations: { () -> Void in self.imageView.transform = self.unFocusedTransform}
+            ,
+                       completion: { (completed: Bool) -> Void in  self.zoomIn() }
+        )
+        
+        
+    }
+    
+    
+    // check when the controller is shown if we have access to the photo library
+    override func viewDidAppear(_ animated: Bool) {
+        
+        // start animations
+        zoomIn()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
         // if access to the library is not
         // determined yet and not accessed or denied

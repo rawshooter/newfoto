@@ -111,43 +111,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
-                                <rect key="frame" x="330" y="155" width="1156" height="389"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_1087" translatesAutoresizingMaskIntoConstraints="NO" id="Rb3-1M-K1E">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">Welcome
-
-please enable photo access in the privacy settings to browse your photo library.</string>
-                                        <attributes>
-                                            <font key="NSFont" size="35" name=".SFNSDisplay"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="🖼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0AX-94-wkD">
-                                <rect key="frame" x="825" y="327" width="287" height="334"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="256"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
-                                <rect key="frame" x="488" y="897" width="841" height="86"/>
+                                <rect key="frame" x="1133" y="864" width="742" height="165"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Yes, please request access to photo library..."/>
+                                <state key="normal" title="Yes, request access to Photo Library..."/>
                                 <connections>
                                     <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
+                                <rect key="frame" x="72" y="98" width="983" height="335"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.21207091968911918" green="0.21207091968911918" blue="0.21207091968911918" alpha="0.40050066021126762" colorSpace="custom" customColorSpace="sRGB"/>
+                                <string key="text">Welcome ☀️ to 4k Photo
+
+Please enable photo access in the privacy settings to browse your photo library.</string>
+                                <color key="textColor" red="0.99991267919540405" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="49"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="rtm-B5-emi" id="Dz0-mv-c2Q"/>
+                        <outlet property="imageView" destination="Rb3-1M-K1E" id="JS4-TW-oyb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZ6-RU-xr6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -349,6 +341,7 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
         </scene>
     </scenes>
     <resources>
+        <image name="IMG_1087" width="3504" height="1971"/>
         <image name="glossy_gradient" width="640" height="480"/>
     </resources>
 </document>
