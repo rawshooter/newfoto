@@ -73,7 +73,7 @@
                             <outlet property="delegate" destination="wQF-dZ-x27" id="93E-DE-eu8"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Photos" id="IF1-lV-sPD"/>
+                    <tabBarItem key="tabBarItem" title="My Photo Stream" id="IF1-lV-sPD"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMq-Tt-18I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,7 +92,6 @@
                     <connections>
                         <segue destination="wQF-dZ-x27" kind="relationship" relationship="viewControllers" id="j0B-ht-N08"/>
                         <segue destination="Ghx-ey-E3W" kind="relationship" relationship="viewControllers" id="hX3-nn-owj"/>
-                        <segue destination="6g5-67-G4D" kind="relationship" relationship="viewControllers" id="Jrd-6h-4B7"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6r-hs-Jp1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -115,6 +114,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Welcome ☀️ to 4K Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
+                                <rect key="frame" x="20" y="39" width="983" height="103"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.21207091968911918" green="0.21207091968911918" blue="0.21207091968911918" alpha="0.40050066021126762" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.99991267919540405" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="49"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
                                 <rect key="frame" x="1133" y="864" width="742" height="165"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -124,21 +131,19 @@
                                     <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
-                                <rect key="frame" x="72" y="98" width="983" height="335"/>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hint: Please enable photo access under Settings &gt; Apps &gt; 4K Photo to browse your Photo Library." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dG0-0w-RnH">
+                                <rect key="frame" x="81" y="652" width="1758" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.21207091968911918" green="0.21207091968911918" blue="0.21207091968911918" alpha="0.40050066021126762" colorSpace="custom" customColorSpace="sRGB"/>
-                                <string key="text">Welcome ☀️ to 4k Photo
-
-Please enable photo access in the privacy settings to browse your photo library.</string>
-                                <color key="textColor" red="0.99991267919540405" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="49"/>
+                                <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="37"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="rtm-B5-emi" id="Dz0-mv-c2Q"/>
+                        <outlet property="disclaimerLabel" destination="dG0-0w-RnH" id="fVN-NC-sN3"/>
                         <outlet property="imageView" destination="Rb3-1M-K1E" id="JS4-TW-oyb"/>
                     </connections>
                 </viewController>
@@ -146,7 +151,7 @@ Please enable photo access in the privacy settings to browse your photo library.
             </objects>
             <point key="canvasLocation" x="-1579" y="-2182"/>
         </scene>
-        <!--Albums-->
+        <!--Shared Albums-->
         <scene sceneID="f42-N0-Xov">
             <objects>
                 <collectionViewController storyboardIdentifier="Album Scene" id="Ghx-ey-E3W" customClass="AlbumController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
@@ -212,7 +217,7 @@ Please enable photo access in the privacy settings to browse your photo library.
                             <outlet property="delegate" destination="Ghx-ey-E3W" id="mwV-iE-TZq"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Albums" id="1pk-JC-tCr"/>
+                    <tabBarItem key="tabBarItem" title="Shared Albums" id="1pk-JC-tCr"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GVX-J4-yeH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -281,7 +286,7 @@ Here you can add sample Images to your tvOS library, since tvOS comes in the sim
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y01-ZF-F2H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2875" y="58"/>
+            <point key="canvasLocation" x="2804" y="-19"/>
         </scene>
         <!--Detail Controller-->
         <scene sceneID="hgb-Zs-TCw">

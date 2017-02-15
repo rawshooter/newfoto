@@ -11,6 +11,8 @@ import Photos
 
 class DisclaimerViewController: UIViewController {
 
+    @IBOutlet weak var disclaimerLabel: UITextView!
+    
     @IBOutlet weak var actionButton: UIButton!
     
     @IBOutlet weak var imageView: UIImageView!
@@ -70,10 +72,11 @@ class DisclaimerViewController: UIViewController {
         
         if (status == PHAuthorizationStatus.notDetermined) {
             actionButton.isHidden = false
+            disclaimerLabel.isHidden = true
         } else {
 
-                actionButton.isHidden = true
-
+            actionButton.isHidden = true
+            disclaimerLabel.isHidden = false
         }
         
 
