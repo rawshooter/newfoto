@@ -11,7 +11,6 @@
 		4F1FE00F1E01D17000EEEE29 /* glossy_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */; };
 		4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */; };
 		4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */; };
-		4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F4C081F1DE9EF10001C6969 /* Media.xcassets */; };
 		4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F578F2C1DD7A61500252331 /* OverviewCell.swift */; };
 		4F6A9D4F1E4F80C3001AFD13 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */; };
 		4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8BB96F1E05E4F6004D3505 /* MapKit.framework */; };
@@ -21,6 +20,7 @@
 		4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */; };
 		4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */; };
 		4FAC56AC1DF34BE400895280 /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A81DF34BE400895280 /* original.jpg */; };
+		4FC65CBA1E54CEE20075EA4B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC65CB91E54CEE20075EA4B /* Media.xcassets */; };
 		4FD22DC11DCFC19B000AF38A /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD22DC01DCFC19B000AF38A /* CollectionViewController.swift */; };
 		4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */; };
 		4FFDE34F1DBB954200CC0435 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDE34E1DBB954200CC0435 /* AppDelegate.swift */; };
@@ -33,7 +33,6 @@
 		4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glossy_gradient.png; sourceTree = "<group>"; };
 		4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
 		4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
-		4F4C081F1DE9EF10001C6969 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4F578F2C1DD7A61500252331 /* OverviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewCell.swift; sourceTree = "<group>"; };
 		4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		4F8BB96F1E05E4F6004D3505 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -44,6 +43,7 @@
 		4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-Icon-App-Small-400x240.png"; sourceTree = "<group>"; };
 		4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-TopShelf-1920x720.png"; sourceTree = "<group>"; };
 		4FAC56A81DF34BE400895280 /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original.jpg; sourceTree = "<group>"; };
+		4FC65CB91E54CEE20075EA4B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4FD22DC01DCFC19B000AF38A /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		4FFDE34B1DBB954200CC0435 /* newfoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newfoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,8 +117,8 @@
 				4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */,
 				4FA1D3471DE1E84200C60391 /* SettingsController.swift */,
 				4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */,
-				4F4C081F1DE9EF10001C6969 /* Media.xcassets */,
 				4FFDE3571DBB954200CC0435 /* Assets.xcassets */,
+				4FC65CB91E54CEE20075EA4B /* Media.xcassets */,
 				4FFDE3591DBB954200CC0435 /* Info.plist */,
 				4FAC56A41DF34BE400895280 /* icons */,
 			);
@@ -189,9 +189,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FC65CBA1E54CEE20075EA4B /* Media.xcassets in Resources */,
 				4FAC56AC1DF34BE400895280 /* original.jpg in Resources */,
 				4FFDE3581DBB954200CC0435 /* Assets.xcassets in Resources */,
-				4F4C08201DE9EF10001C6969 /* Media.xcassets in Resources */,
 				4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */,
 				4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */,
 				4F1FE00E1E01D17000EEEE29 /* glossy_gradient_gimp.xcf in Resources */,

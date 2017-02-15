@@ -132,7 +132,7 @@
                                 </connections>
                             </button>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hint: Please enable photo access under Settings &gt; Apps &gt; 4K Photo to browse your Photo Library." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dG0-0w-RnH">
-                                <rect key="frame" x="81" y="652" width="1758" height="93"/>
+                                <rect key="frame" x="81" y="936" width="1758" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
