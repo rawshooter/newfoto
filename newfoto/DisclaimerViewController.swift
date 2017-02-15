@@ -85,6 +85,24 @@ class DisclaimerViewController: UIViewController {
     }
 
 
+    func showMainTabController(){
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController{
+            
+            // show it on the highest level as a modal view
+            // present(controller, animated: false, completion: nil)
+            
+            // show it on the highest level as a modal view
+            //show(controller, sender: self)
+            
+            DispatchQueue.main.async {
+                print("Showing off MainTabController")
+                self.view.window?.rootViewController = controller
+            }
+        }
+        
+    }
+    
+    
     @IBAction func requestLibraryAction(_ sender: Any) {
         print("requesting photo library action")
         let status = PHPhotoLibrary.authorizationStatus()
@@ -112,17 +130,18 @@ class DisclaimerViewController: UIViewController {
             
             if (newStatus == PHAuthorizationStatus.authorized) {
                 print("Authorized")
-                self.dismiss(animated: false, completion: nil)
+                //self.dismiss(animated: false, completion: nil)
+                self.showMainTabController()
+    
             }
                 
             else {
                 print("Nothing Authorized")
-                self.dismiss(animated: false, completion: nil)
-                
+                // self.dismiss(animated: false, completion: nil)
+                self.showMainTabController()
             }
         })
-   
-        
+
         
         
         
@@ -133,20 +152,19 @@ class DisclaimerViewController: UIViewController {
             PHPhotoLibrary.requestAuthorization({ (newStatus) in
                 
                 if (newStatus == PHAuthorizationStatus.authorized) {
-                                    print("Authorized")
-                        self.dismiss(animated: false, completion: nil)
+                    print("Authorized")
+                    self.showMainTabController()
                 }
                     
                 else {
                     print("Nothing Authorized")
-                     self.dismiss(animated: false, completion: nil)
-                    
+                    self.showMainTabController()
                 }
             })
         }
-
-        
     }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

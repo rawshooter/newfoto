@@ -45,7 +45,9 @@ class CollectionViewController: UICollectionViewController {
                // present(controller, animated: false, completion: nil)
                 
                 // show it on the highest level as a modal view
-                show(controller, sender: self)
+                //show(controller, sender: self)
+                
+                view.window?.rootViewController = controller
                 
                 
                 // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
