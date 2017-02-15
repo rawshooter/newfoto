@@ -1,0 +1,8 @@
+To browse your Photo Library enable access to it. The application will guide you through 
+
+Features:
+- Browse through your Photo Library with the latest photos first
+- Browse through your shared albums
+- Swipe through photos
+- Double Tap will enable a 4K Zoom, enlarging the photo
+- Optional Metadata (GPS) is displayed when available
