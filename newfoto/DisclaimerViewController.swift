@@ -28,8 +28,8 @@ class DisclaimerViewController: UIViewController {
     
     
     func zoomIn(){
-        UIView.animate(withDuration: 30,
-                       delay: 0,
+        UIView.animate(withDuration: 40,
+                       delay: 1,
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.focusedTransform}
         ,
@@ -40,8 +40,8 @@ class DisclaimerViewController: UIViewController {
     func zoomOut(){
         
         
-        UIView.animate(withDuration: 30,
-                       delay: 0,
+        UIView.animate(withDuration: 40,
+                       delay: 1,
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.unFocusedTransform}
             ,
