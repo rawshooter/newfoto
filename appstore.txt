@@ -1,4 +1,4 @@
-To browse your Photo Library enable access to it. The application will guide you through 
+To browse your Photo Library enable access to it. The application will guide you through.
 
 Features:
 - Browse through your Photo Library with the latest photos first
