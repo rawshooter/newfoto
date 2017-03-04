@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-fileprivate let imageManager = PHCachingImageManager()
+fileprivate let imageManager = PHImageManager()
 fileprivate var thumbnailSize: CGSize!
 
 class CollectionViewController: UICollectionViewController {
@@ -449,8 +449,8 @@ class CollectionViewController: UICollectionViewController {
         let dateStr = formatter.string(from: date!)
         
         
-        cell.label?.text = "\(dateStr) Uhr"
-        
+        cell.label?.text = "\(dateStr)"
+        //cell.label?.text = "\(dateStr) Uhr"
         
         return cell
         

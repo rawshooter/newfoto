@@ -43,7 +43,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ndp-al-dmo">
-                                            <rect key="frame" x="0.0" y="18" width="380" height="282"/>
+                                            <rect key="frame" x="0.0" y="18" width="380" height="280"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="glossy_gradient" translatesAutoresizingMaskIntoConstraints="NO" id="fMj-TO-W68">

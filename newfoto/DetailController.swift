@@ -1220,7 +1220,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let asset: PHAsset = getAsset(atIndex: previewPosition)
         
         
-        let imageManager = PHCachingImageManager()
+        //let imageManager = PHCachingImageManager()
+        let imageManager = PHImageManager()
+
         var imageSize: CGSize
         
         let imageFrame = imageView.frame
@@ -1251,7 +1253,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
         options.isSynchronous = true
         
-        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+        
+        
+        let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
             // your code
             DispatchQueue.main.async {
                 print("---------------------------------------------==============")
@@ -1265,6 +1269,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.progressHandler = handler
         
         imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
+            print("InfoArray:")
+            print(infoArray ?? "")
+            
             
             if(imageResult == nil){
                 print("============= error loading image =========================")
@@ -1301,7 +1308,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
 
-        let imageManager = PHCachingImageManager()
+        //let imageManager = PHCachingImageManager()
+        let imageManager = PHImageManager()
         var imageSize: CGSize
         
         let imageFrame = imageView.frame
@@ -1332,7 +1340,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
         options.isSynchronous = true
         
-        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+        
+        let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
             // your code
             DispatchQueue.main.async {
                 print("---------------------------------------------==============")
@@ -1343,14 +1352,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
+        
         options.progressHandler = handler
 
         imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
-        
+            print("InfoArray:")
+            print(infoArray ?? "")
+            
+            
             if(imageResult == nil){
                 print("============= error loading image =========================")
                 return
             }
+            
+            
             
             self.imageView2.image = imageResult
             
@@ -1378,7 +1393,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
     
         
-        let imageManager = PHCachingImageManager()
+        //let imageManager = PHCachingImageManager()
+        let imageManager = PHImageManager()
+
         var imageSize: CGSize
         
         let imageFrame = imageView.frame
@@ -1428,7 +1445,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
         options.isSynchronous = true
         
-        let handler : PHAssetImageProgressHandler = { (progress, error, stop, info) in
+        
+        let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
             // your code
             DispatchQueue.main.async {
                 print("---------------------------------------------==============")
@@ -1438,6 +1456,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 print("info \(info)")
             }
         }
+        
         
         options.progressHandler = handler
         
@@ -1486,6 +1505,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // general information about the loaded asset
                 //print("Load information \(infoArray)")
                 // HERE WE GET THE IMAGE
+                
+                print("InfoArray:")
+                print(infoArray ?? "")
+ 
+                
                 if(imageResult == nil){
                     print("============= error loading image =========================")
                     return
