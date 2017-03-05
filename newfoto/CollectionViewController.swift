@@ -438,11 +438,12 @@ class CollectionViewController: UICollectionViewController {
         // image label
         let date = asset.creationDate
         
+
         
-        let myLocale = Locale(identifier: "de_DE")
+        //let myLocale = Locale(identifier: "de_DE")
         
         let formatter = DateFormatter()
-        formatter.locale = myLocale
+        formatter.locale = Locale.current
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium
         
