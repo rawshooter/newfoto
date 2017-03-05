@@ -1199,30 +1199,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    func loadPreviousPreviewImage(){
-        // load the asset image for the detail view
+    // generic function that loads an image for the requested asset
+    // add the requesting asset to load and provide an handler to use the image
+    func loadImage(asset: PHAsset, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void){
         
-        
-        var previewPosition: Int = indexPosition - 1
-        
-        if(phAssetResult.count > 0){
-            
-            // did we reach the end of the list, then switch to the start
-            if(previewPosition < 0){
-                previewPosition = phAssetResult.count - 1
-            }
-            
-        }
-        
- 
-        
-        
-        let asset: PHAsset = getAsset(atIndex: previewPosition)
         
         
         //let imageManager = PHCachingImageManager()
         let imageManager = PHImageManager()
-
+        
         var imageSize: CGSize
         
         let imageFrame = imageView.frame
@@ -1242,7 +1227,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.isNetworkAccessAllowed = true
         
         
-        //
         //options.deliveryMode = .opportunistic
         options.deliveryMode = .highQualityFormat
         
@@ -1268,10 +1252,33 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         options.progressHandler = handler
         
-        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
-            print("InfoArray:")
-            print(infoArray ?? "")
+        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: resultHandler)
+        
+        
+    }
+    
+    
+    
+    
+    func loadPreviousPreviewImage(){
+        // load the asset image for the detail view
+        
+        
+        var previewPosition: Int = indexPosition - 1
+        
+        if(phAssetResult.count > 0){
             
+            // did we reach the end of the list, then switch to the start
+            if(previewPosition < 0){
+                previewPosition = phAssetResult.count - 1
+            }
+            
+        }
+        
+
+        let asset: PHAsset = getAsset(atIndex: previewPosition)
+        
+        loadImage(asset: asset, resultHandler: { imageResult , infoArray   in
             
             if(imageResult == nil){
                 print("============= error loading image =========================")
@@ -1279,12 +1286,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             self.imageView2.image = imageResult
-            
-            //self.imageView.image = image! as UIImage
-            print("detail image was loaded")
         })
         
-        
+
     }
 
     
@@ -1307,160 +1311,22 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
+        loadImage(asset: asset, resultHandler: { imageResult, infoArray in
 
-        //let imageManager = PHCachingImageManager()
-        let imageManager = PHImageManager()
-        var imageSize: CGSize
-        
-        let imageFrame = imageView.frame
-        
-        
-        print("size width: \(imageFrame.width) height: \(imageFrame.height)")
-        let scale = UIScreen.main.scale
-        
-
-        
-        imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
-
-        // better photo fetch options
-        let options: PHImageRequestOptions = PHImageRequestOptions()
-        
-        // important for loading network resources and progressive handling with callback handler
-        options.isNetworkAccessAllowed = true
-        
-        
-        //
-        //options.deliveryMode = .opportunistic
-        options.deliveryMode = .highQualityFormat
-        
-        // latest version of the asset
-        options.version = .current
-        
-        // only on async the handler is being requested
-        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
-        options.isSynchronous = true
-        
-        
-        let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
-            // your code
-            DispatchQueue.main.async {
-                print("---------------------------------------------==============")
-                print("progress \(progress)")
-                print("error \(error)")
-                print("stop \(stop)")
-                print("info \(info)")
-            }
-        }
-        
-        
-        options.progressHandler = handler
-
-        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
-            print("InfoArray:")
-            print(infoArray ?? "")
-            
-            
             if(imageResult == nil){
                 print("============= error loading image =========================")
                 return
             }
             
-            
-            
             self.imageView2.image = imageResult
-            
-            //self.imageView.image = image! as UIImage
-            print("detail image was loaded")
         })
-
-        
     }
 
     
     
     
-    
-    
-    
-
-    func loadImage(){
-
-        
-
-        
-        
-        // load the asset image for the detail view
-        
-    
-        
-        //let imageManager = PHCachingImageManager()
-        let imageManager = PHImageManager()
-
-        var imageSize: CGSize
-        
-        let imageFrame = imageView.frame
-        
-        
-        print("size width: \(imageFrame.width) height: \(imageFrame.height)")
-        let scale = UIScreen.main.scale
-        
-        
-        
-        imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
-        /*
-        print("trying to load assed: \(getAsset())")
-       
-        
-        
-        print("asset mediatype: \(getAsset().mediaType)")
-        print("asset mediasubtype: \(getAsset().mediaSubtypes)")
-        print("asset location: \(getAsset().location)")
-        print("asset creation date: \(getAsset().creationDate)")
-        */
-        
-        infoTextView.text = "creation date: \(getAsset().creationDate) \nlocation: \(getAsset().location)"
-        
-        // better photo fetch options
-        let options: PHImageRequestOptions = PHImageRequestOptions()
-        
-        // important for loading network resources and progressive handling with callback handler
-        options.isNetworkAccessAllowed = true
-        
-        /*
-         opportunistic
-         Photos automatically provides one or more results in order to balance image quality and responsiveness.
-         case highQualityFormat
-         Photos provides only the highest-quality image available, regardless of how much time it takes to load.
-         case fastFormat
-         */
-        
-        //
-        //options.deliveryMode = .opportunistic
-        options.deliveryMode = .highQualityFormat
-        
-        // latest version of the asset
-        options.version = .current
-        
-        // only on async the handler is being requested
-        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
-        options.isSynchronous = true
-        
-        
-        let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
-            // your code
-            DispatchQueue.main.async {
-                print("---------------------------------------------==============")
-                print("progress \(progress)")
-                print("error \(error)")
-                print("stop \(stop)")
-                print("info \(info)")
-            }
-        }
-        
-        
-        options.progressHandler = handler
-        
-        
+    func showMapOverlay(){
+        // MAP overlay display logic
         if (getAsset().location != nil){
             mapView.isHidden = false
             
@@ -1472,7 +1338,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             mapView!.setRegion(coordinateRegion, animated: true)
             
             
-
+            
             
             // remove all old annotations
             mapView.removeAnnotations(mapView.annotations)
@@ -1491,44 +1357,40 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         } else {
             mapView.isHidden = true
         }
-        
+    }
     
-        // MARK: Display Metadata
+    
+
+    
+    func loadImage(){
         
-        // Request an image for the asset from the PHCachingImageManager.
-            //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: getAsset(), targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: { imageResult, infoArray in
-                // The cell may have been recycled by the time this handler gets called;
-                // set the cell's thumbnail image only if it's still showing the same asset.
-                
-                
-                // general information about the loaded asset
-                //print("Load information \(infoArray)")
-                // HERE WE GET THE IMAGE
-                
-                print("InfoArray:")
-                print(infoArray ?? "")
- 
-                
-                if(imageResult == nil){
-                    print("============= error loading image =========================")
-                    return
-                }
-                
-                
+        // check and display the map overlay when needed
+        showMapOverlay()
+        
 
-                
-                // hide the preview image before setting the real image...
-                self.imageView2.alpha = 0
-                
-                self.imageView.image = imageResult
-
-                
-                //self.imageView.image = image! as UIImage
-                print("detail image was loaded")
-            })
- 
+        
+        loadImage(asset: getAsset(), resultHandler: { imageResult, infoArray in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset.
             
+            
+            // general information about the loaded asset
+            //print("Load information \(infoArray)")
+            // HERE WE GET THE IMAGE
+            
+            
+            if(imageResult == nil){
+                print("============= error loading image =========================")
+                return
+            }
+            
+            // hide the preview image before setting the real image...
+            self.imageView2.alpha = 0
+            self.imageView.image = imageResult
+
+        })
+
+        
 
     }
     
