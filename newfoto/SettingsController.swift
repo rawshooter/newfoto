@@ -41,7 +41,7 @@ class SettingsController: UIViewController {
         let defaults = UserDefaults.standard
         
         // zoomfactor default and NIL coalescing as fallback default value
-        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderAscending
+        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderDescending
         
         
         if(sortOrderDefault == sortOrderAscending){
@@ -170,7 +170,7 @@ class SettingsController: UIViewController {
         
         
         
-        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderAscending
+        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderDescending
             print("sortOrderDefault: \(sortOrderDefault)")
         
         if(sortOrderDefault == sortOrderAscending){
