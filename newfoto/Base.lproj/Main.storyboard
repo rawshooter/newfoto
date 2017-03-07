@@ -92,6 +92,7 @@
                     <connections>
                         <segue destination="wQF-dZ-x27" kind="relationship" relationship="viewControllers" id="j0B-ht-N08"/>
                         <segue destination="Ghx-ey-E3W" kind="relationship" relationship="viewControllers" id="hX3-nn-owj"/>
+                        <segue destination="6g5-67-G4D" kind="relationship" relationship="viewControllers" id="JtL-89-1tn"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6r-hs-Jp1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -221,72 +222,79 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GVX-J4-yeH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="255" y="-130"/>
+            <point key="canvasLocation" x="-763" y="-187"/>
         </scene>
         <!--Settings-->
         <scene sceneID="FDY-Wt-coJ">
             <objects>
                 <viewController id="6g5-67-G4D" customClass="SettingsController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="sni-Ig-RiW"/>
-                        <viewControllerLayoutGuide type="bottom" id="xzJ-eC-Ypj"/>
+                        <viewControllerLayoutGuide type="top" id="et2-ab-AX4"/>
+                        <viewControllerLayoutGuide type="bottom" id="Fud-qC-qL8"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="7LS-bM-neD">
+                    <view key="view" contentMode="scaleToFill" id="h3m-ng-k5O">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oS8-Dt-oxc">
-                                <rect key="frame" x="52" y="270" width="1036" height="227"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_1087" translatesAutoresizingMaskIntoConstraints="NO" id="sab-VP-Rzb">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <string key="text">General Settings
-
-Here you can add sample Images to your tvOS library, since tvOS comes in the simulator with no image material.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkE-oc-Q8J">
+                                <rect key="frame" x="547" y="422" width="791" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🗺  GPS metadata display:  Active when available"/>
+                                <connections>
+                                    <action selector="mapOverlayAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="8Hf-hE-Zus"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7W-Es-ZvC">
+                                <rect key="frame" x="547" y="295" width="791" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🖼  Sort order of photos in albums: Latest first"/>
+                                <connections>
+                                    <action selector="sortOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="bxe-HD-QeE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
+                                <rect key="frame" x="547" y="554" width="791" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🔍  Zoom factor:  2.0x"/>
+                                <connections>
+                                    <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.1  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
+                                <rect key="frame" x="20" y="984" width="692" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BWs-gK-42r">
-                                <rect key="frame" x="77" y="497" width="795" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Add sample gallery to library"/>
-                                <connections>
-                                    <action selector="addGalleryAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="YJ6-q0-NaC"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="🖼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faQ-VI-kGD">
-                                <rect key="frame" x="1368" y="216" width="287" height="334"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="256"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0 images in library" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mdy-JD-DCs" userLabel="imageLabel">
-                                <rect key="frame" x="1346" y="516" width="330" height="77"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="41"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJN-dS-qGg">
-                                <rect key="frame" x="77" y="607" width="795" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Add random color photo to library"/>
-                                <connections>
-                                    <action selector="addSamplesAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="bpr-pe-rDA"/>
-                                </connections>
-                            </button>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" id="erE-sQ-4mD"/>
                     <connections>
-                        <outlet property="imageLabel" destination="Mdy-JD-DCs" id="2JI-gX-4xQ"/>
+                        <outlet property="imageView" destination="sab-VP-Rzb" id="7l0-Dj-b5q"/>
+                        <outlet property="mapOverlayButton" destination="MkE-oc-Q8J" id="4Lu-mK-oqo"/>
+                        <outlet property="sortOrderButton" destination="U7W-Es-ZvC" id="EIB-Bh-ULb"/>
+                        <outlet property="zoomFactorButton" destination="yxk-PO-8nz" id="xEu-xo-dQ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y01-ZF-F2H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2804" y="-19"/>
+            <point key="canvasLocation" x="1901" y="-551"/>
         </scene>
         <!--Detail Controller-->
         <scene sceneID="hgb-Zs-TCw">

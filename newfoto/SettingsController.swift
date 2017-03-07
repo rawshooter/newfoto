@@ -11,63 +11,213 @@ import Photos
 
 class SettingsController: UIViewController {
 
-    @IBOutlet weak var imageLabel: UILabel!
+  
+    let sortOrderText = "🖼  Sort order of photos in albums: "
+    let zoomFactorText = "🔍  Zoom factor: "
+    let mapOverlayText = "🗺  GPS metadata display: "
+    
+    let zoomFactorDefaultsKey = "ZOOM_FACTOR"
+    let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
+    let sortOrderDefaultsKey = "SORT_ORDER"
+    
+    let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
+    let zoomFactorInitial = "2.5"
+    
+    let sortOrderAscending = "ASCENDING"
+    let sortOrderDescending = "DECENDING"
+
+    
+    let mapEnabled = "ENABLED"
+    let mapDisabled = "DISABLED"
     
     
-    let imageNames: [String] = ["IMG_0383.jpg",
-        "IMG_0417.jpg",       "IMG_0479.jpg",
-        "IMG_0541.jpg",        "IMG_0557.jpg",
-        "IMG_0689.jpg",        "IMG_0725.jpg",
-        "IMG_1057.jpg",        "IMG_1087.jpg",
-        "IMG_1129.jpg",       "IMG_1132.jpg",
-        "IMG_1389.jpg",        "IMG_1543.jpg",
-        "IMG_1683.jpg",        "IMG_1684.jpg",
-        "IMG_1691.jpg",       "IMG_1704.jpg",
-        "IMG_2219.jpg",        "IMG_2343.jpg",
-        "IMG_2387.jpg",        "IMG_2642.jpg",
-        "IMG_2851.jpg",        "IMG_3009.jpg",
-        "IMG_3015.jpg",        "IMG_3083.jpg",
-        "IMG_3084.jpg",        "IMG_3285.jpg",
-        "IMG_3286.jpg",        "IMG_3852.jpg",
-        "IMG_7481.jpg",       "IMG_7555.jpg",
-        "IMG_7560.jpg",        "IMG_7632.jpg",
-        "IMG_7907.jpg",        "IMG_8008.jpg",
-        "IMG_8074.jpg",        "IMG_8078.jpg",
-        "IMG_8114.jpg",        "IMG_8240.jpg",
-        "IMG_8306.jpg",        "IMG_8314.jpg",
-        "IMG_8337.jpg",        "IMG_8605.jpg",
-        "IMG_8635.jpg",        "IMG_8647.jpg",
-        "IMG_8702.jpg",        "IMG_8928.jpg",
-        "IMG_9253.jpg",        "IMG_9268.jpg",
-        "P1020627-2.jpg",        "P1020724.jpg",
-        "P1030125.jpg",        "P1040050.jpg",
-        "P1040067.jpg",        "P1040103.jpg",
-        "P1040108.jpg",        "P1040139.jpg",
-        "P1040185.jpg",        "P1040204.jpg",
-        "P1040210.jpg",        "P1040216.jpg",
-        "P1040290.jpg",        "P1040303.jpg",
-        "P1040486.jpg",        "P1040621.jpg",
-        "P1040626.jpg",        "P1040632.jpg",
-        "P1040641.jpg",        "P1040680.jpg",
-        "P1040688.jpg",        "P1040824.jpg",
-        "P1040858.jpg",        "P1040869.jpg",
-        "P1040913.jpg",        "P1040915.jpg",
-        "P1040918.jpg",        "P1040939.jpg",
-        "P1040941.jpg",        "P1040943.jpg",
-        "P1040948.jpg",        "P1040957.jpg",
-        "_MG_5323.jpg",        "_MG_5357.jpg",
-        "_MG_5363.jpg"
-    ]
+    
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
+    
+    @IBAction func sortOrderAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderAscending
+        
+        
+        if(sortOrderDefault == sortOrderAscending){
+            defaults.set(sortOrderDescending, forKey: sortOrderDefaultsKey)
+            sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
+            
+        } else {
+            defaults.set(sortOrderAscending, forKey: sortOrderDefaultsKey)
+            sortOrderButton.setTitle(sortOrderText + "Oldest First", for: .normal)
+            
+        }
+    }
+    
+    
+    @IBAction func mapOverlayAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
+        
+        
+        if(mapOverlayDefault == mapEnabled){
+            defaults.set(mapDisabled, forKey: mapConfigOverlayDefaultsKey)
+            mapOverlayButton.setTitle(mapOverlayText + mapDisabled, for: .normal)
+        } else {
+            defaults.set(mapEnabled, forKey: mapConfigOverlayDefaultsKey)
+            mapOverlayButton.setTitle(mapOverlayText + mapEnabled, for: .normal)
+        }
+        
+    }
+
+    
+    // iterate of the existing zoom factor values, starting with the current set user default
+    @IBAction func zoomFactorAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let zoomFactorDefault = defaults.object(forKey: zoomFactorDefaultsKey) as? String ?? zoomFactorInitial
+        
+ 
+        // get a sorted array of the collection keys
+        let sortedKeys = zoomFactors.keys.sorted(by: <  )
+        
+        // get the index position of the found key in the array
+        if let indexForDefault = sortedKeys.index(of: zoomFactorDefault){
+            
+            // get next value of the zoomfactors or start at the beginning of the keys
+            // when reached the end
+            if(indexForDefault < sortedKeys.count - 1){
+                let nextKeyForDefault = sortedKeys[indexForDefault + 1]
+                
+                defaults.set(nextKeyForDefault, forKey: zoomFactorDefaultsKey)
+                zoomFactorButton.setTitle(zoomFactorText + nextKeyForDefault + "x", for: .normal)
+                
+            } else {
+                let nextKeyForDefault = sortedKeys[0]
+                defaults.set(nextKeyForDefault, forKey: zoomFactorDefaultsKey)
+                zoomFactorButton.setTitle(zoomFactorText + nextKeyForDefault + "x", for: .normal)
+            }
+        } else {
+            // stored defaults value was not found in our defaults array
+            // due to renaming or other issues
+            // fall back to a real default value
+            defaults.set(sortedKeys[0], forKey: zoomFactorDefaultsKey)
+            zoomFactorButton.setTitle(zoomFactorText + sortedKeys[0] + "x", for: .normal)
+            
+        }
+    }
+    
+    @IBOutlet weak var mapOverlayButton: UIButton!
+    @IBOutlet weak var sortOrderButton: UIButton!
+    @IBOutlet weak var zoomFactorButton: UIButton!
+    
+    
+    // The cells zoom when focused.
+    var focusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.3, y: 1.3)
+    }
+    
+    // The cells zoom when focused.
+    var unFocusedTransform: CGAffineTransform {
+        return CGAffineTransform(scaleX: 1.0, y: 1.0)
+    }
+    
+    
+    func zoomIn(){
+        UIView.animate(withDuration: 40,
+                       delay: 1,
+                       options: [.beginFromCurrentState, .curveLinear],
+                       animations: { () -> Void in self.imageView.transform = self.focusedTransform}
+            ,
+                       completion: { (completed: Bool) -> Void in  self.zoomOut() }
+        )
+    }
+    
+    func zoomOut(){
+        
+        
+        UIView.animate(withDuration: 40,
+                       delay: 1,
+                       options: [.beginFromCurrentState, .curveLinear],
+                       animations: { () -> Void in self.imageView.transform = self.unFocusedTransform}
+            ,
+                       completion: { (completed: Bool) -> Void in  self.zoomIn() }
+        )
+        
+        
+    }
+
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        updatePhotosCount()
-
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // update the current button state
+        let zoomFactorDefault = defaults.object(forKey: zoomFactorDefaultsKey) as? String ?? zoomFactorInitial
+        print("zoomfactorDefault: \(zoomFactorDefault)")
+        zoomFactorButton.setTitle(zoomFactorText + zoomFactorDefault + "x", for: .normal)
+        
+        
+        
+        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderAscending
+            print("sortOrderDefault: \(sortOrderDefault)")
+        
+        if(sortOrderDefault == sortOrderAscending){
+            sortOrderButton.setTitle(sortOrderText + "Oldest First", for: .normal)
+        }
+        
+        if(sortOrderDefault == sortOrderDescending){
+            sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
+        }
+        
+        
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
+        
+                print("mapOverlayDefault: \(mapOverlayDefault)")
+        if(mapOverlayDefault == mapEnabled){
+            mapOverlayButton.setTitle(mapOverlayText + mapEnabled, for: .normal)
+            
+        }
+        
+        if(mapOverlayDefault == mapDisabled){
+            mapOverlayButton.setTitle(mapOverlayText + mapDisabled, for: .normal)
+        }
+        
+        
     }
     
+    
+
+    
+    
+    
+    // check when the controller is shown if we have access to the photo library
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+
+        
+        
+        // start animations
+        zoomIn()
+    }
+    
+    
+    
+    /*
     // Display the current photos count in the UI on a label
     // will use the main thread for updating the UI
     func updatePhotosCount(){
@@ -93,6 +243,8 @@ class SettingsController: UIViewController {
         
     }
 
+ */
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -101,6 +253,7 @@ class SettingsController: UIViewController {
     
     // add photos from the tax sample gallery for usage on tvos simulator
     // to have real world example
+    /*
     @IBAction func addGalleryAction(_ sender: UIButton) {
 
         
@@ -130,18 +283,15 @@ class SettingsController: UIViewController {
                 })
             }
 
-            
-            
-            
-            
-            
+ 
         }
         
         
         }
+ */
     
-    
-    
+   
+    /*
     @IBAction func addSamplesAction(_ sender: UIButton) {
         print("add samples action triggered")
         
@@ -180,9 +330,10 @@ class SettingsController: UIViewController {
         
         
     }
+    */
     
     
-    
+    /*
     
     func addImageToLibrary(image: UIImage) {
         // Add it to the photo library. with escaping closure (self.xyz)
@@ -238,5 +389,5 @@ class SettingsController: UIViewController {
         
         }
 
-
+    */
 }
