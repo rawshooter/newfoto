@@ -70,7 +70,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     
-    let zoomFactor = 2.5
+    let zoomFactor = SettingsController.getZoomFactor()
     let screenWidth = 1920
     let screenHeight = 1080
     
@@ -1327,7 +1327,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func showMapOverlay(){
         // MAP overlay display logic
-        if (getAsset().location != nil){
+        if (getAsset().location != nil && SettingsController.isMapOverlayEnabled() ){
             mapView.isHidden = false
             
             // zoom of map in meters

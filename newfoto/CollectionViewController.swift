@@ -64,6 +64,7 @@ class CollectionViewController: UICollectionViewController {
             if(allPhotos == nil){
                 print("loading photos")
                 let allPhotosOptions = PHFetchOptions()
+                // ONLY fotostream is ascending - the rest is configurable
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
                 collectionView?.reloadData()

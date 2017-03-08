@@ -284,7 +284,7 @@ class AlbumController: UICollectionViewController {
    
             // add sorting prefix for assets
             let allPhotosOptions = PHFetchOptions()
-            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: !SettingsController.isSortOrderDescending())]
    
             // fetch the collection
             let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)

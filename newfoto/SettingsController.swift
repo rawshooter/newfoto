@@ -16,19 +16,77 @@ class SettingsController: UIViewController {
     let zoomFactorText = "🔍  Zoom factor: "
     let mapOverlayText = "🗺  GPS metadata display: "
     
-    let zoomFactorDefaultsKey = "ZOOM_FACTOR"
-    let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
-    let sortOrderDefaultsKey = "SORT_ORDER"
+    static let zoomFactorDefaultsKey = "ZOOM_FACTOR"
+    static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
+    static let sortOrderDefaultsKey = "SORT_ORDER"
     
-    let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
-    let zoomFactorInitial = "2.5"
+    static let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
+    static let zoomFactorInitial = "2.5"
     
-    let sortOrderAscending = "ASCENDING"
-    let sortOrderDescending = "DECENDING"
+    static let sortOrderAscending = "ASCENDING"
+    static let sortOrderDescending = "DECENDING"
 
     
-    let mapEnabled = "ENABLED"
-    let mapDisabled = "DISABLED"
+    static let mapEnabled = "ENABLED"
+    static let mapDisabled = "DISABLED"
+    
+    
+    // return the sort order of the user default as boolean value
+    // true when it is descending and false when ascending
+    class func isSortOrderDescending() -> Bool{
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderDescending
+        if(sortOrderDefault == sortOrderDescending){
+            print("Sort order DESCENDING")
+            return true
+        } else {
+            print("Sort order ASCENDING")
+            return false
+        }
+    }
+    
+    
+    // return the sort order of the user default as boolean value
+    // true when it is descending and false when ascending
+    class func isMapOverlayEnabled() -> Bool{
+        // get the defaults
+        let defaults = UserDefaults.standard
+
+        
+        let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
+        if(mapOverlayDefault == mapEnabled){
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
+
+    // return the sort order of the user default as boolean value
+    // true when it is descending and false when ascending
+    class func getZoomFactor() -> Double{
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+
+        
+        // zoomfactor default and NIL coalescing as fallback default value
+        let zoomFactorDefault = defaults.object(forKey: SettingsController.zoomFactorDefaultsKey) as? String ?? SettingsController.zoomFactorInitial
+        
+        
+
+        if let zoomFactor = SettingsController.zoomFactors[zoomFactorDefault] {
+            return zoomFactor
+        } else {
+             return SettingsController.zoomFactors[zoomFactorInitial]!
+        }
+        
+        
+    }
     
     
     
@@ -40,17 +98,12 @@ class SettingsController: UIViewController {
         // get the defaults
         let defaults = UserDefaults.standard
         
-        // zoomfactor default and NIL coalescing as fallback default value
-        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderDescending
-        
-        
-        if(sortOrderDefault == sortOrderAscending){
-            defaults.set(sortOrderDescending, forKey: sortOrderDefaultsKey)
-            sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
-            
-        } else {
-            defaults.set(sortOrderAscending, forKey: sortOrderDefaultsKey)
+        if(SettingsController.isSortOrderDescending() ){
+            defaults.set(SettingsController.sortOrderAscending, forKey: SettingsController.sortOrderDefaultsKey)
             sortOrderButton.setTitle(sortOrderText + "Oldest First", for: .normal)
+        } else {
+            defaults.set(SettingsController.sortOrderDescending, forKey: SettingsController.sortOrderDefaultsKey)
+            sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
             
         }
     }
@@ -59,21 +112,21 @@ class SettingsController: UIViewController {
     @IBAction func mapOverlayAction(_ sender: UIButton) {
         // get the defaults
         let defaults = UserDefaults.standard
+
         
-        // zoomfactor default and NIL coalescing as fallback default value
-        let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
-        
-        
-        if(mapOverlayDefault == mapEnabled){
-            defaults.set(mapDisabled, forKey: mapConfigOverlayDefaultsKey)
-            mapOverlayButton.setTitle(mapOverlayText + mapDisabled, for: .normal)
+        if(SettingsController.isMapOverlayEnabled()){
+            defaults.set(SettingsController.mapDisabled, forKey: SettingsController.mapConfigOverlayDefaultsKey)
+            mapOverlayButton.setTitle(mapOverlayText + SettingsController.mapDisabled, for: .normal)
         } else {
-            defaults.set(mapEnabled, forKey: mapConfigOverlayDefaultsKey)
-            mapOverlayButton.setTitle(mapOverlayText + mapEnabled, for: .normal)
+            defaults.set(SettingsController.mapEnabled, forKey: SettingsController.mapConfigOverlayDefaultsKey)
+            mapOverlayButton.setTitle(mapOverlayText + SettingsController.mapEnabled, for: .normal)
         }
         
     }
 
+
+    
+    
     
     // iterate of the existing zoom factor values, starting with the current set user default
     @IBAction func zoomFactorAction(_ sender: UIButton) {
@@ -81,11 +134,11 @@ class SettingsController: UIViewController {
         let defaults = UserDefaults.standard
         
         // zoomfactor default and NIL coalescing as fallback default value
-        let zoomFactorDefault = defaults.object(forKey: zoomFactorDefaultsKey) as? String ?? zoomFactorInitial
+        let zoomFactorDefault = defaults.object(forKey: SettingsController.zoomFactorDefaultsKey) as? String ?? SettingsController.zoomFactorInitial
         
  
         // get a sorted array of the collection keys
-        let sortedKeys = zoomFactors.keys.sorted(by: <  )
+        let sortedKeys = SettingsController.zoomFactors.keys.sorted(by: <  )
         
         // get the index position of the found key in the array
         if let indexForDefault = sortedKeys.index(of: zoomFactorDefault){
@@ -95,19 +148,19 @@ class SettingsController: UIViewController {
             if(indexForDefault < sortedKeys.count - 1){
                 let nextKeyForDefault = sortedKeys[indexForDefault + 1]
                 
-                defaults.set(nextKeyForDefault, forKey: zoomFactorDefaultsKey)
+                defaults.set(nextKeyForDefault, forKey: SettingsController.zoomFactorDefaultsKey)
                 zoomFactorButton.setTitle(zoomFactorText + nextKeyForDefault + "x", for: .normal)
                 
             } else {
                 let nextKeyForDefault = sortedKeys[0]
-                defaults.set(nextKeyForDefault, forKey: zoomFactorDefaultsKey)
+                defaults.set(nextKeyForDefault, forKey: SettingsController.zoomFactorDefaultsKey)
                 zoomFactorButton.setTitle(zoomFactorText + nextKeyForDefault + "x", for: .normal)
             }
         } else {
             // stored defaults value was not found in our defaults array
             // due to renaming or other issues
             // fall back to a real default value
-            defaults.set(sortedKeys[0], forKey: zoomFactorDefaultsKey)
+            defaults.set(sortedKeys[0], forKey: SettingsController.zoomFactorDefaultsKey)
             zoomFactorButton.setTitle(zoomFactorText + sortedKeys[0] + "x", for: .normal)
             
         }
@@ -164,36 +217,36 @@ class SettingsController: UIViewController {
         let defaults = UserDefaults.standard
         
         // update the current button state
-        let zoomFactorDefault = defaults.object(forKey: zoomFactorDefaultsKey) as? String ?? zoomFactorInitial
+        let zoomFactorDefault = defaults.object(forKey: SettingsController.zoomFactorDefaultsKey) as? String ?? SettingsController.zoomFactorInitial
         print("zoomfactorDefault: \(zoomFactorDefault)")
         zoomFactorButton.setTitle(zoomFactorText + zoomFactorDefault + "x", for: .normal)
         
         
         
-        let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderDescending
+        let sortOrderDefault = defaults.object(forKey: SettingsController.sortOrderDefaultsKey) as? String ?? SettingsController.sortOrderDescending
             print("sortOrderDefault: \(sortOrderDefault)")
         
-        if(sortOrderDefault == sortOrderAscending){
+        if(sortOrderDefault == SettingsController.sortOrderAscending){
             sortOrderButton.setTitle(sortOrderText + "Oldest First", for: .normal)
         }
         
-        if(sortOrderDefault == sortOrderDescending){
+        if(sortOrderDefault == SettingsController.sortOrderDescending){
             sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
         }
         
         
         
         // zoomfactor default and NIL coalescing as fallback default value
-        let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
+        let mapOverlayDefault = defaults.object(forKey: SettingsController.mapConfigOverlayDefaultsKey) as? String ?? SettingsController.mapEnabled
         
                 print("mapOverlayDefault: \(mapOverlayDefault)")
-        if(mapOverlayDefault == mapEnabled){
-            mapOverlayButton.setTitle(mapOverlayText + mapEnabled, for: .normal)
+        if(mapOverlayDefault == SettingsController.mapEnabled){
+            mapOverlayButton.setTitle(mapOverlayText + SettingsController.mapEnabled, for: .normal)
             
         }
         
-        if(mapOverlayDefault == mapDisabled){
-            mapOverlayButton.setTitle(mapOverlayText + mapDisabled, for: .normal)
+        if(mapOverlayDefault == SettingsController.mapDisabled){
+            mapOverlayButton.setTitle(mapOverlayText + SettingsController.mapDisabled, for: .normal)
         }
         
         
