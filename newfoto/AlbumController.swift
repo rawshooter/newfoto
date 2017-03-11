@@ -12,7 +12,8 @@ import Photos
 private let reuseIdentifier = "AlbumCell"
 
 fileprivate let imageManager = PHCachingImageManager()
-fileprivate var thumbnailSize: CGSize!
+fileprivate let thumbnailSize =  CGSize(width: 380, height: 280)
+
 
 class AlbumController: UICollectionViewController {
     
@@ -157,7 +158,7 @@ class AlbumController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumCell
         
         
-        // intially we don´t want to have a glossy cell
+        // intially we don´t want to have a glossy cell since it is currently NOT in focus
         cell.glossyView!.layer.opacity = 0
         
         // get the album
@@ -205,7 +206,7 @@ class AlbumController: UICollectionViewController {
         // and now get the first image as a display
         // add sorting prefix for assets
         let allPhotosOptions = PHFetchOptions()
-        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: !SettingsController.isSortOrderDescending())]
         
         // fetch the collection
         let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
@@ -221,10 +222,17 @@ class AlbumController: UICollectionViewController {
 
             
             // Determine the size of the thumbnails to request from the PHCachingImageManager
+            // TODO: WRONG SIZE? The thumbnail is not the cell size but a smaller portion of the image
+            // might lead to aliasing
+            /*
             let scale = UIScreen.main.scale
             let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
             thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
-
+*/
+            
+            
+            //TODO: Set an intermediate loading image while the thumbnail IS loading??
+            
             
             // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier

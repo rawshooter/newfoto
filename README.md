@@ -7,6 +7,14 @@
 NewFoto is a intuitive way to browse your photos on your tvOS device. Since Apple Photos does not include zooming or insights to more metadata this application provides you more information about your photo library.
 
 # History
+
+## Update 10.03.2017
+* FIX: Thumnail for Album Folder List is not correct size - better Display
+* CHANGE: Better default values for Zoom and Sorting
+* FIX: Performance Image Size now static value
+* CHANGE: Now displays the first photo in album view corresponding to the selected sort order
+
+
 ## Update 05.03.2017
 * Now respects the Users Default Locale for Time and Date Display
 * Refactored Imageloading and Map Display Code 

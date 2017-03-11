@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 fileprivate let imageManager = PHImageManager()
-fileprivate var thumbnailSize: CGSize!
+fileprivate var thumbnailSize: CGSize =   CGSize(width: 380, height: 280)
 
 class CollectionViewController: UICollectionViewController {
 
@@ -405,8 +405,7 @@ class CollectionViewController: UICollectionViewController {
         cell.glossyParentView?.layer.masksToBounds = true
         
         
-        
-        thumbnailSize = CGSize(width: 380, height: 280)
+
         
         
         // Request an image for the asset from the PHCachingImageManager.
