@@ -453,6 +453,12 @@ class CollectionViewController: UICollectionViewController {
         cell.label?.text = "\(dateStr)"
         //cell.label?.text = "\(dateStr) Uhr"
         
+        // TODO: WARNING Rasterization bakes all the layers
+        // and cannot be moved individually
+        cell.layer.shouldRasterize = true;
+        cell.layer.rasterizationScale = UIScreen.main.scale;
+        
+        
         return cell
         
     }

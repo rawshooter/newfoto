@@ -15,7 +15,8 @@ fileprivate let imageManager = PHCachingImageManager()
 fileprivate let thumbnailSize =  CGSize(width: 380, height: 280)
 
 
-class AlbumController: UICollectionViewController {
+// adds the prefetiching protocoll implementation to look forward
+class AlbumController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     
     
     // The cells zoom when focused.
@@ -44,6 +45,32 @@ class AlbumController: UICollectionViewController {
         
         // Do any additional setup after loading the view.
         getAlbums()
+        
+        // set this instance as the prefetch datasource
+        // can be set via storyboard, but lets check it really
+        // collectionView?.isPrefetchingEnabled = true
+        collectionView?.prefetchDataSource =  self
+
+    }
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        print("========================= PREFETCH CALLED ")
+        for indexPath in indexPaths {
+            // calculate/update/collect some data
+            print("Prefetch Rows: \(indexPath.row)")
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+                    print("========================= PREFETCH CANCELLED ")
+            // calculate/update/collect some data
+            print("Prefetch Rows: \(indexPath.row)")
+        }
     }
     
     
@@ -265,6 +292,10 @@ class AlbumController: UICollectionViewController {
         }
         
         
+        // TODO: WARNING Rasterization bakes all the layers 
+        // and cannot be moved individually
+        cell.layer.shouldRasterize = true;
+        cell.layer.rasterizationScale = UIScreen.main.scale;
         
         return cell
     }
@@ -315,6 +346,7 @@ class AlbumController: UICollectionViewController {
         
         
     }
+    
     
     
     override  func collectionView(_ collectionView: UICollectionView,
