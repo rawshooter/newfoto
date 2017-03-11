@@ -40,10 +40,10 @@ class SettingsController: UIViewController {
         // zoomfactor default and NIL coalescing as fallback default value
         let sortOrderDefault = defaults.object(forKey: sortOrderDefaultsKey) as? String ?? sortOrderAscending
         if(sortOrderDefault == sortOrderDescending){
-            print("Sort order DESCENDING")
+            //print("Sort order DESCENDING")
             return true
         } else {
-            print("Sort order ASCENDING")
+            //print("Sort order ASCENDING")
             return false
         }
     }
