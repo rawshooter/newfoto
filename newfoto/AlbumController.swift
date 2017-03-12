@@ -19,6 +19,8 @@ fileprivate let thumbnailSize =  CGSize(width: 380, height: 280)
 //class AlbumController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
 class AlbumController: UICollectionViewController {
     
+    // contains all the albums, intially an empty array
+    var sortedAlbumArray: [AlbumDetail] = []
     
     // The cells zoom when focused.
     var focusedTransform: CGAffineTransform {
@@ -32,18 +34,12 @@ class AlbumController: UICollectionViewController {
     
     
     // collection of albums can be NIL
-    var colAlbums: PHFetchResult<PHAssetCollection>?
+   // var colAlbums: PHFetchResult<PHAssetCollection>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // we do not need to register since we have a storyboard that loaded all the stuff
-        // Register cell classes
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
+
         // Do any additional setup after loading the view.
         getAlbums()
         
@@ -80,79 +76,24 @@ class AlbumController: UICollectionViewController {
  */
     
     // retrieve all photo collections from the current user
+    // populate the array of the albums for better sorting and prefetching
+    // for better performance
     func getAlbums(){
         
         
-        
-        // get some collections: there are differnt types of collection lists
-        
-        
-        
-        
-        
-        // get smart folders: smartFolder
-        
-        // SmartFolder: Events, People
-        /*
-         let colFolders: PHFetchResult<PHCollectionList> = PHCollectionList.fetchCollectionLists(with: PHCollectionListType.smartFolder,
-         subtype: PHCollectionListSubtype.any, options: nil)
-         */
-        
-        
-        // empty?
-        /*
-         let colFolders: PHFetchResult<PHCollection> = PHCollectionList.fetchTopLevelUserCollections(with: nil)
-         
-         */
-        
-        
-        //------  SMART ALBUMS: camera roll, panoramas, etc//
-        /*
-         let colSmartAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.any, options: nil)
-         */
-        
-        
-        
-        
-        //------  SMART ALBUMS: camera roll, panoramas, etc//
-        
-        
-        
-        
-        
         // for ph asset collection there are no sort options available from the current tvos and ios API
-        colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
+        // get all albums
+        let colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
         
-       
-        
-        
-        
-        // EMTPY?
-        /*
-         let colFolders: PHFetchResult<PHCollectionList> = PHCollectionList.fetchCollectionLists(with: PHCollectionListType.folder,
-         subtype: PHCollectionListSubtype.any, options: nil)
-         
-         */
-        
-        
-        
-        
-        
-        for index in 0..<colAlbums!.count{
-            
-            colAlbums!.object(at: index)
-            print("----------------")
-            print("collection #\(index) is '\(colAlbums!.object(at: index) )'")
-            print("----------------")
+
+        // fill our helper albumArray structure
+        for index in 0..<colAlbums.count{
+            sortedAlbumArray.append(AlbumDetail(assetCollection: colAlbums.object(at: index) as PHAssetCollection))
         }
         
-        
-        
-        
-        
-        
-        
-        
+        // order album array by date (!) :)
+        sortedAlbumArray.sort(by: {$0.latestAssetDate > $1.latestAssetDate })
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -183,7 +124,8 @@ class AlbumController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         // return 0
         
-        return colAlbums!.count
+     //   return colAlbums!.count
+        return sortedAlbumArray.count
         
     }
     
@@ -197,19 +139,13 @@ class AlbumController: UICollectionViewController {
         
         // get the album
         // get the asset collection of the selected album
-        let assetCollection: PHAssetCollection = colAlbums!.object(at: indexPath.row)
+        //let assetCollection: PHAssetCollection = colAlbums!.object(at: indexPath.row)
+        
+        // get the album of the sorted array
+        let assetCollection: PHAssetCollection = sortedAlbumArray[indexPath.row].assetCol
         
         
         cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount)"
-        
-        
-        
-        //cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) photos \(assetCollection.localizedLocationNames)"
-        
-        //        cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount) Bilder vom \(assetCollection.startDate) bis
-        //(assetCollection.endDate)"
-        
-        
         cell.titleLabel.text = "\(assetCollection.localizedTitle!)"
         
         
@@ -324,7 +260,9 @@ class AlbumController: UICollectionViewController {
             
 
             // no cast to PHAssetCollection needed
-            let assetCollection =  colAlbums!.object(at: didSelectItemAt.item)
+        //    let assetCollection =  colAlbums!.object(at: didSelectItemAt.item)
+            let albumDetails    = sortedAlbumArray[didSelectItemAt.item]
+            let assetCollection =   albumDetails.assetCol
             
             
    
