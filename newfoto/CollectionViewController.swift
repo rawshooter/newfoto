@@ -235,9 +235,13 @@ class CollectionViewController: UICollectionViewController {
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 5
                 focusCell.layer.masksToBounds = false;
-                focusCell.layer.shadowOffset = CGSize(width:15, height:15);
+                
+
+                focusCell.layer.shadowOffset = CGSize(width:10, height:10);
                 focusCell.layer.shadowRadius = 5;
                 focusCell.layer.shadowOpacity = 0.2;
+
+
                 
                 
                 UIView.animate(withDuration: 0.3,
@@ -278,15 +282,20 @@ class CollectionViewController: UICollectionViewController {
                 
                 
                 focusCell.layer.cornerRadius = 16
+                
+ 
                 focusCell.layer.masksToBounds = true
                 focusCell.layer.shadowOffset = CGSize(width:0, height:0);
                 focusCell.layer.shadowRadius = 0;
+
+ 
+
                 
                 
                 
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 0
-                UIView.animate(withDuration: 0.3,
+                UIView.animate(withDuration: 0.4,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
                                initialSpringVelocity: 0,

@@ -16,7 +16,8 @@ fileprivate let thumbnailSize =  CGSize(width: 380, height: 280)
 
 
 // adds the prefetiching protocoll implementation to look forward
-class AlbumController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
+//class AlbumController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
+class AlbumController: UICollectionViewController {
     
     
     // The cells zoom when focused.
@@ -49,30 +50,34 @@ class AlbumController: UICollectionViewController, UICollectionViewDataSourcePre
         // set this instance as the prefetch datasource
         // can be set via storyboard, but lets check it really
         // collectionView?.isPrefetchingEnabled = true
-        collectionView?.prefetchDataSource =  self
+       // collectionView?.prefetchDataSource =  self
 
     }
     
     
     
-    
+    // temporarly removed due to acceptable performance using standard prefetching ;)
+    /*
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+     /*
         print("========================= PREFETCH CALLED ")
         for indexPath in indexPaths {
             // calculate/update/collect some data
             print("Prefetch Rows: \(indexPath.row)")
-        }
+        }*/
     }
     
-    
+    // temporarly removed due to acceptable performance using standard prefetching ;)
     func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
+       /* for indexPath in indexPaths {
                     print("========================= PREFETCH CANCELLED ")
             // calculate/update/collect some data
             print("Prefetch Rows: \(indexPath.row)")
         }
-    }
-    
+    */
+ 
+ }
+ */
     
     // retrieve all photo collections from the current user
     func getAlbums(){
@@ -108,6 +113,7 @@ class AlbumController: UICollectionViewController, UICollectionViewDataSourcePre
         
         
         
+        
         //------  SMART ALBUMS: camera roll, panoramas, etc//
         
         
@@ -117,6 +123,7 @@ class AlbumController: UICollectionViewController, UICollectionViewDataSourcePre
         // for ph asset collection there are no sort options available from the current tvos and ios API
         colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
         
+       
         
         
         
@@ -473,7 +480,7 @@ class AlbumController: UICollectionViewController, UICollectionViewDataSourcePre
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 5
                 focusCell.layer.masksToBounds = false;
-                focusCell.layer.shadowOffset = CGSize(width:15, height:15);
+                focusCell.layer.shadowOffset = CGSize(width:10, height:10);
                 focusCell.layer.shadowRadius = 5;
                 focusCell.layer.shadowOpacity = 0.2;
                 
@@ -524,7 +531,7 @@ class AlbumController: UICollectionViewController, UICollectionViewDataSourcePre
                 
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 0
-                UIView.animate(withDuration: 0.3,
+                UIView.animate(withDuration: 0.4,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
                                initialSpringVelocity: 0,
