@@ -8,6 +8,9 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 # History
 
+## Update 13.03.2017
+* Major Update: The ordering of the Shared Album List can be individually configured. A-Z, Z-A, Newest First, Oldest First
+
 ## Update 12.03.2017
 * Improvement: Smart sorting of Shared Albums: All the photos are scanned and sorted by the lastest date. Newer photos will push the Album on top. Note: This might take some seconds on intial selection but the sorting is much more intuitive.
 
