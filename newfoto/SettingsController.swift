@@ -12,6 +12,7 @@ import Photos
 class SettingsController: UIViewController {
 
   
+    let albumListOrderText = "🗄  List of shared albums: "
     let sortOrderText = "🖼  Sort order of photos in albums: "
     let zoomFactorText = "🔍  Zoom factor: "
     let mapOverlayText = "🗺  GPS metadata display: "
@@ -19,6 +20,13 @@ class SettingsController: UIViewController {
     static let zoomFactorDefaultsKey = "ZOOM_FACTOR"
     static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
     static let sortOrderDefaultsKey = "SORT_ORDER"
+    static let albumListOrderDefaultsKey = "ALBUM_ORDER"
+    
+    // have been changed made in the confige while runtime?
+    static var hasAlbumListOrderChangedDefault = false
+    
+    static let albumListOrder = ["A - Z", "Z - A", "Newest First", "Oldest First"]
+    static let albumListOrderInitial = "Newest First"
     
     static let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
     static let zoomFactorInitial = "2.0"
@@ -64,6 +72,16 @@ class SettingsController: UIViewController {
         }
     }
     
+    // Return the sorting method for the
+    // smart albums
+    class func getAlbumListOrder() -> String{
+        // get the defaults
+        let defaults = UserDefaults.standard
+
+        let albumListDefault = defaults.object(forKey: SettingsController.albumListOrderDefaultsKey) as? String ?? SettingsController.albumListOrderInitial
+        
+        return albumListDefault
+    }
     
 
     // return the sort order of the user default as boolean value
@@ -101,9 +119,13 @@ class SettingsController: UIViewController {
         if(SettingsController.isSortOrderDescending() ){
             defaults.set(SettingsController.sortOrderAscending, forKey: SettingsController.sortOrderDefaultsKey)
             sortOrderButton.setTitle(sortOrderText + "Oldest First", for: .normal)
+            // have been changed made in the confige while runtime?
+            SettingsController.hasAlbumListOrderChangedDefault = true
         } else {
             defaults.set(SettingsController.sortOrderDescending, forKey: SettingsController.sortOrderDefaultsKey)
             sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
+            // have been changed made in the confige while runtime?
+            SettingsController.hasAlbumListOrderChangedDefault = true
             
         }
     }
@@ -125,6 +147,52 @@ class SettingsController: UIViewController {
     }
 
 
+    @IBAction func albumListOrderAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        // default and NIL coalescing as fallback default value
+        let albumListOrderDefault = defaults.object(forKey: SettingsController.albumListOrderDefaultsKey) as? String ?? SettingsController.albumListOrderInitial
+        print("albumlist value: \(albumListOrderDefault)")
+        
+        
+        // get the index position of the found key in the array
+        if let indexForDefault = SettingsController.albumListOrder.index(of: albumListOrderDefault){
+         
+            
+            
+            // get next value of the zoomfactors or start at the beginning of the keys
+            // when reached the end
+            if(indexForDefault < SettingsController.albumListOrder.count - 1){
+                let nextKeyForDefault = SettingsController.albumListOrder[indexForDefault + 1]
+                
+                defaults.set(nextKeyForDefault, forKey: SettingsController.albumListOrderDefaultsKey)
+                albumListOrderButton.setTitle(albumListOrderText + nextKeyForDefault, for: .normal)
+                        print("albumlist new value: \(nextKeyForDefault)")
+                // have been changed made in the confige while runtime?
+                SettingsController.hasAlbumListOrderChangedDefault = true
+            } else {
+                let nextKeyForDefault = SettingsController.albumListOrder[0]
+                defaults.set(nextKeyForDefault, forKey: SettingsController.albumListOrderDefaultsKey)
+                albumListOrderButton.setTitle(albumListOrderText + nextKeyForDefault, for: .normal)
+                                        print("albumlist new value: \(nextKeyForDefault)")
+                // have been changed made in the confige while runtime?
+                SettingsController.hasAlbumListOrderChangedDefault = true
+                
+            }
+        } else {
+            // stored defaults value was not found in our defaults array
+            // due to renaming or other issues
+            // fall back to a real default value
+            let value = SettingsController.albumListOrder[0]
+            defaults.set(value, forKey: SettingsController.albumListOrderDefaultsKey)
+            albumListOrderButton.setTitle(albumListOrderText + value, for: .normal)
+                        print("albumlist new value: \(value)")
+            // have been changed made in the confige while runtime?
+            SettingsController.hasAlbumListOrderChangedDefault = true
+            
+        }
+    }
     
     
     
@@ -169,6 +237,7 @@ class SettingsController: UIViewController {
     @IBOutlet weak var mapOverlayButton: UIButton!
     @IBOutlet weak var sortOrderButton: UIButton!
     @IBOutlet weak var zoomFactorButton: UIButton!
+    @IBOutlet weak var albumListOrderButton: UIButton!
     
     
     // The cells zoom when focused.
@@ -221,6 +290,11 @@ class SettingsController: UIViewController {
         print("zoomfactorDefault: \(zoomFactorDefault)")
         zoomFactorButton.setTitle(zoomFactorText + zoomFactorDefault + "x", for: .normal)
         
+        // update the current button state
+        let albumListDefault = defaults.object(forKey: SettingsController.albumListOrderDefaultsKey) as? String ?? SettingsController.albumListOrderInitial
+        print("albumListDefault: \(albumListDefault)")
+        albumListOrderButton.setTitle(albumListOrderText + albumListDefault, for: .normal)
+        
         
         
         let sortOrderDefault = defaults.object(forKey: SettingsController.sortOrderDefaultsKey) as? String ?? SettingsController.sortOrderAscending
@@ -233,6 +307,8 @@ class SettingsController: UIViewController {
         if(sortOrderDefault == SettingsController.sortOrderDescending){
             sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
         }
+        
+
         
         
         

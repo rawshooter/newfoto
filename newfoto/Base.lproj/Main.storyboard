@@ -240,8 +240,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.3  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
+                                <rect key="frame" x="20" y="984" width="692" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkE-oc-Q8J">
-                                <rect key="frame" x="547" y="422" width="791" height="100"/>
+                                <rect key="frame" x="565" y="484" width="791" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
@@ -252,7 +260,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7W-Es-ZvC">
-                                <rect key="frame" x="547" y="295" width="791" height="100"/>
+                                <rect key="frame" x="565" y="357" width="791" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
@@ -262,8 +270,19 @@
                                     <action selector="sortOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="bxe-HD-QeE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Upc-JN-kGv">
+                                <rect key="frame" x="565" y="233" width="791" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🗄  List of shared albums: Latest first"/>
+                                <connections>
+                                    <action selector="albumListOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="wD7-lc-Uog"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
-                                <rect key="frame" x="547" y="554" width="791" height="100"/>
+                                <rect key="frame" x="565" y="616" width="791" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
@@ -273,19 +292,12 @@
                                     <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.3  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
-                                <rect key="frame" x="20" y="984" width="692" height="76"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" id="erE-sQ-4mD"/>
                     <connections>
+                        <outlet property="albumListOrderButton" destination="Upc-JN-kGv" id="59B-NT-X2L"/>
                         <outlet property="imageView" destination="sab-VP-Rzb" id="7l0-Dj-b5q"/>
                         <outlet property="mapOverlayButton" destination="MkE-oc-Q8J" id="4Lu-mK-oqo"/>
                         <outlet property="sortOrderButton" destination="U7W-Es-ZvC" id="EIB-Bh-ULb"/>

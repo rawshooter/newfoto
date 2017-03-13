@@ -52,6 +52,24 @@ class AlbumController: UICollectionViewController {
     
     
     
+    
+    // updated configuration 
+    override func viewDidAppear(_ animated: Bool) {
+        if(SettingsController.hasAlbumListOrderChangedDefault){
+            // set to normal since we have already received the event
+            SettingsController.hasAlbumListOrderChangedDefault = false
+            
+            
+            // just resort
+            sortAlbums()
+            collectionView?.reloadData()
+            
+        }
+    
+    }
+    
+    
+    
     // temporarly removed due to acceptable performance using standard prefetching ;)
     /*
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
@@ -86,15 +104,38 @@ class AlbumController: UICollectionViewController {
         let colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
         
 
+        
         // fill our helper albumArray structure
         for index in 0..<colAlbums.count{
             sortedAlbumArray.append(AlbumDetail(assetCollection: colAlbums.object(at: index) as PHAssetCollection))
         }
         
-        // order album array by date (!) :)
-        sortedAlbumArray.sort(by: {$0.latestAssetDate > $1.latestAssetDate })
+        // just sort
+        sortAlbums()
 
     }
+    
+    
+    
+    // SORT the album array
+    func sortAlbums(){
+        // order album array by settings
+        let sortOrder = SettingsController.getAlbumListOrder()
+        
+        switch sortOrder{
+        case "Newest First":
+            sortedAlbumArray.sort(by: {$0.latestAssetDate > $1.latestAssetDate })
+        case "Oldest First":
+            sortedAlbumArray.sort(by: {$0.latestAssetDate < $1.latestAssetDate })
+        case "A - Z":
+            sortedAlbumArray.sort(by: {$0.localizedTitle.uppercased() < $1.localizedTitle.uppercased() })
+        case "Z - A":
+            sortedAlbumArray.sort(by: {$0.localizedTitle.uppercased() > $1.localizedTitle.uppercased() })
+        default:
+            sortedAlbumArray.sort(by: {$0.localizedTitle.uppercased() < $1.localizedTitle.uppercased() })
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
