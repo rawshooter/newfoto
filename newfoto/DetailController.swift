@@ -31,9 +31,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var isImageTransition:Bool = false
     
     
+    let loadingText = "☁️ Loading high quality image"
     
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
+    
+    // generic information HUD for loading next images
+    @IBOutlet weak var infoLabel: UILabel!
+    
+    // status indicator when a background image is loading
+    static var isLoadingProgress: Bool = false
     
     // current pointer in photo list
     @IBOutlet weak var infoTextView: UITextView!
@@ -547,7 +554,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // keep moving when the velocity is high enough
             // next image or the position is far enought away
-            if(velX > 1500  || transX > 700){
+            // snap back if an image is still loading...
+            
+            if((DetailController.isLoadingProgress == false) && (velX > 1500  || transX > 700)  ){
                 
               //  if(velX < 1000){
                     velX = 8000
@@ -652,7 +661,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // keep moving when the velocity is high enough
             // next image or the position is far enought away
-            if(velX < -1500 || transX < -700){
+            // snap back if an image is still loading...
+            
+            if((DetailController.isLoadingProgress == false) && (velX < -1500 || transX < -700)){
                 
                // if(velX > -1000){
                     velX = -8000
@@ -783,14 +794,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 print("snap back preview right")
             }
-            
-            
-            
-            
- 
-            
-            
-            
+
             
         }
         
@@ -945,7 +949,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
         }
         
-        loadImage()
+        loadMainImage()
     }
     
     
@@ -961,7 +965,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
         }
         
-        loadImage()
+        loadMainImage()
     }
     
     
@@ -969,6 +973,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func clicked(_ recognizer: UITapGestureRecognizer ){
         print("clicked ah tabbed")
    
+        if(DetailController.isLoadingProgress == true){
+            print("ignoring click due to next image request")
+            return
+        }
+        
         loadNextImage()
 
     }
@@ -1215,7 +1224,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // generic function that loads an image for the requested asset
     // add the requesting asset to load and provide an handler to use the image
 
-    func loadImage(asset: PHAsset, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void){
+    func loadImage(asset: PHAsset, isSynchronous: Bool, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void){
         
         //let imageManager = PHCachingImageManager()
         let imageManager = PHImageManager()
@@ -1241,7 +1250,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // only on async the handler is being requested
         // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
-        options.isSynchronous = false
+        options.isSynchronous = isSynchronous
         
         
         
@@ -1283,7 +1292,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
         
-        loadImage(asset: asset, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+        loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -1348,7 +1357,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
         
-        loadImage(asset: asset, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+        loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset.
             
@@ -1428,18 +1437,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
 
     
-    func loadImage(){
+    func loadMainImage(){
 
-        
-
-        
         // check and display the map overlay when needed
         showMapOverlay()
         
+        // indicate we are loading an image
+        self.infoLabel!.alpha = 0.0
+        DetailController.isLoadingProgress = true
+        infoLabel!.text = loadingText
         
-
+            
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: .beginFromCurrentState, animations: {
+            self.infoLabel!.alpha = 1.0
+        })
         
-            self.loadImage(asset: self.getAsset(), resultHandler: { imageData, dataUTI, orientation, infoArray in
+        
+        
+            self.loadImage(asset: self.getAsset(), isSynchronous: false, resultHandler: { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -1452,7 +1467,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     if(infoArray!["PHImageResultIsDegradedKey"] != nil){
                         if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
                             print("============    DEGRADED: Setting no image     ============")
+                            
+                            // loading ended or aborted
+                            DetailController.isLoadingProgress = false
+                                UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+                                self.infoLabel!.alpha = 0.0
+                            })
+                            
                             return
+                         
                         }
                         
                     }
@@ -1460,6 +1483,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 if(imageData == nil){
                     print("============= error loading image =========================")
+                    // loading ended or aborted
+                    DetailController.isLoadingProgress = false
+                        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+                        self.infoLabel!.alpha = 0.0
+                    })
                     return
                 }
                 
@@ -1474,10 +1502,19 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     
                     self.imageView.image = image
                     self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
-                    print("-- image loaded --")
+                    // loading ended or aborted
+                    DetailController.isLoadingProgress = false
+                        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+                        self.infoLabel!.alpha = 0.0
+                    })
                     
                     
                 } else {
+                    // loading ended or aborted
+                    DetailController.isLoadingProgress = false
+                    UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+                        self.infoLabel!.alpha = 0.0
+                    })
                     print("error creating image from data")
                 }
                 
@@ -1511,7 +1548,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
-        loadImage()
+        loadMainImage()
         
         mapView.layer.masksToBounds = false;
         mapView.layer.shadowOffset = CGSize(width:15, height:15);
