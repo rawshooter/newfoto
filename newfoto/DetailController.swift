@@ -565,7 +565,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 
-                UIView.animate(withDuration: 0.6,
+                UIView.animate(withDuration: 0.5,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
                                initialSpringVelocity: 0,
@@ -613,11 +613,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         self.animator?.removeAllBehaviors()
                         
                         self.isZoomMode = false;
+                        
+                        // hide the last original image to avoid flickering
+                        self.imageView.image = nil
+                        
                         self.loadPreviousImage()
-                 
+
+                        
+                        
                         self.imageView.transform = self.normalTransform
-                        self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
-                        //self.imageView.alpha = 0
+                       
+                        
+                        // self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                         
                        /* UIView.animate(withDuration: 2,
                                        delay: 0,
@@ -675,7 +682,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 */
                 
                 
-                UIView.animate(withDuration: 0.6,
+                UIView.animate(withDuration: 0.5,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
                                initialSpringVelocity: 0,
@@ -708,7 +715,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         print("off screen for next image")
                         self.animator?.removeAllBehaviors()
                         self.isZoomMode = false;
+                        
+                        // hide the last original image to avoid flickering
+                        self.imageView.image = nil
+                        
                         self.loadNextImage()
+
+                        
                         self.imageView.transform = self.normalTransform
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                            self.isImageTransition = false
@@ -1201,24 +1214,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // generic function that loads an image for the requested asset
     // add the requesting asset to load and provide an handler to use the image
-    func loadImage(asset: PHAsset, resultHandler: @escaping (UIImage?, [AnyHashable : Any]?) -> Void){
-        
-        
+
+    func loadImage(asset: PHAsset, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void){
         
         //let imageManager = PHCachingImageManager()
         let imageManager = PHImageManager()
+
         
-        var imageSize: CGSize
-        
-        let imageFrame = imageView.frame
-        
-        
-        print("size width: \(imageFrame.width) height: \(imageFrame.height)")
-        let scale = UIScreen.main.scale
-        
-        
-        
-        imageSize = CGSize(width: (imageFrame.width) * scale, height: (imageFrame.height) * scale)
         
         // better photo fetch options
         let options: PHImageRequestOptions = PHImageRequestOptions()
@@ -1227,15 +1229,19 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.isNetworkAccessAllowed = true
         
         
-        //options.deliveryMode = .opportunistic
-        options.deliveryMode = .highQualityFormat
+        // loads one or more steps
+        options.deliveryMode = .opportunistic
+        
+        // only the highest quality available: only one call (!)
+        // deliverymode is ignored on requestimagedata (!) method
+        //options.deliveryMode = .highQualityFormat
         
         // latest version of the asset
         options.version = .current
         
         // only on async the handler is being requested
         // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
-        options.isSynchronous = true
+        options.isSynchronous = false
         
         
         
@@ -1252,9 +1258,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         options.progressHandler = handler
         
-        imageManager.requestImage(for: asset, targetSize: imageSize, contentMode: .aspectFit, options: options, resultHandler: resultHandler)
-        
-        
+        imageManager.requestImageData(for: asset, options: options, resultHandler: resultHandler)
     }
     
     
@@ -1277,16 +1281,48 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
 
         let asset: PHAsset = getAsset(atIndex: previewPosition)
+
         
-        loadImage(asset: asset, resultHandler: { imageResult , infoArray   in
-            
-            if(imageResult == nil){
-                print("============= error loading image =========================")
-                return
-            }
-            
-            self.imageView2.image = imageResult
+        loadImage(asset: asset, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset.
+                
+                
+                // general information about the loaded asset
+                //print("Load information \(infoArray)")
+                // HERE WE GET THE IMAGE
+                
+                if(infoArray != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                        if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                            print("============    DEGRADED: Setting no image     ============")
+                            return
+                        }
+                        
+                    }
+                }
+                
+                if(imageData == nil){
+                    print("============= error loading image =========================")
+                    return
+                }
+                
+
+                
+                if let image = UIImage(data: imageData!){
+                    
+                    
+                    self.imageView2.image = image
+
+                    
+                } else {
+                    print("error creating image from data")
+                }
+                
         })
+            
+     
+        
         
 
     }
@@ -1311,15 +1347,45 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
-        loadImage(asset: asset, resultHandler: { imageResult, infoArray in
-
-            if(imageResult == nil){
+        
+        loadImage(asset: asset, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset.
+            
+            
+            // general information about the loaded asset
+            //print("Load information \(infoArray)")
+            // HERE WE GET THE IMAGE
+            
+            if(infoArray != nil){
+                if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                        print("============    DEGRADED: Setting no image     ============")
+                        return
+                    }
+                    
+                }
+            }
+            
+            if(imageData == nil){
                 print("============= error loading image =========================")
                 return
             }
+
             
-            self.imageView2.image = imageResult
+            if let image = UIImage(data: imageData!){
+                
+                
+                self.imageView2.image = image
+
+                
+            } else {
+                print("error creating image from data")
+            }
+            
         })
+
+        
     }
 
     
@@ -1363,32 +1429,65 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     func loadImage(){
+
+        
+
         
         // check and display the map overlay when needed
         showMapOverlay()
         
+        
 
         
-        loadImage(asset: getAsset(), resultHandler: { imageResult, infoArray in
-            // The cell may have been recycled by the time this handler gets called;
-            // set the cell's thumbnail image only if it's still showing the same asset.
-            
-            
-            // general information about the loaded asset
-            //print("Load information \(infoArray)")
-            // HERE WE GET THE IMAGE
-            
-            
-            if(imageResult == nil){
-                print("============= error loading image =========================")
-                return
-            }
-            
-            // hide the preview image before setting the real image...
-            self.imageView2.alpha = 0
-            self.imageView.image = imageResult
+            self.loadImage(asset: self.getAsset(), resultHandler: { imageData, dataUTI, orientation, infoArray in
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset.
+                
+                
+                // general information about the loaded asset
+                // print("Load information \(infoArray)")
+                // HERE WE GET THE IMAGE
+                
+                if(infoArray != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                        if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                            print("============    DEGRADED: Setting no image     ============")
+                            return
+                        }
+                        
+                    }
+                }
+                
+                if(imageData == nil){
+                    print("============= error loading image =========================")
+                    return
+                }
+                
 
-        })
+
+                
+                
+                
+                if let image = UIImage(data: imageData!){
+                    // hide the preview image before setting the real image...
+                    self.imageView2.alpha = 0
+                    
+                    self.imageView.image = image
+                    self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+                    print("-- image loaded --")
+                    
+                    
+                } else {
+                    print("error creating image from data")
+                }
+                
+            })
+            
+            
+            
+        
+        
+
 
         
 
@@ -1396,8 +1495,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         initialCenterX = imageView.center.x
         initialCenterY = imageView.center.y
         
@@ -1409,7 +1507,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         view.addGestureRecognizer(tapRecognizer)
         
         
-   
+        
         
         
         
@@ -1429,9 +1527,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         addDynamics()
         
-        
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+    
+    }
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
