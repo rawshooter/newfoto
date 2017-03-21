@@ -31,7 +31,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var isImageTransition:Bool = false
     
     
-    let loadingText = "☁️ Loading high quality image"
+    let loadingText = "🌻 loading"
     
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
@@ -1454,7 +1454,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
-            self.loadImage(asset: self.getAsset(), isSynchronous: false, resultHandler: { imageData, dataUTI, orientation, infoArray in
+            self.loadImage(asset: self.getAsset(), isSynchronous: !SettingsController.isHighresDownloadEnabled(), resultHandler: { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 

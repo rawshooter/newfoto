@@ -16,11 +16,15 @@ class SettingsController: UIViewController {
     let sortOrderText = "🖼  Sort order of photos in albums: "
     let zoomFactorText = "🔍  Zoom factor: "
     let mapOverlayText = "🗺  GPS metadata display: "
+    let highresText = "🌻  Highres download: "
+    
+    
     
     static let zoomFactorDefaultsKey = "ZOOM_FACTOR"
     static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
     static let sortOrderDefaultsKey = "SORT_ORDER"
     static let albumListOrderDefaultsKey = "ALBUM_ORDER"
+    static let highresDefaultsKey = "HIGHRES_DOWNLOAD"
     
     // have been changed made in the confige while runtime?
     static var hasAlbumListOrderChangedDefault = false
@@ -37,6 +41,9 @@ class SettingsController: UIViewController {
     
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
+    
+    static let highresEnabled = "ENABLED"
+    static let highresDisabled = "DISABLED"
     
     
     // return the sort order of the user default as boolean value
@@ -56,16 +63,31 @@ class SettingsController: UIViewController {
         }
     }
     
-    
     // return the sort order of the user default as boolean value
     // true when it is descending and false when ascending
     class func isMapOverlayEnabled() -> Bool{
         // get the defaults
         let defaults = UserDefaults.standard
-
+        
         
         let mapOverlayDefault = defaults.object(forKey: mapConfigOverlayDefaultsKey) as? String ?? mapEnabled
         if(mapOverlayDefault == mapEnabled){
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
+    
+    // return the highres state
+    class func isHighresDownloadEnabled() -> Bool{
+        // get the defaults
+        let defaults = UserDefaults.standard
+
+        
+        let highresDefault = defaults.object(forKey: highresDefaultsKey) as? String ?? highresEnabled
+        if(highresDefault == highresEnabled){
             return true
         } else {
             return false
@@ -106,6 +128,22 @@ class SettingsController: UIViewController {
         
     }
     
+    
+    
+    @IBAction func highresAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        if(SettingsController.isHighresDownloadEnabled() ){
+            defaults.set(SettingsController.highresDisabled, forKey: SettingsController.highresDefaultsKey)
+            highresButton.setTitle(highresText + "Standard quality, Faster download", for: .normal)
+        } else {
+            defaults.set(SettingsController.highresEnabled, forKey: SettingsController.highresDefaultsKey)
+            highresButton.setTitle(highresText + "Best quality, Slower download", for: .normal)
+            
+        }
+        
+    }
     
     
     
@@ -238,6 +276,7 @@ class SettingsController: UIViewController {
     @IBOutlet weak var sortOrderButton: UIButton!
     @IBOutlet weak var zoomFactorButton: UIButton!
     @IBOutlet weak var albumListOrderButton: UIButton!
+    @IBOutlet weak var highresButton: UIButton!
     
     
     // The cells zoom when focused.
@@ -310,9 +349,24 @@ class SettingsController: UIViewController {
         
 
         
+        // hq image loading with slower download
+        let highresDefault = defaults.object(forKey: SettingsController.highresDefaultsKey) as? String ?? SettingsController.highresEnabled
+        
+        print("highresDefault: \(highresDefault)")
+        if(highresDefault == SettingsController.highresEnabled){
+            highresButton.setTitle(highresText + "Best quality, Slower download", for: .normal)
+            
+        }
+        
+        if(highresDefault == SettingsController.highresDisabled){
+            highresButton.setTitle(highresText + "Standard quality, Faster download", for: .normal)
+        }
         
         
-        // zoomfactor default and NIL coalescing as fallback default value
+        
+        
+        
+        // mapoverlay
         let mapOverlayDefault = defaults.object(forKey: SettingsController.mapConfigOverlayDefaultsKey) as? String ?? SettingsController.mapEnabled
         
                 print("mapOverlayDefault: \(mapOverlayDefault)")

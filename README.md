@@ -8,6 +8,10 @@ NewFoto is a intuitive way to browse your photos on your tvOS device. Since Appl
 
 # History
 
+## Update: 21.03.2017
+* Option to load quickly images or highres images via async or sync images. 
+* Loading HUD implemented
+
 ## Update 13.03.2017
 * Major Update: The ordering of the Shared Album List can be individually configured. A-Z, Z-A, Newest First, Oldest First
 
