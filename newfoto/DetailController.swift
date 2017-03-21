@@ -1463,6 +1463,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // print("Load information \(infoArray)")
                 // HERE WE GET THE IMAGE
                 
+         
+                
                 if(infoArray != nil){
                     if(infoArray!["PHImageResultIsDegradedKey"] != nil){
                         if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
