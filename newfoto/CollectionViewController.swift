@@ -420,6 +420,13 @@ class CollectionViewController: UICollectionViewController {
         // Request an image for the asset from the PHCachingImageManager.
       //  cell.representedAssetIdentifier = asset.localIdentifier
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+            
+            
+            if(image==nil){
+                print("error loading collection view cell image")
+            }
+            
+            
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset
             if(cell.indexPath == indexPath){

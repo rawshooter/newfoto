@@ -36,6 +36,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
     
+    // variable containing the current request id for 
+    // the large async running image loader
+    // this can be NIL when NO image is being loaded
+    var imageAsyncRequestID: PHImageRequestID?
+    
     // generic information HUD for loading next images
     @IBOutlet weak var infoLabel: UILabel!
     
@@ -556,7 +561,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // next image or the position is far enought away
             // snap back if an image is still loading...
             
-            if((DetailController.isLoadingProgress == false) && (velX > 1500  || transX > 700)  ){
+            if(velX > 1500  || transX > 700 ){
+                
+                // cancel possible loading of background 
+                // detail image that takes long 
+                // and fade out HUD
+                cancelImageLoad()
                 
               //  if(velX < 1000){
                     velX = 8000
@@ -663,7 +673,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // next image or the position is far enought away
             // snap back if an image is still loading...
             
-            if((DetailController.isLoadingProgress == false) && (velX < -1500 || transX < -700)){
+            if(velX < -1500 || transX < -700){
+                
+                // cancel possible loading of background
+                // detail image that takes long
+                // and fade out HUD
+                cancelImageLoad()
+                
                 
                // if(velX > -1000){
                     velX = -8000
@@ -968,15 +984,29 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         loadMainImage()
     }
     
-    
+    // aborts a running image request
+    // and sets the HUD to default
+    // to make a new loading slot free
+    func cancelImageLoad(){
+        if(DetailController.isLoadingProgress == true){
+            print("===============         abort the load request       ===============")
+            hideLoadingHUD()
+            
+            if let id = imageAsyncRequestID{
+                print("Abort ID \(id)")
+                PHImageManager.default().cancelImageRequest(id)
+              //  imageAsyncRequestID = nil
+            }
+            DetailController.isLoadingProgress = false
+            
+        }
+        
+    }
     // we have the signature as a tabrecognizer
     func clicked(_ recognizer: UITapGestureRecognizer ){
         print("clicked ah tabbed")
    
-        if(DetailController.isLoadingProgress == true){
-            print("ignoring click due to next image request")
-            return
-        }
+        cancelImageLoad()
         
         loadNextImage()
 
@@ -1223,11 +1253,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // generic function that loads an image for the requested asset
     // add the requesting asset to load and provide an handler to use the image
-
-    func loadImage(asset: PHAsset, isSynchronous: Bool, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void){
+    // returns the PHImageRequestID to e.g. cancel the request for long running tasks when other UXP action is needed
+    func loadImage(asset: PHAsset, isSynchronous: Bool, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void) -> PHImageRequestID{
         
         //let imageManager = PHCachingImageManager()
-        let imageManager = PHImageManager()
+        let imageManager = PHImageManager.default()
 
         
         
@@ -1239,11 +1269,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // loads one or more steps
-        options.deliveryMode = .opportunistic
+        //options.deliveryMode = .opportunistic
         
         // only the highest quality available: only one call (!)
         // deliverymode is ignored on requestimagedata (!) method
-        //options.deliveryMode = .highQualityFormat
+        options.deliveryMode = .highQualityFormat
         
         // latest version of the asset
         options.version = .current
@@ -1267,7 +1297,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         options.progressHandler = handler
         
-        imageManager.requestImageData(for: asset, options: options, resultHandler: resultHandler)
+        let requestID:PHImageRequestID = imageManager.requestImageData(for: asset, options: options, resultHandler: resultHandler)
+        return requestID
     }
     
     
@@ -1435,6 +1466,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    func showLoadingHUD(){
+        infoLabel!.text = loadingText
+        
+        
+        UIView.animate(withDuration: 0.5, delay: 0.3, options: .beginFromCurrentState, animations: {
+            self.infoLabel!.alpha = 1.0
+        })
+    }
+    
+    func hideLoadingHUD(){
+        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+            self.infoLabel!.alpha = 0.0
+        })
+        
+    }
 
     
     func loadMainImage(){
@@ -1444,17 +1490,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // indicate we are loading an image
         self.infoLabel!.alpha = 0.0
-        DetailController.isLoadingProgress = true
-        infoLabel!.text = loadingText
         
-            
-        UIView.animate(withDuration: 0.5, delay: 0.3, options: .beginFromCurrentState, animations: {
-            self.infoLabel!.alpha = 1.0
-        })
+        hideLoadingHUD()
+        
+
         
         
-        
-            self.loadImage(asset: self.getAsset(), isSynchronous: !SettingsController.isHighresDownloadEnabled(), resultHandler: { imageData, dataUTI, orientation, infoArray in
+        // first load the main image synchronously for a quick result
+        // and the load the image again asyncly and abort loading when the user swipes etc.
+        let syncId =  self.loadImage(asset: self.getAsset(), isSynchronous: true, resultHandler: { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -1471,11 +1515,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                             print("============    DEGRADED: Setting no image     ============")
                             
                             // loading ended or aborted
-                            DetailController.isLoadingProgress = false
-                                UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
-                                self.infoLabel!.alpha = 0.0
-                            })
-                            
+
+
                             return
                          
                         }
@@ -1486,17 +1527,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 if(imageData == nil){
                     print("============= error loading image =========================")
                     // loading ended or aborted
-                    DetailController.isLoadingProgress = false
-                        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
-                        self.infoLabel!.alpha = 0.0
-                    })
+
                     return
                 }
-                
-
-
-                
-                
+            
                 
                 if let image = UIImage(data: imageData!){
                     // hide the preview image before setting the real image...
@@ -1505,32 +1539,111 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     self.imageView.image = image
                     self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                     // loading ended or aborted
-                    DetailController.isLoadingProgress = false
-                        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
-                        self.infoLabel!.alpha = 0.0
-                    })
+
                     
                     
                 } else {
                     // loading ended or aborted
-                    DetailController.isLoadingProgress = false
-                    UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
-                        self.infoLabel!.alpha = 0.0
-                    })
                     print("error creating image from data")
                 }
                 
             })
             
             
+            print("Request ID fast load: \(syncId)")
+
+        // load the additional HQ image if wanted
+        if(SettingsController.isHighresDownloadEnabled() == true){
+            loadHQImage()
+        }
+        
+        
+    }
+    
+    func loadHQImage(){
+        ///////////////////////////////  ASYNC LOADING SECOND TASK
+        DetailController.isLoadingProgress = true
+        showLoadingHUD()
+        
+        
+        // first load the main image synchronously for a quick result
+        // and the load the image again asyncly and abort loading when the user swipes etc.
+        imageAsyncRequestID =  self.loadImage(asset: self.getAsset(), isSynchronous: false, resultHandler: { imageData, dataUTI, orientation, infoArray in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset.
             
+            
+            // general information about the loaded asset
+            // print("Load information \(infoArray)")
+            // HERE WE GET THE IMAGE
+            
+            
+            
+            if(infoArray != nil){
+                
+                // did we really get the requested image and not an old callback?
+                if(infoArray!["PHImageResultRequestIDKey"] != nil){
+                    if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
+                        print("================= IMAGE \(infoArray!["PHImageResultRequestIDKey"]) LOADED BUT WRONG SLOT TO PLACE. SHOULD HAVE BEEN CANCELLED ============")
+                        return
+                    }
+                    
+                }
+                
+                
+                
+                if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                        print("============    DEGRADED: Setting no image     ============")
+                        
+                        // loading ended or aborted
+                        DetailController.isLoadingProgress = false
+                        self.hideLoadingHUD()
+                        
+                        return
+                        
+                    }
+                    
+                }
+            }
+            
+            if(imageData == nil){
+                print("============= error loading image =========================")
+                // loading ended or aborted
+                DetailController.isLoadingProgress = false
+                self.hideLoadingHUD()
+                return
+            }
+            
+            
+            if let image = UIImage(data: imageData!){
+                print(infoArray)
+                // hide the preview image before setting the real image...
+                self.imageView2.alpha = 0
+                
+                self.imageView.image = image
+                self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+                // loading ended or aborted
+                DetailController.isLoadingProgress = false
+                self.hideLoadingHUD()
+                
+                
+            } else {
+                // loading ended or aborted
+                DetailController.isLoadingProgress = false
+                self.hideLoadingHUD()
+                print("error creating image from data")
+            }
+            
+        })
         
         
-
-
-        
+        print("Request ID high async load: \(imageAsyncRequestID)")
 
     }
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
