@@ -251,28 +251,22 @@ class AlbumController: UICollectionViewController {
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
-                if(image != nil){
-                    
+                if(image==nil){
+                    print("NIL image: fallback loaded")
+                    cell.imageView?.image = UIImage(named: "taxcloud_small")
+                } else {
                     // HERE WE SET THE IMAGE
                     cell.imageView?.image = image
-                } else {
-                    print ("error loading thumbail for album overview")
                 }
+                
 
                 
             })
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+
+        } else {
+            print("empty album: settings fallback image")
+            cell.imageView?.image = UIImage(named: "taxcloud_small")
         }
         
         

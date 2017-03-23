@@ -421,18 +421,22 @@ class CollectionViewController: UICollectionViewController {
       //  cell.representedAssetIdentifier = asset.localIdentifier
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             
-            
-            if(image==nil){
-                print("error loading collection view cell image")
-            }
+
             
             
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset
             if(cell.indexPath == indexPath){
                 
-                // HERE WE SET THE IMAGE
-                cell.image?.image = image
+                
+                if(image==nil){
+                    print("NIL image: fallback loaded")
+                    cell.image?.image = UIImage(named: "taxcloud_small")
+                } else {
+                    // HERE WE SET THE IMAGE
+                    cell.image?.image = image
+                }
+                
                 
             } else {
                 // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image

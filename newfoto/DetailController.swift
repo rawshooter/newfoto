@@ -123,6 +123,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // TRAILING CLOSURE
         dismiss(animated: true){
             print("dismissed")
+            let parentController: CollectionViewController? = self.parent as! CollectionViewController?
+            parentController?.collectionView?.reloadData()
             return
             
         }
@@ -1342,13 +1344,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     }
                 }
                 
-                if(imageData == nil){
-                    print("============= error loading image =========================")
-                    return
-                }
-                
+            if(imageData == nil){
+                print("previous preview image is NIL: fallback image used")
+                self.imageView2.image = UIImage(named: "taxcloud_hd")
+                return
+            }
+            
 
-                
+            
                 if let image = UIImage(data: imageData!){
                     
                     
@@ -1406,9 +1409,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     
                 }
             }
-            
+  
+
+
             if(imageData == nil){
-                print("============= error loading image =========================")
+                print("next preview image is NIL:")
+                self.imageView2.image = UIImage(named: "taxcloud_hd")
                 return
             }
 
@@ -1525,9 +1531,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 if(imageData == nil){
-                    print("============= error loading image =========================")
-                    // loading ended or aborted
-
+                    print("normal image was NIL: fallback image used")
+                    self.imageView.image = UIImage(named: "taxcloud_hd")
                     return
                 }
             
@@ -1584,7 +1589,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // did we really get the requested image and not an old callback?
                 if(infoArray!["PHImageResultRequestIDKey"] != nil){
                     if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
-                        print("================= IMAGE \(infoArray!["PHImageResultRequestIDKey"]) LOADED BUT WRONG SLOT TO PLACE. SHOULD HAVE BEEN CANCELLED ============")
+                        print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
                         return
                     }
                     
@@ -1608,7 +1613,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             if(imageData == nil){
-                print("============= error loading image =========================")
+                print("missing HQ image data")
                 // loading ended or aborted
                 DetailController.isLoadingProgress = false
                 self.hideLoadingHUD()
@@ -1616,6 +1621,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             
+            // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
             if let image = UIImage(data: imageData!){
                 print(infoArray)
                 // hide the preview image before setting the real image...
