@@ -198,7 +198,7 @@ class CollectionViewController: UICollectionViewController {
                 let focusCell = collectionView.cellForItem(at: nextIndexPath) as? OverviewCell
             {
                 
-                print("focus")
+                //print("focus")
                 
                 
                 // bringt to front
@@ -261,7 +261,7 @@ class CollectionViewController: UICollectionViewController {
                 previousIndexPath = context.previouslyFocusedIndexPath,
                 let focusCell = collectionView.cellForItem(at: previousIndexPath) as? OverviewCell
             {
-                print("unfocus")
+                // print("unfocus")
                 // and remove all effects from unfocused cell
                 for effect in focusCell.motionEffects{
                     focusCell.removeMotionEffect(effect)
@@ -355,7 +355,7 @@ class CollectionViewController: UICollectionViewController {
       
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("triggering collectionview numbers of items in section")
+        // print("triggering collectionview numbers of items in section")
         if(allPhotos == nil){
             return 0
         }
@@ -512,12 +512,15 @@ class CollectionViewController: UICollectionViewController {
             //controller.asset =  allPhotos.object(at: didSelectItemAt.item) as PHAsset
             controller.indexPosition = didSelectItemAt.item
             controller.phAssetResult = allPhotos
+            controller.collectionViewController = self
             
+            print(didSelectItemAt)
+            print(didSelectItemAt.item)
             
         
             self.show(controller, sender: self)
             
-            print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+            //self.present(controller, animated: true, completion: nil)
             
         }
         

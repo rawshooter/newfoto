@@ -31,7 +31,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var isImageTransition:Bool = false
     
     
-    let loadingText = "🌻 loading"
+    // collectionViewController as parent object
+    var collectionViewController: CollectionViewController?
+    
+    let loadingText = "🌻 loading..."
     
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
@@ -124,7 +127,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         dismiss(animated: true){
             print("dismissed")
             let parentController: CollectionViewController? = self.parent as! CollectionViewController?
+            print(parentController)
+            print(parentController?.collectionView)
             parentController?.collectionView?.reloadData()
+            parentController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .centeredVertically)
+            
+            
             return
             
         }
@@ -967,6 +975,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
         }
         
+    
+        
+        
         loadMainImage()
     }
     
@@ -991,11 +1002,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // to make a new loading slot free
     func cancelImageLoad(){
         if(DetailController.isLoadingProgress == true){
-            print("===============         abort the load request       ===============")
             hideLoadingHUD()
             
             if let id = imageAsyncRequestID{
-                print("Abort ID \(id)")
+                print("Aborting ImageRequestID \(id)")
                 PHImageManager.default().cancelImageRequest(id)
               //  imageAsyncRequestID = nil
             }
@@ -1256,7 +1266,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // generic function that loads an image for the requested asset
     // add the requesting asset to load and provide an handler to use the image
     // returns the PHImageRequestID to e.g. cancel the request for long running tasks when other UXP action is needed
-    func loadImage(asset: PHAsset, isSynchronous: Bool, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void) -> PHImageRequestID{
+    @discardableResult func loadImage(asset: PHAsset, isSynchronous: Bool, resultHandler: @escaping (Data?, String?, UIImageOrientation, [AnyHashable : Any]?) -> Void) -> PHImageRequestID{
         
         //let imageManager = PHCachingImageManager()
         let imageManager = PHImageManager.default()
@@ -1285,7 +1295,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         options.isSynchronous = isSynchronous
         
         
-        
+        /*
         let handler : PHAssetImageProgressHandler = { (progress: Double, error: Error?, stop:UnsafeMutablePointer<ObjCBool> , info:[AnyHashable : Any]?) in
             // your code
             DispatchQueue.main.async {
@@ -1298,6 +1308,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         options.progressHandler = handler
+        */
         
         let requestID:PHImageRequestID = imageManager.requestImageData(for: asset, options: options, resultHandler: resultHandler)
         return requestID
@@ -1324,8 +1335,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
-        
-        loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+        // discardable result
+        _ = loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -1391,7 +1402,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
         
-        loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+        _ = loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset.
             
@@ -1490,6 +1501,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     func loadMainImage(){
+        
+        // update the position in the sourrounding parent controller
+        
+
+                    print(IndexPath(row:  self.indexPosition, section: 0))
+        
+        collectionViewController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .top )
+        
+        
 
         // check and display the map overlay when needed
         showMapOverlay()
@@ -1504,7 +1524,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // first load the main image synchronously for a quick result
         // and the load the image again asyncly and abort loading when the user swipes etc.
-        let syncId =  self.loadImage(asset: self.getAsset(), isSynchronous: true, resultHandler: { imageData, dataUTI, orientation, infoArray in
+        // discardable result
+        _ = self.loadImage(asset: self.getAsset(), isSynchronous: true, resultHandler: { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -1555,8 +1576,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             })
             
             
-            print("Request ID fast load: \(syncId)")
-
+        
+        
         // load the additional HQ image if wanted
         if(SettingsController.isHighresDownloadEnabled() == true){
             loadHQImage()
@@ -1590,6 +1611,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 if(infoArray!["PHImageResultRequestIDKey"] != nil){
                     if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
                         print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
+                        // no HUD update needed here, since this is not the image we want to display
                         return
                     }
                     
@@ -1623,7 +1645,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
             if let image = UIImage(data: imageData!){
-                print(infoArray)
+                print("HQ callback returned with an image \(image.size)")
+
+                // CHECK FOR SIZE IF IT FAILED PERHAPS
+                if(image.size.width < 400 || image.size.height < 300 ){
+                    self.infoLabel!.text = "⚠️️ lowres \(image.size)"
+                    return
+                } else {
+                    self.infoLabel!.text = "✅ highres \(image.size)"
+                    
+                }
+    
+            
+                
+                
                 // hide the preview image before setting the real image...
                 self.imageView2.alpha = 0
                 
@@ -1638,7 +1673,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // loading ended or aborted
                 DetailController.isLoadingProgress = false
                 self.hideLoadingHUD()
-                print("error creating image from data")
+                print("error creating HQ image from data")
             }
             
         })
@@ -1653,11 +1688,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initialCenterX = imageView.center.x
         initialCenterY = imageView.center.y
         
-        print("--------------------- Initial Coordiantes (\(initialCenterX), \(initialCenterY))")
         
         
         // add tap gesture for a click to get next photo
@@ -1685,11 +1719,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         addDynamics()
         
+        
+
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         
-        
+
     
     }
     

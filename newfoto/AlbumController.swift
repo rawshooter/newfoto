@@ -284,7 +284,7 @@ class AlbumController: UICollectionViewController {
     
     // check selection and push to detail view
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt: IndexPath){
-        print("selected element \(didSelectItemAt.item)")
+       // print("selected element \(didSelectItemAt.item)")
         
         
         
@@ -319,7 +319,7 @@ class AlbumController: UICollectionViewController {
             
             self.show(controller, sender: self)
             
-            print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+         //   print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
             
         }
         
