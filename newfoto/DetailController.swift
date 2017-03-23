@@ -118,29 +118,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // secondary image view
     @IBOutlet weak var imageView2: UIImageView!
     
-    @IBAction func buttonAction(_ sender: UIButton) {
 
-        print("Restoration Identifier in DetailContoller \(restorationIdentifier)")
-     
-        
-        // TRAILING CLOSURE
-        dismiss(animated: true){
-            print("dismissed")
-            let parentController: CollectionViewController? = self.parent as! CollectionViewController?
-            print(parentController)
-            print(parentController?.collectionView)
-            parentController?.collectionView?.reloadData()
-            parentController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .centeredVertically)
-            
-            
-            return
-            
-        }
 
-        
-        
-    }
-    
     // variables to detect double touch/tap
     // time when the touch happenend
     var touchBeginTime: CFTimeInterval = CACurrentMediaTime()
