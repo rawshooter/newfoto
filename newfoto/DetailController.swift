@@ -181,6 +181,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         touchBeginTime = CACurrentMediaTime()
 
+        hasMoved = false;
+        
         print(clickCount)
 
         // check if possible double candidate or just fail
