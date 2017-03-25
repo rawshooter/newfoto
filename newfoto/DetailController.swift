@@ -43,6 +43,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // map recognizers to be restored for later navigation
     var mapRecoginzerArray: [UIGestureRecognizer]?
     
+    // menubutton recognizer
+    var menuRecognizer: UIGestureRecognizer?
+    
     
     // is the image being changed to the next/last image
     // please do not dusturb the rendering
@@ -180,6 +183,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
      
+        
+        // currently full screen map - ignore all gestures
+        if(HUDMode == .fullmap){
+            return
+        }
         
         
         
@@ -1044,6 +1052,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // we have the signature as a tabrecognizer
     func clicked(_ recognizer: UITapGestureRecognizer ){
+        
+        // currently full screen map - ignore all gestures
+        if(HUDMode == .fullmap){
+            return
+        }
+        
+        
         print("trackpad clicked")
    
         // abort any loading image - hopefully the imagemanager will accept this 
@@ -1054,29 +1069,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     }
     
-    func longPress(_ recognizer: UILongPressGestureRecognizer){
     
-        
-        if(recognizer.state == .began){
-            print("LONG PRESS PLAY")
-            
-        } else {
-            
-            print(    recognizer.state.rawValue)
-            
-        }
-        
-    }
-    
-    
-    func menuPress(_ recognizer: UILongPressGestureRecognizer){
-        print("menu")
-    }
-    
-    
-    
-    func playButton(_ recognizer: UITapGestureRecognizer ){
-        print("play button")
+    // toggels the HUD states
+    func toggleHUDState(){
+
         
         // restore recognizers
         // FULL MAP MODE
@@ -1088,106 +1084,141 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // set to standard as follower
             HUDMode = .standard
             
-            mapView.isHidden = false
             
-            mapView.isUserInteractionEnabled = true
-            mapView.isScrollEnabled = true
             
-            let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)) )
-            longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
-            //longRg.minimumPressDuration
             
-            view.addGestureRecognizer(longRg)
-          //  mapView.addGestureRecognizer(longRg)
+            showMetadataHUD()
+            showMap()
+            
+            // ADD menu recognizer for escaping
+      //      var m = UITapGestureRecognizer(target: self, action: #selector(menuPress(_:)) )
+            
 
-            
-            
-            let manuRec = UITapGestureRecognizer(target: self, action: #selector(menuPress(_:)) )
-            manuRec.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
-            view.addGestureRecognizer(manuRec)
-            mapView.addGestureRecognizer(manuRec)
-            
-            for rec in mapRecoginzerArray!{
-                                    print(rec)
-                
-                  mapView.addGestureRecognizer(rec)
-            }
-            
-            
-            // add tap gesture for a playpause button
-            /*
-            let playRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButton(_:)) )
-            playRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
-            mapView.addGestureRecognizer(playRecognizer)
-            */
-            
-            
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.mapView.frame = CGRect(x:  self.screenWidth / 2 + 300  , y: self.screenHeight / 2 + 100 , width: self.screenWidth / 2 - 310 ,  height: self.screenHeight / 2 - 110)
-                self.mapView.layoutIfNeeded()
-                self.mapView.alpha = 1
-            })
-            
+            view.addGestureRecognizer(menuRecognizer!)
             
             
         case .standard:
-               // set to fullmap as follower
+            print("standard display")
+            
+            // we don´t have a location
+            // just send back to NO overlay display
+            if(getAsset().location == nil){
+                print("no GPS available. send back to normal")
+                // go to previous mode mode
+                HUDMode = .none
+                hideMetadataHUD()
+                hideMap()
+                
+                // REMOVE MENU RECOGNIZER
+                view.removeGestureRecognizer(menuRecognizer!)
+                
+            }
+            
+
+
+            
+            // next mode
             HUDMode = .fullmap
             
             
-            mapView.isUserInteractionEnabled = false
-                //   mapView.isScrollEnabled = true
-                   
-                   
-                   for rec in mapRecoginzerArray!{
-
-                        mapView.removeGestureRecognizer(rec)
-                   }
-                   
-                   UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                    self.mapView.frame = CGRect(x: 0 , y: 0, width: self.screenWidth  ,  height: self.screenHeight  )
-                    self.mapView.layoutIfNeeded()
-                   })
+            hideMetadataHUD()
+            
+            mapView.isUserInteractionEnabled = true
+            mapView.isScrollEnabled = true
+            mapView.isZoomEnabled = true
+            
+            
+            /*
+             for rec in mapRecoginzerArray!{
+             
+             mapView.removeGestureRecognizer(rec)
+             }
+             */
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.mapView.frame = CGRect(x: 0 , y: 0, width: self.screenWidth  ,  height: self.screenHeight  )
+                //    self.mapView.layoutIfNeeded()
+            })
             
             
             
         case .fullmap:
+            print("fullmap")
+            
             // set to none as follower
             // fade out mapview
             HUDMode = .none
             
-
             
+            // REMOVE MENU RECOGNIZER
+            view.removeGestureRecognizer(menuRecognizer!)
+           
             
+            hideMetadataHUD()
+            
+            mapView.isUserInteractionEnabled = false
+            mapView.isScrollEnabled = false
+            mapView.isZoomEnabled = false
             
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.mapView.frame = CGRect(x:  self.screenWidth / 2 + 300  , y: self.screenHeight / 2  , width: self.screenWidth / 2 - 310 ,  height: self.screenHeight / 2)
+                self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
                 self.mapView.alpha = 0
-                self.mapView.layoutIfNeeded()
+                //self.mapView.layoutIfNeeded()
                 
             }, completion: {
                 (ended) -> Void in
-                            self.mapView.isHidden = true
+                self.mapView.isHidden = true
             })
             
-  
-
             
             
         }
-        
-        
-        
 
         
         
     }
+    
+    
+    
+    func longPress(_ recognizer: UILongPressGestureRecognizer){
+    
+        
+        if(recognizer.state == .began){
+            print("LONG PRESS PLAY")
+            toggleHUDState()
+            
+            
+            
+        } else {
+            
+          //  print(    recognizer.state.rawValue)
+            
+        }
+        
+    }
+    
+    // this is the emergency exit
+    func menuPress(_ recognizer: UILongPressGestureRecognizer){
+        print("menu")
+        // now go back an remove the menu listener
+        // always go back
+            HUDMode = .fullmap
+
+        
+        toggleHUDState()
+        
+    }
+    
     
     // callback method for the panrecognizer
     // to track the movements
     // while in normal or zoom mode
     func panned(_ recognizer: UIPanGestureRecognizer ){
         
+        // currently full screen map - ignore all gestures
+        if(HUDMode == .fullmap){
+            return
+        }
             
         //print(recognizer.translation(in: view))
         //print(recognizer.velocity(in:  view))
@@ -1606,12 +1637,45 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     
+    func hideMap(){
     
-    func showMapOverlay(){
-        // MAP overlay display logic
-        if (getAsset().location != nil && SettingsController.isMapOverlayEnabled() ){
-            mapView.isHidden = false
+        
+        mapView.isHidden = true
+        
+        /*
+            UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+                self.mapView.alpha = 0.0
+            self.mapView.frame = CGRect(x:  1975  , y: 714 , width:100 ,  height: 100)
+            })
+        */
+        
+    }
+
+    
+    
+    func showMap(){
+        if(HUDMode == .none){
             
+            // do nothing
+            return
+        }
+        
+                mapView.isHidden = false
+        
+        
+        // MAP overlay display logic
+        if (getAsset().location != nil){
+            
+        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+            self.mapView.alpha = 1.0
+            
+            self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
+            
+            
+        })
+        
+
+        
             // zoom of map in meters
             let regionRadius: CLLocationDistance = 200
             
@@ -1634,13 +1698,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             mapView.addAnnotation(objectAnnotation)
             
-            
-            //print("setting map on location \(getAsset().location)")
         } else {
-            mapView.isHidden = true
+            hideMap()
         }
+  
     }
+
     
+
     
     func showLoadingHUD(){
         infoLabel!.text = loadingText
@@ -1658,6 +1723,29 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
     }
 
+    
+    
+    func showMetadataHUD(){
+        UIView.animate(withDuration: 0.4, delay: 0, options: .beginFromCurrentState, animations: {
+            self.metadataHUD!.alpha = 1.0
+            
+            self.metadataHUD.frame = CGRect(x:  1475  , y: 20 , width:425 ,  height: 147)
+            
+            
+        })
+    }
+    
+    
+    
+    
+    func hideMetadataHUD(){
+        UIView.animate(withDuration: 0.4, delay: 0, options: .beginFromCurrentState, animations: {
+            self.metadataHUD!.alpha = 0.0
+                        self.metadataHUD.frame = CGRect(x:  1920  , y: 20 , width:100 ,  height: 50)
+        })
+    }
+    
+    
     
     // updates the metadata display based on the
     // provided imagedata
@@ -1704,8 +1792,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil){
             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary;
             
-            print("getting Exif data")
-            print(imageProperties)
+           // print("getting Exif data")
+           // print(imageProperties)
             
             if let exifAuxDict = imageProperties.value(forKey: "{ExifAux}") as? NSDictionary{
                 
@@ -1809,15 +1897,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // update the position in the sourrounding parent controller
         
         
-        
 
-        
-
-        
-        
-        
-        
-        
         
         
 
@@ -1828,7 +1908,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
 
         // check and display the map overlay when needed
-        showMapOverlay()
+        showMap()
         
         // indicate we are loading an image
         self.infoLabel!.alpha = 0.0
@@ -1977,9 +2057,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
     
             
-                
+                // IGNORE FOR PERFORMANCE this time
                 // update the metadata hud based on the image
-                self.updateMetadataHUD(imageData: imageData!)
+                //self.updateMetadataHUD(imageData: imageData!)
                 
                 
                 // hide the preview image before setting the real image...
@@ -2046,11 +2126,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         addDynamics()
         
         
-
         
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
+        // Register for long presses
+        // to switch HUD modes: EXIF and MAP
+        let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)) )
+        longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
+        
+        
+        view.addGestureRecognizer(longRg)
+        
+        // hide the metadata HUD by default
+        metadataHUD.alpha = 0
+        
+        // hide the map also by default
+        mapView.alpha = 0
+        
         // map styling when the view appeared
         
         mapView.layer.masksToBounds = false;
@@ -2059,11 +2149,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         mapView.layer.shadowOpacity = 0.2;
         mapView.layer.cornerRadius = 16
         
+        
+    }
 
+    override func viewDidAppear(_ animated: Bool) {
+        
+        
+
+        
         // remove all gesture recognizers from map ;) whops
         // but save the data before (!)
         
         mapRecoginzerArray = mapView.gestureRecognizers
+        
+        
+        // init the menu escape recognizer
+        menuRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuPress(_:)) )
+        menuRecognizer!.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
+        
  /*
         for rec in mapRecoginzerArray!{
                     mapView.removeGestureRecognizer(rec)
