@@ -174,12 +174,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // ignore while transition
         if(isImageTransition){
+            print("is in transition")
             return
+            
         }
         
         touchBeginTime = CACurrentMediaTime()
 
-        
+        print(clickCount)
 
         // check if possible double candidate or just fail
         if(clickCount > 0){
