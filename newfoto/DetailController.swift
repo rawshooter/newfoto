@@ -75,6 +75,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    // displays the current showed photo number
+    @IBOutlet weak var labelIndex: UILabel!
+    
     // Asset to be displayed - can be NIL when called
     //var asset: PHAsset?
     
@@ -166,6 +169,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         super.touchesBegan(touches, with: event)
       print("touches began")
         
+
+        
         
         // ignore while transition
         if(isImageTransition){
@@ -173,7 +178,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         touchBeginTime = CACurrentMediaTime()
-        hasMoved = false;
+
         
 
         // check if possible double candidate or just fail
@@ -196,6 +201,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?){
             super.touchesMoved(touches, with: event)
+       
+        
+
         
         // reset our doubleclick counter and movement
         hasMoved = true
@@ -1642,8 +1650,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // update the position in the sourrounding parent controller
         
+        labelIndex.text = "\(indexPosition + 1 ) of \(phAssetResult.count )"
 
-                    print(IndexPath(row:  self.indexPosition, section: 0))
+     //               print(IndexPath(row:  self.indexPosition, section: 0))
         
         collectionViewController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .top )
         
@@ -1853,15 +1862,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // add tap gesture for a click to get next photo
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked(_:)) )
-        tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
+     //   tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
         view.addGestureRecognizer(tapRecognizer)
         
         
         // add tap gesture for a playpause button
+        /*
         let playRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButton(_:)) )
         playRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
         view.addGestureRecognizer(playRecognizer)
-        
+        */
         
         
         // add pan gesture recognizer
@@ -1895,11 +1905,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // but save the data before (!)
         
         mapRecoginzerArray = mapView.gestureRecognizers
- 
+ /*
         for rec in mapRecoginzerArray!{
                     mapView.removeGestureRecognizer(rec)
         }
- 
+ */
 
     }
     

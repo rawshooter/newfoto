@@ -514,8 +514,8 @@ class CollectionViewController: UICollectionViewController {
             controller.phAssetResult = allPhotos
             controller.collectionViewController = self
             
-            print(didSelectItemAt)
-            print(didSelectItemAt.item)
+        //    print(didSelectItemAt)
+        //    print(didSelectItemAt.item)
             
         
             self.show(controller, sender: self)
