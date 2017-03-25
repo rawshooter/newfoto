@@ -14,16 +14,34 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     // defines the different states for the preview image
     // that slides in from left or right
-    enum previewStates {
-        case none
-        case initializedLeft
-        case initiailzedRight
-        case snapToCenter
+    enum previewStatesEnum {
+       
+        case none  // uninitialized
+        case initializedLeft  // left image was loaded and set ready
+        case initiailzedRight // right image was loaded and set ready
+        case snapToCenter     // trackpad was released before critical speed or
+                              // movement position. snap back to default position
     }
+    
+    // current options for HUD display
+    enum HUDModeEnum{
+        case none  // no info HUD
+        case standard
+        case fullmap
+    }
+    
+    // current HUD mode
+    var HUDMode: HUDModeEnum = HUDModeEnum.none
+    
+ 
     
     // to obtain the current mode of the preview image
     // for handling the gestures
-    var previewMode: previewStates = previewStates.none
+    var previewMode: previewStatesEnum = previewStatesEnum.none
+    
+    
+    // map recognizers to be restored for later navigation
+    var mapRecoginzerArray: [UIGestureRecognizer]?
     
     
     // is the image being changed to the next/last image
@@ -34,6 +52,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // collectionViewController as parent object
     var collectionViewController: CollectionViewController?
     
+    // loading info text for the user while getting the HQ detail image
     let loadingText = "🌻 loading..."
     
     // current asset list to be iterated through
@@ -65,7 +84,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if(phAssetResult.count > 0){
             return phAssetResult.object(at: indexPosition) as PHAsset
         } else {
-            print("Warning: No image. swichting to backup image")
+            print("Warning: No image. swichting to backup asset")
             return PHAsset();
         }
     }
@@ -86,8 +105,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     let zoomFactor = SettingsController.getZoomFactor()
-    let screenWidth = 1920
-    let screenHeight = 1080
+    
+    // adaptive calculation
+    // should work on 720p, 1080 and 4k
+    // convert to Int to calculate later better
+    let screenWidth = Int(UIScreen.main.bounds.width)
+    let screenHeight = Int(UIScreen.main.bounds.height)
+    
     
     
     // The cells zoom when focused.
@@ -263,7 +287,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         animator?.addBehavior(attachment2!)
         
         // preview image setup is done for state left
-        previewMode = previewStates.initializedLeft
+        previewMode = previewStatesEnum.initializedLeft
         print("preview image positioned on the left")
     }
     
@@ -320,14 +344,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // preview image setup is done for state right
-        previewMode = previewStates.initiailzedRight
+        previewMode = previewStatesEnum.initiailzedRight
         print("preview image positioned on the right")
     
     }
     
     
     // MARK: Handling of movement when zoomed out
-    func dynamicPan(_ recognizer: UIPanGestureRecognizer){
+    func browseWithPanning(_ recognizer: UIPanGestureRecognizer){
         
         
         // image transition running to the next or last image
@@ -366,7 +390,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the right, so assume to get the previous image
             // set up the preview image if it hasn´t been done
-            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+            if(transX > 0  &&  previewMode != previewStatesEnum.initializedLeft){
                 setPreviewLeft()
                 
             }
@@ -375,7 +399,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the left, so assume to get the next image
             // set up the preview image if it hasn´t been done
-            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+            if(transX < 0  &&  previewMode != previewStatesEnum.initiailzedRight){
                 setPreviewRight()
             }
             
@@ -427,7 +451,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the right, so assume to get the previous image
             // set up the preview image if it hasn´t been done
-            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+            if(transX > 0  &&  previewMode != previewStatesEnum.initializedLeft){
                 setPreviewLeft()
                 
             }
@@ -436,21 +460,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the left, so assume to get the next image
             // set up the preview image if it hasn´t been done
-            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+            if(transX < 0  &&  previewMode != previewStatesEnum.initiailzedRight){
                 setPreviewRight()
             }
             
             
             
             // direction change and we have to reset the preview image position?
-            if(transX > 0  &&  previewMode == previewStates.initiailzedRight){
+            if(transX > 0  &&  previewMode == previewStatesEnum.initiailzedRight){
                 setPreviewLeft()
                 
             }
             
             
             // direction change and we have to reset the preview image position?
-            if(transX < 0  &&  previewMode == previewStates.initializedLeft){
+            if(transX < 0  &&  previewMode == previewStatesEnum.initializedLeft){
                 setPreviewRight()
                 
             }
@@ -458,7 +482,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             // move preview image from left
-            if(transX > 0  &&  previewMode == previewStates.initializedLeft){
+            if(transX > 0  &&  previewMode == previewStatesEnum.initializedLeft){
                 
                 
                 let previewLocation: CGPoint = CGPoint(x: Int(transX) - (screenWidth / 2), y: screenHeight / 2 )
@@ -467,7 +491,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             // move preview image from right
-            if(transX < 0  &&  previewMode == previewStates.initiailzedRight){
+            if(transX < 0  &&  previewMode == previewStatesEnum.initiailzedRight){
                 
              
                 
@@ -513,7 +537,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the right, so assume to get the previous image
             // set up the preview image if it hasn´t been done
-            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+            if(transX > 0  &&  previewMode != previewStatesEnum.initializedLeft){
                 setPreviewLeft()
                 
             }
@@ -521,7 +545,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the right, so assume to get the previous image
             // set up the preview image if it hasn´t been done
-            if(transX > 0  &&  previewMode != previewStates.initializedLeft){
+            if(transX > 0  &&  previewMode != previewStatesEnum.initializedLeft){
                 setPreviewLeft()
                 
             }
@@ -530,7 +554,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // moving to the left, so assume to get the next image
             // set up the preview image if it hasn´t been done
-            if(transX < 0  &&  previewMode != previewStates.initiailzedRight){
+            if(transX < 0  &&  previewMode != previewStatesEnum.initiailzedRight){
                 setPreviewRight()
             }
             
@@ -564,7 +588,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 isImageTransition = true
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 
                 // move the preview image into focus
                 // remove old dynamic behaviour
@@ -596,7 +620,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 ///////////////////////////////////////
                 
                 
@@ -677,7 +701,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 isImageTransition = true
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 
                 print("NEGATIVE speed reached")
                 
@@ -709,7 +733,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                completion: nil)
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 ///////////////////////////////////////
                 
                 
@@ -756,12 +780,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             // default case - just snap back
-                snap = UISnapBehavior(item: imageView, snapTo: CGPoint(x: initialCenterX, y: initialCenterY))
-                snap?.damping =  2
-                animator?.addBehavior(snap!)
+            snap = UISnapBehavior(item: imageView, snapTo: CGPoint(x: initialCenterX, y: initialCenterY))
+            snap?.damping =  2
+            animator?.addBehavior(snap!)
  
             
-            if(previewMode == previewStates.initializedLeft){
+            if(previewMode == previewStatesEnum.initializedLeft){
                 
                 // remove old dynamic behaviour
                 if let behaviour=attachment2{
@@ -775,7 +799,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.addBehavior(snap2!)
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 
                 print("snap back preview left")
                 
@@ -783,7 +807,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
 
             
-            if(previewMode == previewStates.initiailzedRight){
+            if(previewMode == previewStatesEnum.initiailzedRight){
                 // remove old dynamic behaviour
                 if let behaviour=attachment2{
                     animator?.removeBehavior(behaviour)
@@ -795,7 +819,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 animator?.addBehavior(snap2!)
                 
                 // reset the preview mode since we are loading a new image
-                previewMode = previewStates.none
+                previewMode = previewStatesEnum.none
                 
                 print("snap back preview right")
             }
@@ -868,6 +892,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
     }
     
+    // lowlevel API to check the touch state for our click listener
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
                     super.touchesEnded(touches, with: event)
         print("touches ended")
@@ -891,7 +916,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // touch too long the touch pad? then ignore it
             if(touchEndedTime - touchBeginTime < maxTouchTime){
-                print("<< TOUCH TAB GESTURE >>")
+            //    print("<< TOUCH TAB GESTURE >>")
                 clickCount = clickCount + 1
                 
                 if(clickCount == 1){
@@ -903,7 +928,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     doubleTouch()
                 }
                 
-                print ("touch tap count: \(clickCount) ")
+              //  print ("touch tap count: \(clickCount) ")
                 
             } else {
                 // reset clickcount because the click took to long
@@ -930,17 +955,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     
+    // dont send gestures to sub views
 
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 
         
-        // dont send gestures to sub views
+
         if (touch.view?.isDescendant(of: self.view))!{
             return false
         }
         return true
     }
+ 
     
     func loadNextImage(){
         indexPosition = indexPosition + 1
@@ -984,7 +1010,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             hideLoadingHUD()
             
             if let id = imageAsyncRequestID{
-                print("Aborting ImageRequestID \(id)")
+           //     print("Aborting ImageRequestID \(id)")
                 PHImageManager.default().cancelImageRequest(id)
               //  imageAsyncRequestID = nil
             }
@@ -993,23 +1019,156 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
     }
+    
+    
     // we have the signature as a tabrecognizer
     func clicked(_ recognizer: UITapGestureRecognizer ){
-        print("clicked ah tabbed")
+        print("trackpad clicked")
    
+        // abort any loading image - hopefully the imagemanager will accept this 
+        // abortion request. but phimagemanager seems to decide on its own
         cancelImageLoad()
         
         loadNextImage()
 
     }
     
+    func longPress(_ recognizer: UILongPressGestureRecognizer){
     
-    // we have the signature as a panrecognizer
+        
+        if(recognizer.state == .began){
+            print("LONG PRESS PLAY")
+            
+        } else {
+            
+            print(    recognizer.state.rawValue)
+            
+        }
+        
+    }
+    
+    
+    func menuPress(_ recognizer: UILongPressGestureRecognizer){
+        print("menu")
+    }
+    
+    
+    
+    func playButton(_ recognizer: UITapGestureRecognizer ){
+        print("play button")
+        
+        // restore recognizers
+        // FULL MAP MODE
+        
+        // cycle through the mode
+        
+        switch HUDMode{
+        case .none:
+            // set to standard as follower
+            HUDMode = .standard
+            
+            mapView.isHidden = false
+            
+            mapView.isUserInteractionEnabled = true
+            mapView.isScrollEnabled = true
+            
+            let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)) )
+            longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
+            //longRg.minimumPressDuration
+            
+            view.addGestureRecognizer(longRg)
+          //  mapView.addGestureRecognizer(longRg)
+
+            
+            
+            let manuRec = UITapGestureRecognizer(target: self, action: #selector(menuPress(_:)) )
+            manuRec.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
+            view.addGestureRecognizer(manuRec)
+            mapView.addGestureRecognizer(manuRec)
+            
+            for rec in mapRecoginzerArray!{
+                                    print(rec)
+                
+                  mapView.addGestureRecognizer(rec)
+            }
+            
+            
+            // add tap gesture for a playpause button
+            /*
+            let playRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButton(_:)) )
+            playRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
+            mapView.addGestureRecognizer(playRecognizer)
+            */
+            
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.mapView.frame = CGRect(x:  self.screenWidth / 2 + 300  , y: self.screenHeight / 2 + 100 , width: self.screenWidth / 2 - 310 ,  height: self.screenHeight / 2 - 110)
+                self.mapView.layoutIfNeeded()
+                self.mapView.alpha = 1
+            })
+            
+            
+            
+        case .standard:
+               // set to fullmap as follower
+            HUDMode = .fullmap
+            
+            
+            mapView.isUserInteractionEnabled = false
+                //   mapView.isScrollEnabled = true
+                   
+                   
+                   for rec in mapRecoginzerArray!{
+
+                        mapView.removeGestureRecognizer(rec)
+                   }
+                   
+                   UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.mapView.frame = CGRect(x: 0 , y: 0, width: self.screenWidth  ,  height: self.screenHeight  )
+                    self.mapView.layoutIfNeeded()
+                   })
+            
+            
+            
+        case .fullmap:
+            // set to none as follower
+            // fade out mapview
+            HUDMode = .none
+            
+
+            
+            
+            
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.mapView.frame = CGRect(x:  self.screenWidth / 2 + 300  , y: self.screenHeight / 2  , width: self.screenWidth / 2 - 310 ,  height: self.screenHeight / 2)
+                self.mapView.alpha = 0
+                self.mapView.layoutIfNeeded()
+                
+            }, completion: {
+                (ended) -> Void in
+                            self.mapView.isHidden = true
+            })
+            
+  
+
+            
+            
+        }
+        
+        
+        
+
+        
+        
+    }
+    
+    // callback method for the panrecognizer
+    // to track the movements
+    // while in normal or zoom mode
     func panned(_ recognizer: UIPanGestureRecognizer ){
         
             
         //print(recognizer.translation(in: view))
-        
         //print(recognizer.velocity(in:  view))
         
         
@@ -1022,21 +1181,19 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // print("resetting click count due panning in switch mode")
             clickCount = 0
             hasMoved = true
-            dynamicPan(recognizer)
+            browseWithPanning(recognizer)
             
             return
         }
         
+  
         
-        /*
-        var myFrame: CGRect = CGRect(x: 0,y: 0, width: 400, height: 500)
- */
-
         
         // this should directly read the position
         if (recognizer.state == UIGestureRecognizerState.began){
             
-                    print("began")
+            //        print("began")
+            
             // save the old values when the pan gestures starts
             // and then everything is relative
             
@@ -1073,7 +1230,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
             y = getSafeYCenter(y: y)
 
-            
+            // move the image according to the trackpad movements
             UIView.animate(withDuration: 0.1,
                            delay: 0,
                            usingSpringWithDamping: 1,
@@ -1096,8 +1253,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         if (recognizer.state == UIGestureRecognizerState.ended){
             
-                        print("gesture ended")
-                    print("Velocity: \(recognizer.velocity(in:  view))")
+        
+            //   print("Velocity: \(recognizer.velocity(in:  view))")
             
             
             
@@ -1137,6 +1294,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             baseCenterX = getSafeXCenter(x: baseCenterX)
             baseCenterY = getSafeYCenter(y: baseCenterY)
             
+            // move the image and smoothen out the movement
+            // with a duration 4 seconds
             UIView.animate(withDuration: 4,
                            delay: 0,
                            usingSpringWithDamping: 1,
@@ -1147,7 +1306,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            },
                            completion: nil)
             
-                    print("End Coordiantes (\(initialCenterX), \(initialCenterY))")
+                    // print("End Coordiantes (\(initialCenterX), \(initialCenterY))")
     
         
         }
@@ -1166,7 +1325,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // could crash...
         //let imageWidth = imageView.image!.size.width
         //let displayImageWidth = imageView.bounds.width
-        let displayImageWidth = displayedImageBounds().width
+        let displayImageWidth = calculateScreenImageBounds().width
         
         
         
@@ -1211,7 +1370,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // could crash...
         //let imageHeight = imageView.image!.size.height
         //let displayImageHeight = imageView.bounds.height
-        let displayImageHeight = displayedImageBounds().height
+        let displayImageHeight = calculateScreenImageBounds().height
         
         let min: CGFloat
         let max: CGFloat
@@ -1547,6 +1706,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
                     
                     
+                    // EXIF METADATA
+                    /*
+                    let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil)
+                    let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil)! as NSDictionary;
+                    
+                    print(imageProperties)
+                    let exifDict = imageProperties.value(forKey: "{Exif}")  as! NSDictionary;
+                    let dateTimeOriginal = exifDict.value(forKey: "DateTimeOriginal") as! NSString;
+                    print ("DateTimeOriginal: \(dateTimeOriginal)");
+                    
+                    let lensMake = exifDict.value(forKey: "LensMake");
+                    print ("LensMake: \(lensMake)");
+                    */
+                    
+                    
+                    
+                    
                 } else {
                     // loading ended or aborted
                     print("error creating image from data")
@@ -1658,7 +1834,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         })
         
         
-        print("Request ID high async load: \(imageAsyncRequestID)")
+        // print("Request ID high async load: \(imageAsyncRequestID)")
 
     }
     
@@ -1668,27 +1844,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // safe the base center information for the image 
+        // to center display
         initialCenterX = imageView.center.x
         initialCenterY = imageView.center.y
         
         
         
         // add tap gesture for a click to get next photo
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked) )
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked(_:)) )
+        tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
         view.addGestureRecognizer(tapRecognizer)
         
         
-        
-        
-        
-        
-        loadMainImage()
-        
-        mapView.layer.masksToBounds = false;
-        mapView.layer.shadowOffset = CGSize(width:15, height:15);
-        mapView.layer.shadowRadius = 5;
-        mapView.layer.shadowOpacity = 0.2;
-        mapView.layer.cornerRadius = 16
+        // add tap gesture for a playpause button
+        let playRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButton(_:)) )
+        playRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
+        view.addGestureRecognizer(playRecognizer)
         
         
         
@@ -1696,6 +1868,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let panRec = UIPanGestureRecognizer(target: self, action: #selector(panned) )
         view.addGestureRecognizer(panRec)
         
+        
+        // load the main image: default slot or given position from the 
+        // controller
+        loadMainImage()
+
+        // dynamics for swipe gestures
         addDynamics()
         
         
@@ -1704,9 +1882,25 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        // map styling when the view appeared
+        
+        mapView.layer.masksToBounds = false;
+        mapView.layer.shadowOffset = CGSize(width:15, height:15);
+        mapView.layer.shadowRadius = 5;
+        mapView.layer.shadowOpacity = 0.2;
+        mapView.layer.cornerRadius = 16
         
 
-    
+        // remove all gesture recognizers from map ;) whops
+        // but save the data before (!)
+        
+        mapRecoginzerArray = mapView.gestureRecognizers
+ 
+        for rec in mapRecoginzerArray!{
+                    mapView.removeGestureRecognizer(rec)
+        }
+ 
+
     }
     
     
@@ -1719,9 +1913,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     // get the real image coordinates of the embedded image
-    // the UIimage in the UIimage view is fit via the aspect ratio
+    // the UIimage in the UIimage View is fit via the aspect ratio
     // and may render differently on the per pixel screens
-    func displayedImageBounds() -> CGRect {
+    func calculateScreenImageBounds() -> CGRect {
         
         let boundsWidth = imageView.bounds.size.width
         let boundsHeight = imageView.bounds.size.height
