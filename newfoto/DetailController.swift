@@ -78,8 +78,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // displays the current showed photo number
     @IBOutlet weak var labelIndex: UILabel!
     
-    // Asset to be displayed - can be NIL when called
-    //var asset: PHAsset?
+    // date information
+    @IBOutlet weak var labelDate: UILabel!
+    
+    @IBOutlet weak var metadataHUD: UIVisualEffectView!
+    
+
+    
+    @IBOutlet weak var labelSpeed: UILabel!
+    @IBOutlet weak var labelFstop: UILabel!
+    @IBOutlet weak var labelLength: UILabel!
+    @IBOutlet weak var labelISO: UILabel!
+    @IBOutlet weak var labelCamera: UILabel!
+    @IBOutlet weak var labelLens: UILabel!
+    
     
     // returns the current asset from the indexPosition and Album Collection
     func getAsset() -> PHAsset {
@@ -167,23 +179,22 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-      print("touches began")
+     
         
-
         
         
         // ignore while transition
         if(isImageTransition){
-            print("is in transition")
             return
             
         }
         
         touchBeginTime = CACurrentMediaTime()
 
+        // important: reset the hasMoved status that we start a fresh 
+        // analytics for the touch behaviour
         hasMoved = false;
         
-        print(clickCount)
 
         // check if possible double candidate or just fail
         if(clickCount > 0){
@@ -271,8 +282,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // load the image - currently only dummy
-        // previous image
-        //imageView2.image = UIImage(named: "AppleTV-Icon-App-Large-1280x768")
         loadPreviousPreviewImage()
         
         // activate it
@@ -295,12 +304,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         attachment2 = UIAttachmentBehavior(item: imageView2!, attachedToAnchor: CGPoint(x: -(screenWidth / 2) , y: screenHeight / 2 ))
 
         
- // create the intial attachment
+        // create the intial attachment
         animator?.addBehavior(attachment2!)
         
         // preview image setup is done for state left
         previewMode = previewStatesEnum.initializedLeft
-        print("preview image positioned on the left")
+        print("preview image positioned and loaded on the left")
     }
     
     
@@ -357,7 +366,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // preview image setup is done for state right
         previewMode = previewStatesEnum.initiailzedRight
-        print("preview image positioned on the right")
+        print("preview image positioned and loaded on the right")
     
     }
     
@@ -1650,11 +1659,167 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     
+    // updates the metadata display based on the
+    // provided imagedata
+    func updateMetadataHUD(imageData: Data){
+        // METADATA DISPLAY
+        
+        // RESET TO EMPTY DEFAULTS
+        labelSpeed.text = ""
+        labelFstop.text = ""
+        labelLength.text = ""
+        labelISO.text = ""
+        labelCamera.text = ""
+        labelLens.text = ""
+        
+        
+        
+        // check if we have an facicon
+        var favText = ""
+        if(getAsset().isFavorite){
+            favText = "❤️"
+        }
+        
+        
+        // POSITION
+        labelIndex.text = "\(favText) \(indexPosition + 1 ) of \(phAssetResult.count )"
+        
+        
+        
+        // DATE
+        if let date = self.getAsset().creationDate{
+            let formatter = DateFormatter()
+            formatter.locale = Locale.current
+            formatter.dateStyle = .long
+            formatter.timeStyle = .medium
+            labelDate.text = formatter.string(from: date)
+        } else {
+            labelDate.text = ""
+        }
+        
+        
+        
+        // EXIF METADATA
+
+        if let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil){
+            let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary;
+            
+            print("getting Exif data")
+            print(imageProperties)
+            
+            if let exifAuxDict = imageProperties.value(forKey: "{ExifAux}") as? NSDictionary{
+                
+
+                
+                
+                if let lensModel = exifAuxDict.value(forKey: "LensModel") as? NSString{
+                    labelLens.text = lensModel as String
+                } else {
+                    labelLens.text = ""
+                }
+   
+            }
+            
+            
+            if let exifDict = imageProperties.value(forKey: "{Exif}") as? NSDictionary{
+          
+                
+                if let iso = exifDict.value(forKey: "ISOSpeedRatings") as! NSArray? {
+
+                    labelISO.text = "ISO \(iso[0])"
+                } else {
+                    labelISO.text = ""
+                }
+                
+                
+                if let fnumber = exifDict.value(forKey: "FNumber") as! NSNumber? {
+                    
+                    labelFstop.text = "\(fnumber)"
+                } else {
+                    labelFstop.text = ""
+                }
+                
+                if let exposure = exifDict.value(forKey: "ExposureTime") as! NSNumber? {
+                    
+                    labelSpeed.text = "1/\(  Int((1.0 / exposure.doubleValue)) )"
+                } else {
+                    labelSpeed.text = ""
+                }
+                
+                
+                if let focalLength = exifDict.value(forKey: "FocalLength") as! NSNumber?{
+      
+                    
+                    labelLength.text = "\(focalLength)mm"
+                } else {
+                    labelLength.text = ""
+                }
+                
+            }
+            
+            
+            
+            if let tiffDict = imageProperties.value(forKey: "{TIFF}") as? NSDictionary{
+                
+                var camera = ""
+                
+                if let make = tiffDict.value(forKey: "Make") as? NSString{
+                    camera = make as String
+                } else {
+                    labelCamera.text = camera
+                }
+                
+                
+                if let model = tiffDict.value(forKey: "Model") as? NSString{
+                    labelCamera.text = "\(camera) \(model as String)"
+                } else {
+                    labelCamera.text = ""
+                }
+                
+            }
+            
+            
+            // EXIF METADATA
+            /*
+             let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil)
+             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil)! as NSDictionary;
+             
+             print(imageProperties)
+             let exifDict = imageProperties.value(forKey: "{Exif}")  as! NSDictionary;
+             let dateTimeOriginal = exifDict.value(forKey: "DateTimeOriginal") as! NSString;
+             print ("DateTimeOriginal: \(dateTimeOriginal)");
+             
+             let lensMake = exifDict.value(forKey: "LensMake");
+             print ("LensMake: \(lensMake)");
+             */
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
+    
     func loadMainImage(){
         
         // update the position in the sourrounding parent controller
         
-        labelIndex.text = "\(indexPosition + 1 ) of \(phAssetResult.count )"
+        
+        
+
+        
+
+        
+        
+        
+        
+        
+        
+        
 
      //               print(IndexPath(row:  self.indexPosition, section: 0))
         
@@ -1717,22 +1882,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                     // loading ended or aborted
 
-                    
-                    
-                    // EXIF METADATA
-                    /*
-                    let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil)
-                    let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil)! as NSDictionary;
-                    
-                    print(imageProperties)
-                    let exifDict = imageProperties.value(forKey: "{Exif}")  as! NSDictionary;
-                    let dateTimeOriginal = exifDict.value(forKey: "DateTimeOriginal") as! NSString;
-                    print ("DateTimeOriginal: \(dateTimeOriginal)");
-                    
-                    let lensMake = exifDict.value(forKey: "LensMake");
-                    print ("LensMake: \(lensMake)");
-                    */
-                    
+                    // update the metadata hud based on the image
+                    self.updateMetadataHUD(imageData: imageData!)
                     
                     
                     
@@ -1811,6 +1962,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
             
+            
             // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
             if let image = UIImage(data: imageData!){
                 print("HQ callback returned with an image \(image.size)")
@@ -1825,6 +1977,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
     
             
+                
+                // update the metadata hud based on the image
+                self.updateMetadataHUD(imageData: imageData!)
                 
                 
                 // hide the preview image before setting the real image...
