@@ -1172,22 +1172,26 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // set to none as follower
             // fade out mapview
+            // Back to basics
             HUDMode = .none
             
             // restore the original location of the main image
 
-            // NILPOINTER BY MAINFRAME
-            UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                self.imageView.frame = self.mainImageFrameBackup!
-                self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
-                self.imageView.layer.shadowRadius = 0;
-                self.imageView.layer.shadowOpacity = 0.0;
-                
-            }, completion: {
-                (ended) -> Void in
-                // send to back
-                self.view.sendSubview(toBack: self.imageView)
-            })
+            if(getAsset().location != nil){
+                // NILPOINTER BY MAINFRAME
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.imageView.frame = self.mainImageFrameBackup!
+                    self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
+                    self.imageView.layer.shadowRadius = 0;
+                    self.imageView.layer.shadowOpacity = 0.0;
+                    
+                }, completion: {
+                    (ended) -> Void in
+                    // send to back
+                    self.view.sendSubview(toBack: self.imageView)
+                })
+            }
+
             
             
       
@@ -1247,6 +1251,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("menu")
         // now go back an remove the menu listener
         // always go back
+        
+        // ACHTUNG: kann in fullmap gehen obwohl das hauptbild noch nie geladen wurde. puh puh puh
             HUDMode = .fullmap
 
         
