@@ -34,6 +34,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var HUDMode: HUDModeEnum = HUDModeEnum.none
     
  
+    // safes the position of the main image
+    // for backing in full screen mapview
+    // to be restored on normal view
+    var mainImageFrameBackup: CGRect?
+    
     
     // to obtain the current mode of the preview image
     // for handling the gestures
@@ -1111,7 +1116,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // REMOVE MENU RECOGNIZER
                 view.removeGestureRecognizer(menuRecognizer!)
-                
+                return
             }
             
 
@@ -1120,8 +1125,28 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // next mode
             HUDMode = .fullmap
             
+            // backup the original location of the main image
+            mainImageFrameBackup = imageView.frame
             
-            hideMetadataHUD()
+
+            
+
+            
+            
+            // bringt to front
+            self.view.bringSubview(toFront: self.imageView)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.imageView.frame = CGRect(x: 0 , y: 20, width: 350  ,  height: 250  )
+                self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
+                self.imageView.layer.shadowRadius = 5;
+                self.imageView.layer.shadowOpacity = 0.5;
+                
+                
+            })
+            
+            
+            
+            // hideMetadataHUD()
             
             mapView.isUserInteractionEnabled = true
             mapView.isScrollEnabled = true
@@ -1148,6 +1173,26 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // set to none as follower
             // fade out mapview
             HUDMode = .none
+            
+            // restore the original location of the main image
+
+            // NILPOINTER BY MAINFRAME
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                self.imageView.frame = self.mainImageFrameBackup!
+                self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
+                self.imageView.layer.shadowRadius = 0;
+                self.imageView.layer.shadowOpacity = 0.0;
+                
+            }, completion: {
+                (ended) -> Void in
+                // send to back
+                self.view.sendSubview(toBack: self.imageView)
+            })
+            
+            
+      
+            
+
             
             
             // REMOVE MENU RECOGNIZER
