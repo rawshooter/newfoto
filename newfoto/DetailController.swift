@@ -1090,7 +1090,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             HUDMode = .standard
             
             
-            
+            // restore the original location of the main image
+                view.sendSubview(toBack: self.imageView)
+            if(getAsset().location != nil && mainImageFrameBackup != nil ){
+                // NILPOINTER BY MAINFRAME
+                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                    self.imageView.frame = self.mainImageFrameBackup!  // ERROR: MIGHT BE NIL!!!
+                    self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
+                    self.imageView.layer.shadowRadius = 0;
+                    self.imageView.layer.shadowOpacity = 0.0;
+                    
+                }, completion: {
+                    (ended) -> Void in
+                    // send to back
+                    self.view.sendSubview(toBack: self.imageView)
+                })
+            }
+    
             
             showMetadataHUD()
             showMap()
@@ -1133,7 +1149,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
             
             
-            // bringt to front
+            // bring to front
             self.view.bringSubview(toFront: self.imageView)
             UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 self.imageView.frame = CGRect(x: 0 , y: 20, width: 350  ,  height: 250  )
@@ -1231,12 +1247,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func doubleClickPlay(){
         print("double click play")
-                    toggleHUDState()
+        
+        toggleHUDState()
+        
     }
     
     
     
-    func longPress(_ recognizer: UIGestureRecognizer){
+    func longPressPlay(_ recognizer: UIGestureRecognizer){
     
         
         if(recognizer.state == .began){
@@ -1258,6 +1276,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         print("menu")
         // now go back an remove the menu listener
         // always go back
+        
+        if(HUDMode == .fullmap){
+            // next HUDmode should be standard
+            HUDMode = .none
+            
+            toggleHUDState()
+                return
+        }
         
         // ACHTUNG: kann in fullmap gehen obwohl das hauptbild noch nie geladen wurde. puh puh puh
             HUDMode = .fullmap
@@ -1724,7 +1750,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // MAP overlay display logic
         if (getAsset().location != nil){
             
-        UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
             self.mapView.alpha = 1.0
             
             self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
@@ -2194,7 +2220,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // Register for long presses
         // to switch HUD modes: EXIF and MAP
-        let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)) )
+        let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPressPlay(_:)) )
         longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
         
         
@@ -2217,6 +2243,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         mapView.layer.shadowRadius = 5;
         mapView.layer.shadowOpacity = 0.2;
         mapView.layer.cornerRadius = 16
+        
+
         
         
     }
@@ -2242,7 +2270,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     mapView.removeGestureRecognizer(rec)
         }
  */
-
+        
+        // enable the HUB by default according to settings!
+        if(SettingsController.isMapOverlayEnabled()){
+            toggleHUDState()
+        }
     }
     
     
