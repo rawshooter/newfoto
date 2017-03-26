@@ -1177,10 +1177,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // restore the original location of the main image
 
-            if(getAsset().location != nil){
+            if(getAsset().location != nil && mainImageFrameBackup != nil ){
                 // NILPOINTER BY MAINFRAME
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
-                    self.imageView.frame = self.mainImageFrameBackup!
+                    self.imageView.frame = self.mainImageFrameBackup!  // ERROR: MIGHT BE NIL!!!
                     self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
                     self.imageView.layer.shadowRadius = 0;
                     self.imageView.layer.shadowOpacity = 0.0;
@@ -1205,7 +1205,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             hideMetadataHUD()
             
-            mapView.isUserInteractionEnabled = false
+            // still possible to select the legal button? :)
+            mapView.isUserInteractionEnabled = true
             mapView.isScrollEnabled = false
             mapView.isZoomEnabled = false
             
@@ -1228,12 +1229,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    func doubleClickPlay(){
+        print("double click play")
+                    toggleHUDState()
+    }
     
-    func longPress(_ recognizer: UILongPressGestureRecognizer){
+    
+    
+    func longPress(_ recognizer: UIGestureRecognizer){
     
         
         if(recognizer.state == .began){
-            print("LONG PRESS PLAY")
+            print("long press play")
             toggleHUDState()
             
             
@@ -2177,12 +2184,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         addDynamics()
         
         
+        // doubletap recognizer
+        let dtapr = UITapGestureRecognizer(target: self, action: #selector(doubleClickPlay) )
+        dtapr.allowedPressTypes = [ NSNumber(value: UIPressType.playPause.rawValue)]
+        dtapr.numberOfTapsRequired = 2
+        
+        view.addGestureRecognizer(dtapr)
+        
         
         // Register for long presses
         // to switch HUD modes: EXIF and MAP
         let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)) )
         longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
         
+        
+
+        
+
         
         view.addGestureRecognizer(longRg)
         
@@ -2203,6 +2221,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
     }
 
+    
     override func viewDidAppear(_ animated: Bool) {
         
         
