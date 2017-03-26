@@ -1222,7 +1222,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             hideMetadataHUD()
             
             // still possible to select the legal button? :)
-            mapView.isUserInteractionEnabled = true
+            mapView.isUserInteractionEnabled = false
             mapView.isScrollEnabled = false
             mapView.isZoomEnabled = false
             
