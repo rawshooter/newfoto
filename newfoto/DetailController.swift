@@ -687,8 +687,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
                         
                         
-                        self.imageView.transform = self.normalTransform
-                       
+                        
+                       // self.imageView.transform = self.normalTransform
+                        self.imageView.transform = CGAffineTransform.identity
+                        
                         
                         // self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                         
@@ -796,7 +798,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         self.loadNextImage()
 
                         
-                        self.imageView.transform = self.normalTransform
+                    //    self.imageView.transform = self.normalTransform
+                        self.imageView.transform = CGAffineTransform.identity
+                        
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                            self.isImageTransition = false
            
@@ -886,7 +890,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            initialSpringVelocity: 0,
                            options: .beginFromCurrentState,
                            animations: { () -> Void in
-                            self.imageView.transform = self.normalTransform
+                            //self.imageView.transform = self.normalTransform
+                            self.imageView.transform =  CGAffineTransform.identity
+                           
+                            
                             self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
             }, completion: nil)
             
@@ -1134,6 +1141,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 HUDMode = .none
                 hideMetadataHUD()
                 hideMap()
+      
                 
                 // REMOVE MENU RECOGNIZER
                 view.removeGestureRecognizer(menuRecognizer!)
@@ -1986,13 +1994,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // update the position in the sourrounding parent controller
         
         
-
-        
-        
-
-     //               print(IndexPath(row:  self.indexPosition, section: 0))
-        
-        collectionViewController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .top )
+        // print(IndexPath(row:  self.indexPosition, section: 0))
+        // last selection tracking does not really
+        // work. skip this part for now
+        // collectionViewController?.collectionView?.selectItem(at: IndexPath(row:  self.indexPosition, section: 0), animated: true, scrollPosition: .top )
         
         
 

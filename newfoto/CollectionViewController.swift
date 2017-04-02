@@ -291,11 +291,23 @@ class CollectionViewController: UICollectionViewController {
  
 
                 
+                UIView.animate(withDuration: 1,
+                               delay: 0,
+                               options: [],
+                               animations: { () -> Void in
+                                    focusCell.transform = self.unFocusedTransform
+                                },
+                               completion: nil)
+  
+                
+                
                 
                 
                 //focusCell.layer.borderColor = UIColor.white.cgColor
                 //focusCell.layer.borderWidth = 0
-                UIView.animate(withDuration: 0.4,
+                
+                /*
+                UIView.animate(withDuration: 1,
                                delay: 0,
                                usingSpringWithDamping: 0.8,
                                initialSpringVelocity: 0,
@@ -305,7 +317,7 @@ class CollectionViewController: UICollectionViewController {
                                 //                     nameLabel.transform = CGAffineTransformIdentity
                 },
                                completion: nil)
-                
+                */
             }
             
             
