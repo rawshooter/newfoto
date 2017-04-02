@@ -212,13 +212,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // check if possible double candidate or just fail
         if(clickCount > 0){
             
-            print("check for double click criteria")
+           // print("check for double click criteria")
            // var currentTime: CFTimeInterval = CACurrentMediaTime()
             
             // check if we have spend to much time between this and the last click
             if(touchBeginTime - touchEndedTime > maxPauseIntervalForTupleTap){
                 clickCount = 0
-                print("double touch not possible - due timeout")
+                // print("double touch not possible - due timeout")
             }
         }
 
@@ -322,7 +322,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // preview image setup is done for state left
         previewMode = previewStatesEnum.initializedLeft
-        print("preview image positioned and loaded on the left")
+        //print("preview image positioned and loaded on the left")
     }
     
     
@@ -379,7 +379,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // preview image setup is done for state right
         previewMode = previewStatesEnum.initiailzedRight
-        print("preview image positioned and loaded on the right")
+        //print("preview image positioned and loaded on the right")
     
     }
     
@@ -598,7 +598,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
   //             animator?.removeBehavior(attachment2!)
             
             
-            print("Speed X: \(recognizer.velocity(in: view).x)")
+            // print("Speed X: \(recognizer.velocity(in: view).x)")
             
             var velX: CGFloat = recognizer.velocity(in: view).x
             let velY: CGFloat = recognizer.velocity(in: view).y
@@ -658,7 +658,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 ///////////////////////////////////////
                 
                 
-                print("speed reached")
+                // print("speed for image switching reached")
                 gravity = UIGravityBehavior(items: [imageView])
                 
                 
@@ -673,7 +673,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // off the visible screen and can be replaced by the previous image
                 gravity!.action = { _ in
                     if (self.imageView.center.x > CGFloat(self.screenWidth * 4) ){
-                        print("off screen for previous image")
+                        //print("off screen for previous image")
                         
                         
                         self.animator?.removeAllBehaviors()
@@ -739,7 +739,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // reset the preview mode since we are loading a new image
                 previewMode = previewStatesEnum.none
                 
-                print("NEGATIVE speed reached")
+                //print("NEGATIVE speed reached")
                 
                 // move the preview image into focus
                 // remove old dynamic behaviour
@@ -788,7 +788,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // off the visible screen and can be replaced by the next image
                 gravity.action = { _ in
                     if (self.imageView.center.x < CGFloat(self.screenWidth * -4) ){
-                        print("off screen for next image")
+                        //print("off screen for next image")
                         self.animator?.removeAllBehaviors()
                         self.isZoomMode = false;
                         
@@ -927,7 +927,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     func doubleTouch(){
-        print("<< TOUCH TAB DOUBLE >>")
+        // print("<< TOUCH TAB DOUBLE >>")
         switchZoomMode()
 
         
@@ -936,7 +936,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // lowlevel API to check the touch state for our click listener
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
                     super.touchesEnded(touches, with: event)
-        print("touches ended")
+        // print("touches ended")
         
 
         
@@ -944,7 +944,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         if(!hasMoved){
-            print ("finger was not moved")
+            //print ("finger was not moved")
             
             // do we have a double tap?
             
@@ -953,7 +953,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             touchEndedTime = CACurrentMediaTime()
             
-            print("Interval \(touchEndedTime - touchBeginTime)")
+            //print("Interval between taps \(touchEndedTime - touchBeginTime)")
             
             // touch too long the touch pad? then ignore it
             if(touchEndedTime - touchBeginTime < maxTouchTime){
@@ -988,7 +988,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?){
                     super.touchesCancelled(touches, with: event)
         
-        print("touches cancelled")
+        //print("touches cancelled")
         clickCount = 0
         hasMoved = true
         
@@ -1093,13 +1093,23 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         switch HUDMode{
         case .none:
+            
+            print("none HUD -> standard HUD")
+                        
             // set to standard as follower
             HUDMode = .standard
             
             
+            
             // restore the original location of the main image
-                view.sendSubview(toBack: self.imageView)
+            // if we were really in full screen mode
+            // this only applies if the have a backupframe position
+            // after restoring this location we set the backupframe
+            // to NIL to be in an "unused" state
             if(getAsset().location != nil && mainImageFrameBackup != nil ){
+                // change Z index for smoother visual transition
+                view.sendSubview(toBack: self.imageView)
+                
                 // NILPOINTER BY MAINFRAME
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.imageView.frame = self.mainImageFrameBackup!  // ERROR: MIGHT BE NIL!!!
@@ -1111,6 +1121,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     (ended) -> Void in
                     // send to back
                     self.view.sendSubview(toBack: self.imageView)
+                    
+                    // set the framebackup to NIL that other
+                    // images are not confused
+                    self.mainImageFrameBackup = nil
                 })
             }
     
@@ -1131,7 +1145,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
         case .standard:
-            print("standard display")
+
             
             // we don´t have a location
             // just send back to NO overlay display
@@ -1141,14 +1155,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 HUDMode = .none
                 hideMetadataHUD()
                 hideMap()
-      
+                  print("standard HUD -> no HUD")
                 
                 // REMOVE MENU RECOGNIZER
                 view.removeGestureRecognizer(menuRecognizer!)
                 return
             }
             
-
+            print("standard HUD -> fullmap HUD")
 
             
             // next mode
@@ -1197,7 +1211,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
         case .fullmap:
-            print("fullmap")
+            print("fullmap HUD -> none HUD")
             
             // set to none as follower
             // fade out mapview
@@ -1205,9 +1219,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             HUDMode = .none
             
             // restore the original location of the main image
+            // if we were really in full screen mode
+            // this only applies if the have a backupframe position
+            // after restoring this location we set the backupframe
+            // to NIL to be in an "unused" state
 
             if(getAsset().location != nil && mainImageFrameBackup != nil ){
                 // NILPOINTER BY MAINFRAME
+                print("getting to main backup frame")
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
                     self.imageView.frame = self.mainImageFrameBackup!  // ERROR: MIGHT BE NIL!!!
                     self.imageView.layer.shadowOffset = CGSize(width:15, height:15);
@@ -1218,6 +1237,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     (ended) -> Void in
                     // send to back
                     self.view.sendSubview(toBack: self.imageView)
+                    // set the framebackup to NIL that other
+                    // images are not confused
+                    self.mainImageFrameBackup = nil
                 })
             }
 
@@ -2139,7 +2161,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
             if let image = UIImage(data: imageData!){
-                print("HQ callback returned with an image \(image.size)")
+               // print("HQ callback returned with an image \(image.size)")
 
                 // CHECK FOR SIZE IF IT FAILED PERHAPS
                 if(image.size.width < 400 || image.size.height < 300 ){
