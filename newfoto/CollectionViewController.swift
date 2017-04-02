@@ -110,7 +110,7 @@ class CollectionViewController: UICollectionViewController {
             
             let m34 = CGFloat(1.0 / -1250)
             let minMaxAngle = 7.0
-            let angle = CGFloat(minMaxAngle * M_PI / 180.0)
+            let angle = CGFloat(minMaxAngle * .pi / 180.0)
             
             
             var baseTransform = CATransform3DIdentity
@@ -517,7 +517,7 @@ class CollectionViewController: UICollectionViewController {
         //    print(didSelectItemAt)
         //    print(didSelectItemAt.item)
             
-        
+          
             self.show(controller, sender: self)
             
             //self.present(controller, animated: true, completion: nil)

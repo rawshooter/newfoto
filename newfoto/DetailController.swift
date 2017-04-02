@@ -1107,7 +1107,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 })
             }
     
-            
+            // still possible to select the legal button? :)
+            mapView.isUserInteractionEnabled = false
+            mapView.isScrollEnabled = false
+            mapView.isZoomEnabled = false
+
+
             showMetadataHUD()
             showMap()
             
@@ -1750,13 +1755,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // MAP overlay display logic
         if (getAsset().location != nil){
             
-        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
-            self.mapView.alpha = 1.0
-            
-            self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
-            
-            
-        })
+            // fade in map and resize
+            UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState,
+                animations: {
+                    self.mapView.alpha = 1.0
+                    self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
+                }
+            )
         
 
         
@@ -1873,7 +1878,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // EXIF METADATA
 
-        if let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil){
+        if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary;
             
            // print("getting Exif data")
@@ -2093,7 +2098,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // did we really get the requested image and not an old callback?
                 if(infoArray!["PHImageResultRequestIDKey"] != nil){
                     if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
-                        print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
+                        // print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
                         // no HUD update needed here, since this is not the image we want to display
                         return
                     }

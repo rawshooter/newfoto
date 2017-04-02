@@ -339,7 +339,7 @@ class AlbumController: UICollectionViewController {
             
             let m34 = CGFloat(1.0 / -1250)
             let minMaxAngle = 6.0
-            let angle = CGFloat(minMaxAngle * M_PI / 180.0)
+            let angle = CGFloat(minMaxAngle * .pi / 180.0)
             
             
             var baseTransform = CATransform3DIdentity
