@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 fileprivate let imageManager = PHImageManager()
-fileprivate var thumbnailSize: CGSize =   CGSize(width: 380, height: 280)
+fileprivate var thumbnailSize: CGSize =   CGSize(width: 308, height: 280)
 
 import Photos
 
@@ -83,8 +83,36 @@ class SmartCollectionController: UICollectionViewController {
             return result.count
         }
         return 0
+        
+        
     }
 
+    
+    
+    /*
+     
+    timeinterval
+     
+    // image label
+    let date = asset.creationDate
+    
+    
+    
+    //let myLocale = Locale(identifier: "de_DE")
+    
+    let formatter = DateFormatter()
+    formatter.locale = Locale.current
+    formatter.dateStyle = .medium
+    formatter.timeStyle = .medium
+    
+    let dateStr = formatter.string(from: date!)
+    
+    
+    cell.label?.text = "\(dateStr)"
+    
+    */
+    
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
@@ -95,6 +123,9 @@ class SmartCollectionController: UICollectionViewController {
             
             print("asset")
             // Dequeue cell
+            
+
+            
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SmartCell {
                 print("cell")
                 
@@ -109,9 +140,7 @@ class SmartCollectionController: UICollectionViewController {
                 // Request an image for the asset from the PHCachingImageManager.
                 //  cell.representedAssetIdentifier = asset.localIdentifier
                 imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-                    
-                    
-                    
+            
                     
                     // The cell may have been recycled by the time this handler gets called;
                     // set the cell's thumbnail image only if it's still showing the same asset
@@ -130,14 +159,14 @@ class SmartCollectionController: UICollectionViewController {
                     } else {
                         // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
                     }
-                    // if not let the image unchanged
-                    
-                    
-                    //cell.label?.text = "\(asset.creationDate)"
-                    
                     
                 })
                 
+                // TODO: WARNING Rasterization bakes all the layers
+                // and cannot be moved individually
+                cell.layer.rasterizationScale = UIScreen.main.scale;
+                
+                cell.layer.shouldRasterize = true;
                 
                 return cell
                 
