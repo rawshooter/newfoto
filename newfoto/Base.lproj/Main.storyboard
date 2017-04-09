@@ -93,11 +93,59 @@
                         <segue destination="wQF-dZ-x27" kind="relationship" relationship="viewControllers" id="j0B-ht-N08"/>
                         <segue destination="Ghx-ey-E3W" kind="relationship" relationship="viewControllers" id="hX3-nn-owj"/>
                         <segue destination="6g5-67-G4D" kind="relationship" relationship="viewControllers" id="JtL-89-1tn"/>
+                        <segue destination="Ii0-06-TAq" kind="relationship" relationship="viewControllers" id="Oqq-ou-E4J"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X6r-hs-Jp1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="495" y="-3505"/>
+            <point key="canvasLocation" x="-1435" y="-6154"/>
+        </scene>
+        <!--Smart Stream-->
+        <scene sceneID="IDL-ut-daU">
+            <objects>
+                <collectionViewController id="Ii0-06-TAq" customClass="SmartCollectionController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="YES" id="7VN-x4-TaE">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="80" minimumInteritemSpacing="50" id="Gmp-6p-KpG">
+                            <size key="itemSize" width="308" height="200"/>
+                            <size key="headerReferenceSize" width="50" height="100"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="90" minY="60" maxX="90" maxY="60"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Ebn-py-tmQ" customClass="SmartCell" customModule="newfoto" customModuleProvider="target">
+                                <rect key="frame" x="90" y="160" width="308" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="308" height="200"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" adjustsImageWhenAncestorFocused="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dtA-DK-g36">
+                                            <rect key="frame" x="0.0" y="0.0" width="308" height="200"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <connections>
+                                    <outlet property="imageView" destination="dtA-DK-g36" id="sZN-8q-cbt"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="jqt-B0-utH">
+                            <rect key="frame" x="0.0" y="0.0" width="1920" height="100"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </collectionReusableView>
+                        <connections>
+                            <outlet property="dataSource" destination="Ii0-06-TAq" id="lwf-sn-A2N"/>
+                            <outlet property="delegate" destination="Ii0-06-TAq" id="g91-Ge-97J"/>
+                        </connections>
+                    </collectionView>
+                    <tabBarItem key="tabBarItem" title="Smart Stream" id="CSM-H8-Ezp" userLabel="Smart Collection"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iXs-7X-GBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-4023" y="-3883"/>
         </scene>
         <!--Disclaimer View Controller-->
         <scene sceneID="rgb-yb-Njl">

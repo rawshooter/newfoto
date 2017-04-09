@@ -379,6 +379,8 @@ class CollectionViewController: UICollectionViewController {
     
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        
         let asset = allPhotos.object(at: indexPath.item)
         
         
