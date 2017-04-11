@@ -107,7 +107,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="YES" id="7VN-x4-TaE">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="80" minimumInteritemSpacing="50" id="Gmp-6p-KpG">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="50" minimumInteritemSpacing="50" id="Gmp-6p-KpG">
                             <size key="itemSize" width="308" height="308"/>
                             <size key="headerReferenceSize" width="200" height="90"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
