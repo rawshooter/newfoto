@@ -21,6 +21,12 @@ class SmartCollectionController: UICollectionViewController {
 
     // phfetch result of the current photos
     var fetchResult: PHFetchResult<PHAsset>?
+    
+    // the array of dateassets containing the assets for each date in a section
+    // ordered in an accessible way via int
+    var dateAssetsArray: [DateAssets] = []
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,9 +50,13 @@ class SmartCollectionController: UICollectionViewController {
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
                 
-                collectionView?.reloadData()
+                // collectionView?.reloadData()
                 
             }
+            
+            // put all the assets into the
+            // needed sections
+            prepareDateArray()
         }
 
         
@@ -55,6 +65,84 @@ class SmartCollectionController: UICollectionViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    // walk over already sorted assets
+    // add for each new date a new array
+    // add the subsequent assets
+    func prepareDateArray(){
+        
+        if let assets = fetchResult{
+            // iterate over all assets
+            // set the UI to a progress info while
+            
+            // get current calendar
+            let calendar  = NSCalendar.current
+            
+            // date of current section in the uicollection
+            var currentSectionDate: Date?
+            
+            // holder for the current 
+            // array of phasset objects in the current section
+            var dateAssets: DateAssets?
+            
+            for index in 0..<assets.count{
+                
+                // get current photo
+                let asset = assets.object(at: index)
+  
+                // get a safe creation date of the asset
+                let creationDate: Date
+                if let date = asset.creationDate{
+                    creationDate = date
+                } else {
+                    // fallback if the asset had no
+                    // date the. this might fall into
+                    // a wrong section but then still
+                    // no photo is lost which is important
+                    creationDate = Date()
+                }
+  
+                // inital state
+                // we don´t have an container object for the assets
+                // and not the current section date
+                if(dateAssets == nil){
+                    dateAssets = DateAssets(initDate: creationDate)
+                    currentSectionDate = creationDate
+                }
+                
+                
+                let isSameDay = calendar.isDate(currentSectionDate!,equalTo: creationDate, toGranularity: .day)
+                
+                // on the same day
+                // just append it to the asset container
+                if(isSameDay){
+                    dateAssets!.assetArray.append(asset)
+                } else {
+                    // add the new section to our
+                    // overall array
+                    dateAssetsArray.append(dateAssets!)
+                    
+                    // give us now a new dateAsset object
+                    currentSectionDate = creationDate
+                    dateAssets = DateAssets(initDate: currentSectionDate!)
+                    
+                    // and append the asset
+                    dateAssets?.assetArray.append(asset)
+                }
+            
+            }
+            
+            // finally add the last object 
+            // if it exists
+            if(dateAssets != nil){
+                dateAssetsArray.append(dateAssets!)
+            }
+            
+        
+        }
     }
 
     /*
@@ -70,19 +158,21 @@ class SmartCollectionController: UICollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        // return the number of day sections in our collection
+        return dateAssetsArray.count
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        print("items")
-        if let result = fetchResult{
-            print(result.count)
-            return result.count
+        
+        
+        // do we have any date entries?
+        if(dateAssetsArray.isEmpty){
+            return 0
         }
-        return 0
+        
+        // number of assets in the asset collection
+        return dateAssetsArray[section].assetArray.count
         
         
     }
@@ -116,64 +206,63 @@ class SmartCollectionController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
-        
         // get the requestet asset at the position
         // check if the can obtain the image
-        if let asset = fetchResult?.object(at: indexPath.item){
+        let asset: PHAsset = dateAssetsArray[indexPath.section].assetArray[indexPath.row]
+        
+        print("asset")
+        // Dequeue cell
+        
+        
+        
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SmartCell {
+            print("cell")
             
-            print("asset")
-            // Dequeue cell
+            // use the indexpath as an unique identifier
+            // to check for asny loading if this is the right cell
+            cell.indexPath = indexPath
             
-
             
-            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SmartCell {
-                print("cell")
-                
-                // use the indexpath as an unique identifier
-                // to check for asny loading if this is the right cell
-                cell.indexPath = indexPath
-                
-                
-                
-                
-                
-                // Request an image for the asset from the PHCachingImageManager.
-                //  cell.representedAssetIdentifier = asset.localIdentifier
-                imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             
+            
+            
+            // Request an image for the asset from the PHCachingImageManager.
+            //  cell.representedAssetIdentifier = asset.localIdentifier
+            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                
+                
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset
+                if(cell.indexPath == indexPath){
                     
-                    // The cell may have been recycled by the time this handler gets called;
-                    // set the cell's thumbnail image only if it's still showing the same asset
-                    if(cell.indexPath == indexPath){
-                        
-                        
-                        if(image==nil){
-                            print("NIL image: fallback loaded")
-                            cell.imageView?.image = UIImage(named: "taxcloud_small")
-                        } else {
-                            // HERE WE SET THE IMAGE
-                            cell.imageView?.image = image
-                        }
-                        
-                        
+                    
+                    if(image==nil){
+                        print("NIL image: fallback loaded")
+                        cell.imageView?.image = UIImage(named: "taxcloud_small")
                     } else {
-                        // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
+                        // HERE WE SET THE IMAGE
+                        cell.imageView?.image = image
                     }
                     
-                })
+                    
+                } else {
+                    // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
+                }
                 
-                // TODO: WARNING Rasterization bakes all the layers
-                // and cannot be moved individually
-                cell.layer.rasterizationScale = UIScreen.main.scale;
-                
-                cell.layer.shouldRasterize = true;
-                
-                return cell
-                
-                
-            }
+            })
+            
+            // TODO: WARNING Rasterization bakes all the layers
+            // and cannot be moved individually
+            cell.layer.rasterizationScale = UIScreen.main.scale;
+            
+            cell.layer.shouldRasterize = true;
+            
+            return cell
+            
             
         }
+        
+        
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
@@ -184,6 +273,9 @@ class SmartCollectionController: UICollectionViewController {
         
         
     }
+    
+    
+
 
     // MARK: UICollectionViewDelegate
 
