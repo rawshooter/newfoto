@@ -9,9 +9,10 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
+private let headerIdentifier = "Header"
 
 fileprivate let imageManager = PHImageManager()
-fileprivate var thumbnailSize: CGSize =   CGSize(width: 308, height: 280)
+fileprivate var thumbnailSize: CGSize =   CGSize(width: 308, height: 308)
 
 import Photos
 
@@ -179,29 +180,32 @@ class SmartCollectionController: UICollectionViewController {
 
     
     
-    /*
+
+    
+    
+ 
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let view: HeaderView  = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier, for: indexPath) as! HeaderView
+        
+        
+        
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .full
+        formatter.timeStyle = .none
      
-    timeinterval
-     
-    // image label
-    let date = asset.creationDate
-    
-    
-    
-    //let myLocale = Locale(identifier: "de_DE")
-    
-    let formatter = DateFormatter()
-    formatter.locale = Locale.current
-    formatter.dateStyle = .medium
-    formatter.timeStyle = .medium
-    
-    let dateStr = formatter.string(from: date!)
-    
-    
-    cell.label?.text = "\(dateStr)"
-    
-    */
-    
+        
+        
+        let date = dateAssetsArray[indexPath.section].date
+        
+        let dateStr = formatter.string(from: date)
+        
+        view.label.text = dateStr
+        
+        
+        return view
+    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -277,35 +281,6 @@ class SmartCollectionController: UICollectionViewController {
     
 
 
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
-    }
-    */
 
 }
