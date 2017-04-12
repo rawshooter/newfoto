@@ -12,7 +12,7 @@ import Photos
 private let reuseIdentifier = "AlbumCell"
 
 fileprivate let imageManager = PHCachingImageManager()
-fileprivate let thumbnailSize =  CGSize(width: 380, height: 280)
+fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
 
 
 // adds the prefetiching protocoll implementation to look forward
@@ -185,8 +185,6 @@ class AlbumController: UICollectionViewController {
         // get the album of the sorted array
         let assetCollection: PHAssetCollection = sortedAlbumArray[indexPath.row].assetCol
         
-        
-        cell.subTitleLabel.text = "\(assetCollection.estimatedAssetCount)"
         cell.titleLabel.text = "\(assetCollection.localizedTitle!)"
         
         
@@ -203,11 +201,11 @@ class AlbumController: UICollectionViewController {
         self.view.sendSubview(toBack: cell)
         
         // configure rounded cornders
-        cell.layer.cornerRadius = 16
+        // cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
         
         
-        cell.glossyParentView?.layer.cornerRadius = 16
+        // cell.glossyParentView?.layer.cornerRadius = 16
         cell.glossyParentView?.layer.masksToBounds = true
         
         
@@ -442,11 +440,11 @@ class AlbumController: UICollectionViewController {
                 
 
                 
-                focusCell.layer.cornerRadius = 16
+                // focusCell.layer.cornerRadius = 16
                 focusCell.layer.masksToBounds = true
 
                 // also set the image view some nice corner radius
-                focusCell.imageView?.layer.cornerRadius = 16
+                //focusCell.imageView?.layer.cornerRadius = 16
                 focusCell.imageView?.layer.masksToBounds = true
 
                 // white border
@@ -454,7 +452,7 @@ class AlbumController: UICollectionViewController {
                 //focusCell.layer.borderWidth = 5
                 focusCell.layer.masksToBounds = false;
                 focusCell.layer.shadowOffset = CGSize(width:10, height:10);
-                focusCell.layer.shadowRadius = 5;
+                // focusCell.layer.shadowRadius = 5;
                 focusCell.layer.shadowOpacity = 0.2;
                 
                 
@@ -495,7 +493,7 @@ class AlbumController: UICollectionViewController {
                 self.view.sendSubview(toBack: focusCell)
                 
                 
-                focusCell.layer.cornerRadius = 16
+                // focusCell.layer.cornerRadius = 16
                 focusCell.layer.masksToBounds = true
                 focusCell.layer.shadowOffset = CGSize(width:0, height:0);
                 focusCell.layer.shadowRadius = 0;
