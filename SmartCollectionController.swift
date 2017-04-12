@@ -51,6 +51,14 @@ class SmartCollectionController: UICollectionViewController {
             }
         }
         
+
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let status = PHPhotoLibrary.authorizationStatus()
         if (status == PHAuthorizationStatus.authorized) {
             if(allPhotos == nil){
                 print("loading photostream")
@@ -59,21 +67,15 @@ class SmartCollectionController: UICollectionViewController {
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
                 allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
                 
-                collectionView?.reloadData()
+                // collectionView?.reloadData()
                 
             }
             
             // put all the assets into the
             // needed sections
             prepareDateArray()
+            collectionView?.reloadData()
         }
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-      
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

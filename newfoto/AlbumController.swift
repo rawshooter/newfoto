@@ -219,7 +219,7 @@ class AlbumController: UICollectionViewController {
         
         // fetch the collection
         let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
-        print("Number of Photos in selected collection: \(assets.count)")
+        // print("Number of Photos in selected collection: \(assets.count)")
         
         // check if there are available photos in the subalbum
         if assets.count > 0 {
@@ -453,7 +453,7 @@ class AlbumController: UICollectionViewController {
                 //focusCell.layer.borderWidth = 5
                 focusCell.layer.masksToBounds = false;
                 focusCell.layer.shadowOffset = CGSize(width:10, height:10);
-                // focusCell.layer.shadowRadius = 5;
+                focusCell.layer.shadowRadius = 5;
                 focusCell.layer.shadowOpacity = 0.2;
                 
                 
