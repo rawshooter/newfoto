@@ -21,7 +21,7 @@ import Photos
 class SmartCollectionController: UICollectionViewController {
 
     // phfetch result of the current photos
-    var fetchResult: PHFetchResult<PHAsset>?
+    var allPhotos: PHFetchResult<PHAsset>?
     
     // the array of dateassets containing the assets for each date in a section
     // ordered in an accessible way via int
@@ -43,15 +43,33 @@ class SmartCollectionController: UICollectionViewController {
         
         let status = PHPhotoLibrary.authorizationStatus()
         
+        if (status != PHAuthorizationStatus.authorized) {
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "DisclaimerController") as? DisclaimerViewController{
+                
+                // show it on the highest level as a modal view
+                // present(controller, animated: false, completion: nil)
+                
+                // show it on the highest level as a modal view
+                //show(controller, sender: self)
+                
+                view.window?.rootViewController = controller
+                
+                
+                // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+                // print("Controller is shown")
+                return
+            }
+        }
+        
         if (status == PHAuthorizationStatus.authorized) {
-            if(fetchResult == nil){
+            if(allPhotos == nil){
                 print("loading photostream")
                 let allPhotosOptions = PHFetchOptions()
                 // ONLY fotostream is ascending - the rest is configurable
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-                fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
+                allPhotos = PHAsset.fetchAssets(with: allPhotosOptions)
                 
-                // collectionView?.reloadData()
+                collectionView?.reloadData()
                 
             }
             
@@ -75,7 +93,7 @@ class SmartCollectionController: UICollectionViewController {
     // add the subsequent assets
     func prepareDateArray(){
         
-        if let assets = fetchResult{
+        if let assets = allPhotos{
             // iterate over all assets
             // set the UI to a progress info while
             
@@ -214,13 +232,12 @@ class SmartCollectionController: UICollectionViewController {
         // check if the can obtain the image
         let asset: PHAsset = dateAssetsArray[indexPath.section].assetArray[indexPath.row]
         
-        print("asset")
+
         // Dequeue cell
         
         
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SmartCell {
-            print("cell")
             
             // use the indexpath as an unique identifier
             // to check for asny loading if this is the right cell
@@ -279,7 +296,49 @@ class SmartCollectionController: UICollectionViewController {
     }
     
     
+    // check selection and push to detail view
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt: IndexPath){
+        print("selected element \(didSelectItemAt.item)")
+        
+        
+        // no need to load a new storyboard. it already exists
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "DetailController") as? DetailController{
+            print("Controller found")
+            
+            //self.present(controller, animated: true, completion: nil)
+            // set the asset to display in the detail controller
+            //controller.asset =  allPhotos.object(at: didSelectItemAt.item) as PHAsset
+            
+            // calculate the position
+            var rowNumber = didSelectItemAt.row
+            for sec in 0..<didSelectItemAt.section {
+                rowNumber = rowNumber + collectionView.numberOfItems(inSection: sec)
+            }
+            
 
+            
+            controller.indexPosition = rowNumber
+            
+            controller.phAssetResult = allPhotos!
+            //controller.collectionViewController = self
+            
+            //    print(didSelectItemAt)
+            //    print(didSelectItemAt.item)
+            
+            
+            self.show(controller, sender: self)
+            
+            //self.present(controller, animated: true, completion: nil)
+            
+        }
+        
+        
+        
+    }
 
     
 

@@ -524,9 +524,13 @@ class CollectionViewController: UICollectionViewController {
             //self.present(controller, animated: true, completion: nil)
             // set the asset to display in the detail controller
             //controller.asset =  allPhotos.object(at: didSelectItemAt.item) as PHAsset
+            
+
+            
+            
             controller.indexPosition = didSelectItemAt.item
             controller.phAssetResult = allPhotos
-            controller.collectionViewController = self
+            // controller.collectionViewController = self
             
         //    print(didSelectItemAt)
         //    print(didSelectItemAt.item)

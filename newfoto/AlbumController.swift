@@ -288,8 +288,9 @@ class AlbumController: UICollectionViewController {
         
         
         // instantiate the collection view controller to display the album list
-        if let controller = storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as? CollectionViewController{
-            
+        //  if let controller = storyboard?.instantiateViewController(withIdentifier: "CollectionViewController") as? CollectionViewController{
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "SmartCollectionController") as? SmartCollectionController{
+                
             
 
             // no cast to PHAssetCollection needed
@@ -305,7 +306,7 @@ class AlbumController: UICollectionViewController {
    
             // fetch the collection
             let assets = PHAsset.fetchAssets(in: assetCollection, options: allPhotosOptions)
-            print("Number of Photos in selected collection: \(assets.count)")
+            // print("Number of Photos in selected collection: \(assets.count)")
             
             // give the controller all the needed assets
             controller.allPhotos = assets

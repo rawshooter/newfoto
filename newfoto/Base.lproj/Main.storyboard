@@ -103,19 +103,19 @@
         <!--Photo Stream-->
         <scene sceneID="IDL-ut-daU">
             <objects>
-                <collectionViewController id="Ii0-06-TAq" customClass="SmartCollectionController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="SmartCollectionController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ii0-06-TAq" customClass="SmartCollectionController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" prefetchingEnabled="YES" id="7VN-x4-TaE">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="50" minimumInteritemSpacing="50" id="Gmp-6p-KpG">
                             <size key="itemSize" width="308" height="308"/>
-                            <size key="headerReferenceSize" width="200" height="90"/>
+                            <size key="headerReferenceSize" width="200" height="60"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="90" minY="60" maxX="90" maxY="60"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Ebn-py-tmQ" customClass="SmartCell" customModule="newfoto" customModuleProvider="target">
-                                <rect key="frame" x="90" y="150" width="308" height="308"/>
+                                <rect key="frame" x="90" y="120" width="308" height="308"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="308" height="308"/>
@@ -133,13 +133,13 @@
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="jqt-B0-utH" customClass="HeaderView" customModule="newfoto" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="1920" height="90"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1920" height="60"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-WM-iWs">
-                                    <rect key="frame" x="90" y="33" width="1004" height="57"/>
+                                    <rect key="frame" x="90" y="8" width="1004" height="52"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>

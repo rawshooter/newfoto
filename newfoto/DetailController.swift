@@ -58,7 +58,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     // collectionViewController as parent object
-    var collectionViewController: CollectionViewController?
+    // var collectionViewController: CollectionViewController?
     
     // loading info text for the user while getting the HQ detail image
     let loadingText = "🌻 loading..."
