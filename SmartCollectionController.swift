@@ -29,18 +29,8 @@ class SmartCollectionController: UICollectionViewController {
     
     
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        print("smart view loaded")
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Register cell classes
-        // self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        
+    // check when the controller is shown if we have access to the photo library
+    override func viewDidAppear(_ animated: Bool) {
         let status = PHPhotoLibrary.authorizationStatus()
         
         if (status != PHAuthorizationStatus.authorized) {
@@ -77,7 +67,21 @@ class SmartCollectionController: UICollectionViewController {
             // needed sections
             prepareDateArray()
         }
-
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+      
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+        
+        // Register cell classes
+        // self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        
         
     }
 
