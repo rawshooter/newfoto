@@ -33,7 +33,7 @@ class SettingsController: UIViewController {
     static let albumListOrderInitial = "Newest First"
     
     static let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
-    static let zoomFactorInitial = "2.0"
+    static let zoomFactorInitial = "2.5"
     
     static let sortOrderAscending = "ASCENDING"
     static let sortOrderDescending = "DECENDING"

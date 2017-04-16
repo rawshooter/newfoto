@@ -111,7 +111,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // inform the presting collection controller
         // to update the index position
-        print(presentingSmartController)
+        // print(presentingSmartController)
         presentingSmartController?.lastIndexPosition = indexPosition
     }
     
