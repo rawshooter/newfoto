@@ -2179,7 +2179,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                // print("HQ callback returned with an image \(image.size)")
 
                 // CHECK FOR SIZE IF IT FAILED PERHAPS
-                if(image.size.width < 400 || image.size.height < 300 ){
+                if(image.size.width < 400 && image.size.height < 300 ){
                     self.infoLabel!.text = "⚠️️ lowres \(image.size)"
                     return
                 } else {
