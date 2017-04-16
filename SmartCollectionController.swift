@@ -75,7 +75,7 @@ class SmartCollectionController: UICollectionViewController {
             // calculate indexpath from photo array
             
             var sectionPosition = 0
-            var rowPosition = 0
+
             
             // no entries in the array?
             if(dateAssetsArray.count == 0){
@@ -84,7 +84,7 @@ class SmartCollectionController: UICollectionViewController {
             
             // iterate of the dateAssetsArray
             for item in dateAssetsArray {
-                var dateAssets: DateAssets = item
+                let dateAssets: DateAssets = item
                 
                 if(dateAssets.assetArray.count > lastIndex){
 
