@@ -27,7 +27,9 @@ class SmartCollectionController: UICollectionViewController {
     // ordered in an accessible way via int
     var dateAssetsArray: [DateAssets] = []
     
-    
+    // the last position in the detail controller
+    // if NIL no information available
+    var lastIndexPosition: Int?
 
     // check when the controller is shown if we have access to the photo library
     override func viewDidAppear(_ animated: Bool) {
@@ -51,9 +53,67 @@ class SmartCollectionController: UICollectionViewController {
             }
         }
         
-
-        
+        print("Collection reappeared")
+        updatePositionFromDetail()
     }
+    
+    func updatePositionFromDetail(){
+        //collectionView?.reloadData()
+        setNeedsFocusUpdate()
+        
+        // reset the lastIndexPosition
+        // because we have already set and read out the position
+        // and are ready for new details or viewcontroller changes
+        
+        // lastIndexPosition = nil
+    }
+    
+    override func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
+        //            print("lastIndex from View Controller \(lastIndexPosition)")
+        
+        if var lastIndex = lastIndexPosition{
+            // calculate indexpath from photo array
+            
+            var sectionPosition = 0
+            var rowPosition = 0
+            
+            // no entries in the array?
+            if(dateAssetsArray.count == 0){
+                return nil
+            }
+            
+            // iterate of the dateAssetsArray
+            for item in dateAssetsArray {
+                var dateAssets: DateAssets = item
+                
+                if(dateAssets.assetArray.count > lastIndex){
+
+                    
+                    print("coordinates row:\(lastIndex) section:\(sectionPosition)")
+                    return IndexPath(row: lastIndex, section: sectionPosition)
+                    
+                }
+                
+                // move to the next date assets array
+                sectionPosition += 1
+                
+                // remove the current count from the current lastindex position
+                lastIndex = lastIndex - dateAssets.assetArray.count
+                
+            }
+            
+            // we didn´t finde the correct index
+            return nil
+    
+        } else {
+            // we had no last Path
+            return nil
+        }
+     
+    }
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -335,7 +395,11 @@ class SmartCollectionController: UICollectionViewController {
             //    print(didSelectItemAt)
             //    print(didSelectItemAt.item)
             
+            // hand over this smart collection controller
+            // this this controller can get back the
+            // index position of the selected moved photo index
             
+            controller.presentingSmartController = self
             self.show(controller, sender: self)
             
             //self.present(controller, animated: true, completion: nil)

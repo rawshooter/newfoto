@@ -221,7 +221,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.7  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.9  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
                                 <rect key="frame" x="20" y="984" width="692" height="76"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>

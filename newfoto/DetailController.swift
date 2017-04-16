@@ -33,7 +33,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // current HUD mode
     var HUDMode: HUDModeEnum = HUDModeEnum.none
     
- 
+    // callback navigation of the calling collection controller
+    // to set the current navigation index path
+    var presentingSmartController: SmartCollectionController?
+    
+    
     // safes the position of the main image
     // for backing in full screen mapview
     // to be restored on normal view
@@ -99,6 +103,17 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var labelISO: UILabel!
     @IBOutlet weak var labelCamera: UILabel!
     @IBOutlet weak var labelLens: UILabel!
+    
+    // on leaving inform the calling view controller
+    // of the cureent index position
+    override func viewWillDisappear(_ animated: Bool) {
+        print("view will disappear")
+        
+        // inform the presting collection controller
+        // to update the index position
+        print(presentingSmartController)
+        presentingSmartController?.lastIndexPosition = indexPosition
+    }
     
     
     // returns the current asset from the indexPosition and Album Collection
