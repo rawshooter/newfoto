@@ -55,27 +55,43 @@ class SmartCollectionController: UICollectionViewController {
         
         print("Collection reappeared")
         updatePositionFromDetail()
+        
+        
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+ 
+        if let path = getIndexPath(){
+            
+              collectionView?.scrollToItem(at: path, at: .centeredVertically, animated: false)
+            //collectionView?.selectItem(at: path, animated: false, scrollPosition: .centeredVertically)
+             collectionView?.layoutIfNeeded()
+        }
+  
+
+        
+    }
     func updatePositionFromDetail(){
         //collectionView?.reloadData()
+        
         setNeedsFocusUpdate()
+        //  updateFocusIfNeeded()
         
         // reset the lastIndexPosition
         // because we have already set and read out the position
         // and are ready for new details or viewcontroller changes
+    
         
         // lastIndexPosition = nil
     }
     
-    override func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
-        //            print("lastIndex from View Controller \(lastIndexPosition)")
-        
+    func getIndexPath() -> IndexPath?{
         if var lastIndex = lastIndexPosition{
             // calculate indexpath from photo array
             
             var sectionPosition = 0
-
+            
             
             // no entries in the array?
             if(dateAssetsArray.count == 0){
@@ -87,9 +103,9 @@ class SmartCollectionController: UICollectionViewController {
                 let dateAssets: DateAssets = item
                 
                 if(dateAssets.assetArray.count > lastIndex){
-
                     
-                    print("coordinates row:\(lastIndex) section:\(sectionPosition)")
+                    
+                    //print("coordinates row:\(lastIndex) section:\(sectionPosition)")
                     return IndexPath(row: lastIndex, section: sectionPosition)
                     
                 }
@@ -104,15 +120,22 @@ class SmartCollectionController: UICollectionViewController {
             
             // we didn´t finde the correct index
             return nil
-    
+            
         } else {
             // we had no last Path
             return nil
         }
-     
+
     }
     
+   
+    override func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
+        //            print("lastIndex from View Controller \(lastIndexPosition)")
+        return getIndexPath()
+        
+    }
     
+ 
     
     
     override func viewDidLoad() {
