@@ -104,6 +104,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var labelCamera: UILabel!
     @IBOutlet weak var labelLens: UILabel!
     
+    /*
     // on leaving inform the calling view controller
     // of the cureent index position
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,9 +113,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // inform the presting collection controller
         // to update the index position
         // print(presentingSmartController)
-        presentingSmartController?.lastIndexPosition = indexPosition
+     
     }
-    
+    */
     
     // returns the current asset from the indexPosition and Album Collection
     func getAsset() -> PHAsset {
@@ -1037,7 +1038,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
     
-        
+
+       
+       
+        // presentingSmartController?.setNeedsFocusUpdate()
+        //presentingSmartController?.updateFocusIfNeeded()
         
         loadMainImage()
     }
@@ -2029,7 +2034,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func loadMainImage(){
         
         // update the position in the sourrounding parent controller
-        
+        // inform our collection view about the new position
+        if let controller = presentingSmartController{
+            controller.lastIndexPosition = indexPosition
+        } else {
+            print("ERROR: could not synchronize position due to missing controller")
+        }
         
         // print(IndexPath(row:  self.indexPosition, section: 0))
         // last selection tracking does not really
