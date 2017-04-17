@@ -63,8 +63,10 @@ class SmartCollectionController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
  
         if let path = getIndexPath(){
-                  view.layoutIfNeeded()
+            
               collectionView?.scrollToItem(at: path, at: .centeredVertically, animated: false)
+            //collectionView?.selectItem(at: path, animated: false, scrollPosition: .centeredVertically)
+             collectionView?.layoutIfNeeded()
         }
   
 
@@ -74,11 +76,12 @@ class SmartCollectionController: UICollectionViewController {
         //collectionView?.reloadData()
         
         setNeedsFocusUpdate()
-         updateFocusIfNeeded()
+        //  updateFocusIfNeeded()
         
         // reset the lastIndexPosition
         // because we have already set and read out the position
         // and are ready for new details or viewcontroller changes
+    
         
         // lastIndexPosition = nil
     }
@@ -102,7 +105,7 @@ class SmartCollectionController: UICollectionViewController {
                 if(dateAssets.assetArray.count > lastIndex){
                     
                     
-                    print("coordinates row:\(lastIndex) section:\(sectionPosition)")
+                    //print("coordinates row:\(lastIndex) section:\(sectionPosition)")
                     return IndexPath(row: lastIndex, section: sectionPosition)
                     
                 }
@@ -125,7 +128,7 @@ class SmartCollectionController: UICollectionViewController {
 
     }
     
-    
+   
     override func indexPathForPreferredFocusedView(in collectionView: UICollectionView) -> IndexPath? {
         //            print("lastIndex from View Controller \(lastIndexPosition)")
         return getIndexPath()
