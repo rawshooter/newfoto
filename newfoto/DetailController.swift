@@ -1315,7 +1315,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if(recognizer.state == .began){
             print("long press select")
             
-                    let alertController = UIAlertController(title: "Choose Option", message: "You can select different options", preferredStyle: .actionSheet)
+                    let alertController = UIAlertController(title: "Choose an Action", message: "Tip: You can use the trackpad for navigation and double click / long press the Play button to toggle the Info HUD.", preferredStyle: .actionSheet)
             
             if(HUDMode != .fullmap){
                 
