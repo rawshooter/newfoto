@@ -1306,6 +1306,160 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         toggleHUDState()
         
     }
+   
+    
+    
+    func longPressSelect(_ recognizer: UIGestureRecognizer){
+        
+        
+        if(recognizer.state == .began){
+            print("long press select")
+            
+                    let alertController = UIAlertController(title: "Choose Option", message: "You can select different options", preferredStyle: .actionSheet)
+            
+            if(HUDMode != .fullmap){
+                
+                if(isZoomMode){
+                    let zoomOutAction = UIAlertAction(title: "🔍 Standard Zoom", style: .default, handler:{
+                        (action:UIAlertAction) -> Void in
+                        
+                        self.switchZoomMode()
+                    })
+                    alertController.addAction(zoomOutAction)
+                    
+                } else {
+                    let zoomInAction = UIAlertAction(title: "🔍 \(zoomFactor)x Zoom", style: .default, handler:{
+                        (action:UIAlertAction) -> Void in
+                        
+                        self.switchZoomMode()
+                    })
+                    alertController.addAction(zoomInAction)
+                    
+                }
+                
+            }
+            
+            
+            if(HUDMode == .fullmap){
+                let toggleHUD = UIAlertAction(title: "🗺 Exit Map", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                
+                    self.toggleHUDState()
+                })
+            
+                alertController.addAction(toggleHUD)
+            }
+         
+            if(HUDMode == .standard && getAsset().location != nil){
+                let hideHUD = UIAlertAction(title: "📷 Hide Infos", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    
+                    
+                    self.HUDMode = .fullmap
+                    self.toggleHUDState()
+                })
+                
+                alertController.addAction(hideHUD)
+            }
+
+            
+            if(HUDMode == .standard && getAsset().location == nil){
+                let hideHUD = UIAlertAction(title: "📷 Hide Infos", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    
+                    self.toggleHUDState()
+                })
+                
+                alertController.addAction(hideHUD)
+            }
+            
+            
+            
+     
+            
+    
+            if(HUDMode == .none){
+                let showHUD = UIAlertAction(title: "📷 Show Infos", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    
+                    self.toggleHUDState()
+                })
+                
+                alertController.addAction(showHUD)
+            }
+
+            if(HUDMode == .none && getAsset().location != nil){
+                let showFull = UIAlertAction(title: "🗺 Fullscreen Map", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    //self.HUDMode = .standard
+                    self.toggleHUDState()
+                    self.toggleHUDState()
+                })
+                
+                alertController.addAction(showFull)
+            }
+            
+            
+            
+            if(HUDMode == .standard && getAsset().location != nil){
+                let fullMAP = UIAlertAction(title: "🗺 Fullscreen Map", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    
+                    self.toggleHUDState()
+                })
+                
+                alertController.addAction(fullMAP)
+            }
+            
+
+            
+            
+            
+
+            
+
+            
+            if(HUDMode != .fullmap){
+                let nextAction = UIAlertAction(title: "Next Image", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+                    
+                    self.loadNextImage()
+                })
+                alertController.addAction(nextAction)
+                
+                
+                let previousAction = UIAlertAction(title: "Previous Image", style: .default, handler:{
+                    (action:UIAlertAction) -> Void in
+        
+                    self.loadPreviousImage()
+                })
+                alertController.addAction(previousAction)
+
+            }
+            
+
+            
+            
+            // do nothing
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+            
+            
+            
+
+          
+            
+            
+            present(alertController, animated: true, completion: nil)
+            
+        } else {
+            
+            //  print(    recognizer.state.rawValue)
+            
+        }
+        
+    }
+   
     
     
     
@@ -2279,13 +2433,19 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // to switch HUD modes: EXIF and MAP
         let longRg = UILongPressGestureRecognizer(target: self, action: #selector(longPressPlay(_:)) )
         longRg.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)];
-        
-        
-
-        
-
-        
         view.addGestureRecognizer(longRg)
+        
+
+        
+        // Register for long presses MENU
+        // to switch general modes and actions
+        let longMenu = UILongPressGestureRecognizer(target: self, action: #selector(longPressSelect(_:)) )
+        longMenu.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
+        view.addGestureRecognizer(longMenu)
+        
+
+        
+ 
         
         // hide the metadata HUD by default
         metadataHUD.alpha = 0
@@ -2321,8 +2481,14 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // init the menu escape recognizer
         menuRecognizer = UITapGestureRecognizer(target: self, action: #selector(menuPress(_:)) )
         menuRecognizer!.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
+
         
- /*
+        
+        
+
+ 
+        
+        /*
         for rec in mapRecoginzerArray!{
                     mapView.removeGestureRecognizer(rec)
         }
