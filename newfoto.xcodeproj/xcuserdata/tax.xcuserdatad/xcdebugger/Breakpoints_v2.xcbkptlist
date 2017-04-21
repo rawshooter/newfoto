@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "newfoto/DetailController.swift"
-            timestampString = "503075258.680112"
+            timestampString = "514104318.291238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "542"
-            endingLineNumber = "542"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
+            landmarkName = "browseWithPanning(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
