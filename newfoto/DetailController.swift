@@ -687,7 +687,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // append an action to the gravity
                 // to observe if the image was moved 
                 // off the visible screen and can be replaced by the previous image
-                gravity!.action = { _ in
+                gravity!.action = { () in
                     if (self.imageView.center.x > CGFloat(self.screenWidth * 4) ){
                         //print("off screen for previous image")
                         
@@ -802,7 +802,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // append an action to the gravity
                 // to observe if the image was moved
                 // off the visible screen and can be replaced by the next image
-                gravity.action = { _ in
+                gravity.action = { () in
                     if (self.imageView.center.x < CGFloat(self.screenWidth * -4) ){
                         //print("off screen for next image")
                         self.animator?.removeAllBehaviors()
@@ -1083,7 +1083,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     // we have the signature as a tabrecognizer
-    func clicked(_ recognizer: UITapGestureRecognizer ){
+//    @objc func clicked(_ recognizer: UITapGestureRecognizer ){
+    @objc func clicked( recognizer: UITapGestureRecognizer ){
         
         // currently full screen map - ignore all gestures
         if(HUDMode == .fullmap){
@@ -1300,7 +1301,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    func doubleClickPlay(){
+    @objc func doubleClickPlay(){
         print("double click play")
         
         toggleHUDState()
@@ -1309,7 +1310,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
    
     
     
-    func longPressSelect(_ recognizer: UIGestureRecognizer){
+    @objc func longPressSelect(_ recognizer: UIGestureRecognizer){
         
         
         if(recognizer.state == .began){
@@ -1463,7 +1464,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     
     
-    func longPressPlay(_ recognizer: UIGestureRecognizer){
+    @objc func longPressPlay(_ recognizer: UIGestureRecognizer){
     
         
         if(recognizer.state == .began){
@@ -1481,7 +1482,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     // this is the emergency exit
-    func menuPress(_ recognizer: UILongPressGestureRecognizer){
+    @objc func menuPress(_ recognizer: UILongPressGestureRecognizer){
         print("menu")
         // now go back an remove the menu listener
         // always go back
@@ -1506,7 +1507,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // callback method for the panrecognizer
     // to track the movements
     // while in normal or zoom mode
-    func panned(_ recognizer: UIPanGestureRecognizer ){
+    
+    
+    @objc func panned(recognizer: UIPanGestureRecognizer ){
         
         // currently full screen map - ignore all gestures
         if(HUDMode == .fullmap){
@@ -2395,8 +2398,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // add tap gesture for a click to get next photo
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked(_:)) )
-     //   tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(clicked) )
+        
+   //     let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector?)
+       // let tapRecognizer = UITapGestureRecognizer(target: self, action: clicked(recognizer: nil) )
+        //   tapRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue)];
         view.addGestureRecognizer(tapRecognizer)
         
         
