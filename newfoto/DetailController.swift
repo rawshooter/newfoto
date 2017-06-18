@@ -82,6 +82,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // this can be NIL when NO image is being loaded
     var imageAsyncRequestID: PHImageRequestID?
     
+    // output labels for the image
+    @IBOutlet weak var categoryHUD: UIVisualEffectView!
+    @IBOutlet weak var category1Label: UILabel!
+    @IBOutlet weak var category2Label: UILabel!
+    
+    
     // generic information HUD for loading next images
     @IBOutlet weak var infoLabel: UILabel!
     
@@ -2194,8 +2200,37 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    func hideCategoryHUD(){
+        // reset category classification HUD
+        category1Label!.text = ""
+        category2Label!.text = ""
+        
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.categoryHUD.alpha = 0
+        }, completion: {
+            (ended) -> Void in
+            //
+        })
+    }
+    
+    
+    
+    func showCategoryHUD(){
+        
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.categoryHUD.alpha = 1
+        }, completion: {
+            (ended) -> Void in
+            //
+        })
+    }
+    
     
     func loadMainImage(){
+        
+        hideCategoryHUD()
+        
+        
         
         // update the position in the sourrounding parent controller
         // inform our collection view about the new position
@@ -2414,12 +2449,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // Update the Main UI Thread with our result
             DispatchQueue.main.async { [weak self] in
-                print("\(topResult.identifier) with \(Int(topResult.confidence * 100))% confidence")
+                
+                self!.showCategoryHUD()
+                
+                self!.category1Label!.text = "\(topResult.identifier)  (\(Int(topResult.confidence * 100))% confidence)"
                 
                 
                 if(results.count > 2){
                     let secondResult = results[1]
-                    print("\(secondResult.identifier) with \(Int(secondResult.confidence * 100))% confidence")
+                    self!.category2Label!.text = "\(secondResult.identifier)  (\(Int(secondResult.confidence * 100))% confidence)"
                 }
                 
                 
