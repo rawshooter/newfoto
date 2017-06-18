@@ -9,9 +9,16 @@
 import UIKit
 import MapKit
 import Photos
+import CoreML
+import Vision
+
 
 class DetailController: UIViewController, UIGestureRecognizerDelegate {
-
+    
+    
+    // core ML model
+    var model: VNCoreMLModel!
+    
     // defines the different states for the preview image
     // that slides in from left or right
     enum previewStatesEnum {
@@ -2369,6 +2376,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 DetailController.isLoadingProgress = false
                 self.hideLoadingHUD()
                 
+                self.detectImage()
                 
             } else {
                 // loading ended or aborted
@@ -2382,6 +2390,54 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // print("Request ID high async load: \(imageAsyncRequestID)")
 
+    }
+    
+    
+    func detectImage() {
+    
+        
+        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+            fatalError("Failed to load model")
+        }
+        
+        // Create a vision request
+        
+        let request = VNCoreMLRequest(model: model) {[weak self] request, error in
+            guard let results = request.results as? [VNClassificationObservation],
+                let topResult = results.first
+                else {
+                    fatalError("Unexpected results")
+            }
+            
+            
+            
+            
+            // Update the Main UI Thread with our result
+            DispatchQueue.main.async { [weak self] in
+                print("\(topResult.identifier) with \(Int(topResult.confidence * 100))% confidence")
+                
+                
+                if(results.count > 2){
+                    let secondResult = results[1]
+                    print("\(secondResult.identifier) with \(Int(secondResult.confidence * 100))% confidence")
+                }
+                
+                
+            }
+        }
+        
+        guard let ciImage = CIImage(image: self.imageView.image!)
+            else { fatalError("Cant create CIImage from UIImage") }
+        
+        // Run the googlenetplaces classifier
+        let handler = VNImageRequestHandler(ciImage: ciImage)
+        DispatchQueue.global().async {
+            do {
+                try handler.perform([request])
+            } catch {
+                print(error)
+            }
+        }
     }
     
     
