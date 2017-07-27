@@ -2430,8 +2430,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func detectImage() {
     
-        
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+            
+        //guard let model = try? VNCoreMLModel(for: VGG16().model) else {
             fatalError("Failed to load model")
         }
         
