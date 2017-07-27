@@ -1129,9 +1129,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         case .none:
             
             print("none HUD -> standard HUD")
-                        
+            
+
+            
             // set to standard as follower
             HUDMode = .standard
+       
+            
+            
+            // start image detection classification, because this can take a time
+         
+            if(DetailController.isLoadingProgress == false){
+                detectImage()
+            }
+            
             
             
             
@@ -1188,6 +1199,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // go to previous mode mode
                 HUDMode = .none
                 hideMetadataHUD()
+                hideCategoryHUD()
                 hideMap()
                   print("standard HUD -> no HUD")
                 
@@ -1289,6 +1301,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
            
             
             hideMetadataHUD()
+            hideCategoryHUD()
             
             // still possible to select the legal button? :)
             mapView.isUserInteractionEnabled = false
@@ -2202,11 +2215,28 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func hideCategoryHUD(){
         // reset category classification HUD
-        category1Label!.text = ""
-        category2Label!.text = ""
+        // category1Label!.text = ""
+        // category2Label!.text = ""
         
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            self.categoryHUD.alpha = 0
+        
+
+        
+        
+ 
+                    
+        
+        /*UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0,
+                       options: [],
+                       animations: { () -> Void in
+ */
+        UIView.animate(withDuration: 0.4, animations: { () -> Void in
+            
+        self.categoryHUD.alpha = 0
+            self.categoryHUD.frame = CGRect(x:  1920  , y: 175 , width:100 ,  height: 50)
+            
         }, completion: {
             (ended) -> Void in
             //
@@ -2217,8 +2247,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func showCategoryHUD(){
         
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+   //     UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.7,
+                           initialSpringVelocity: 0,
+                           options: [],
+                           animations: { () -> Void in
             self.categoryHUD.alpha = 1
+            self.categoryHUD.frame = CGRect(x:  1475  , y: 175 , width:425 ,  height: 60)
+            
         }, completion: {
             (ended) -> Void in
             //
@@ -2430,6 +2468,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func detectImage() {
     
+        // display nothing when the HUD is disabled
+        
+        if(HUDMode == .none){
+            return
+        }
+        
         guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
             
         //guard let model = try? VNCoreMLModel(for: VGG16().model) else {
@@ -2451,28 +2495,45 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // Update the Main UI Thread with our result
             DispatchQueue.main.async { [weak self] in
                 
-                self!.showCategoryHUD()
                 
-                self!.category1Label!.text = "\(topResult.identifier)  (\(Int(topResult.confidence * 100))% confidence)"
-                
-                
-                if(results.count > 2){
-                    let secondResult = results[1]
-                    self!.category2Label!.text = "\(secondResult.identifier)  (\(Int(secondResult.confidence * 100))% confidence)"
+                // show only results if the confidence is higher than 5%
+                if(Int(topResult.confidence * 100) > 20){
+                    self!.showCategoryHUD()
+                    
+                    self!.category1Label!.text = "🔖 \(topResult.identifier)  (\(Int(topResult.confidence * 100))%)"
+                    
+                    
+                    self!.category2Label!.text = ""
+                    
+                    // currently disabled for better UXP only showing first category
+                    /*
+                    if(results.count > 2){
+                        let secondResult = results[1]
+                        
+                        // and show only second result on high confidence
+                        if(Int(secondResult.confidence * 100) > 10){
+                            self!.category2Label!.text = "\(secondResult.identifier)  (\(Int(secondResult.confidence * 100))%)"
+                        }
+                        
+
+                    }
+                     */
                 }
-                
+
                 
             }
         }
         
+        // set the image to analyze
         guard let ciImage = CIImage(image: self.imageView.image!)
             else { fatalError("Cant create CIImage from UIImage") }
         
-        // Run the googlenetplaces classifier
+        // Run the classifier
         let handler = VNImageRequestHandler(ciImage: ciImage)
         DispatchQueue.global().async {
             do {
                 try handler.perform([request])
+                
             } catch {
                 print(error)
             }
