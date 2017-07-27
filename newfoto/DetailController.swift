@@ -2424,6 +2424,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
             if let image = UIImage(data: imageData!){
                // print("HQ callback returned with an image \(image.size)")
+                
+                // update the metadata display since we have now loaded
+                // the original image - might take more time to parse
+                self.updateMetadataHUD(imageData: imageData!)
+                
 
                 // CHECK FOR SIZE IF IT FAILED PERHAPS
                 if(image.size.width < 400 && image.size.height < 300 ){
