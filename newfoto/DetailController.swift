@@ -2026,6 +2026,144 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
   
     }
 
+
+    
+    func showPrefetchHUD(){
+        // display prefetch status, but wait a bit in the background
+        UIView.animate(withDuration: 0.5, delay: 1.0, options: .beginFromCurrentState, animations: {
+            self.infoLabel!.alpha = 1.0
+            self.infoLabel!.text = "☁️ prefetching next image..."
+        })
+    }
+    
+    
+    func hidePrefetchHUD(){
+        // display prefetch status, but wait a bit in the background
+        UIView.animate(withDuration: 0.5, delay: 1.7, options: .beginFromCurrentState, animations: {
+            self.infoLabel!.alpha = 0.0
+        })
+    }
+    
+    
+    
+    // loads the full HQ image in the background
+    // regardless of the current browsing direction
+    func prefetchNextImage(){
+        
+
+        showPrefetchHUD()
+        
+        // get the next prefetch image
+        var prefetchPosition = indexPosition + 1
+        
+        
+        // do we have images at all?
+        // and not only one image? otherwise the prefetching is useless
+        if(phAssetResult.count > 1){
+            // did we reach the end of the list, then switch to the start
+            if(prefetchPosition == phAssetResult.count){
+                prefetchPosition = 0
+            }
+    
+            let prefetchAsset: PHAsset = getAsset(atIndex: prefetchPosition)
+            
+
+            
+            // first load the main image synchronously for a quick result
+            // and the load the image again asyncly and abort loading when the user swipes etc.
+            imageAsyncRequestID =  self.loadImage(asset: prefetchAsset, isSynchronous: false, resultHandler: { imageData, dataUTI, orientation, infoArray in
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset.
+                
+                
+                // general information about the loaded asset
+                // print("Load information \(infoArray)")
+                // HERE WE GET THE IMAGE
+                
+                
+                
+                if(infoArray != nil){
+                    
+                    // did we really get the requested image and not an old callback?
+                    if(infoArray!["PHImageResultRequestIDKey"] != nil){
+                        if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
+                            // print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
+                            // no HUD update needed here, since this is not the image we want to display
+                            return
+                        }
+                        
+                    }
+                    
+                    
+                    
+                    if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                        if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                            print("============    DEGRADED: Setting no image     ============")
+                            
+                            // loading ended or aborted
+                            DetailController.isLoadingProgress = false
+                            self.hidePrefetchHUD()
+                            return
+                            
+                        }
+                        
+                    }
+                }
+                
+                if(imageData == nil){
+                    print("missing HQ image data")
+                    // loading ended or aborted
+                    DetailController.isLoadingProgress = false
+                    self.hidePrefetchHUD()
+                    return
+                }
+                
+                
+                
+                // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
+                if let image = UIImage(data: imageData!){
+                    // print("HQ callback returned with an image \(image.size)")
+                    
+                    // update the metadata display since we have now loaded
+                    // the original image - might take more time to parse
+                    self.updateMetadataHUD(imageData: imageData!)
+                    
+                    
+                    // CHECK FOR SIZE IF IT FAILED PERHAPS
+                    if(image.size.width < 400 && image.size.height < 300 ){
+                        self.hidePrefetchHUD()
+                        return
+                    } else {
+                        self.infoLabel!.text = "✅ prefetched next image"
+                        self.hidePrefetchHUD()
+                    }
+                    
+                    
+     
+                    self.hidePrefetchHUD()
+                    
+                    
+                } else {
+                    // loading ended or aborted
+        
+                    self.hidePrefetchHUD()
+        
+                    print("error creating HQ image from data")
+                }
+                
+            })
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
+    
+    
     
 
     
@@ -2039,7 +2177,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func hideLoadingHUD(){
-        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState, animations: {
+        // before removing wait a while to display the current loaded status
+        UIView.animate(withDuration: 0.5, delay: 1.5, options: .beginFromCurrentState, animations: {
             self.infoLabel!.alpha = 0.0
         })
         
@@ -2454,7 +2593,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 DetailController.isLoadingProgress = false
                 self.hideLoadingHUD()
                 
+                // now fire up the image detection and background loading
+                // for the next asset
                 self.detectImage()
+                
+                self.prefetchNextImage()
+                
+
                 
             } else {
                 // loading ended or aborted
@@ -2479,7 +2624,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
-        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+        guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
             
         //guard let model = try? VNCoreMLModel(for: VGG16().model) else {
             fatalError("Failed to load model")
