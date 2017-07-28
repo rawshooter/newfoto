@@ -1888,7 +1888,46 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         })
             
      
-        
+        // and full spec image to avoid the cloud
+        _ = loadImage(asset: asset, isSynchronous: false, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset.
+            
+            
+            // general information about the loaded asset
+            //print("Load information \(infoArray)")
+            // HERE WE GET THE IMAGE
+            
+            if(infoArray != nil){
+                if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                        print("============    DEGRADED: Setting no image     ============")
+                        return
+                    }
+                    
+                }
+            }
+            
+            
+            
+            if(imageData == nil){
+                print("next preview image is NIL:")
+                self.imageView2.image = UIImage(named: "taxcloud_hd")
+                return
+            }
+            
+            
+            if let image = UIImage(data: imageData!){
+                
+                
+                self.imageView2.image = image
+                
+                
+            } else {
+                print("error creating image from data")
+            }
+            
+        })
         
 
     }
@@ -1913,6 +1952,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
+
+        // FAST loading of the preview
+        // and or replacing it with highres version ;)
         
         _ = loadImage(asset: asset, isSynchronous: true, resultHandler:  { imageData, dataUTI, orientation, infoArray in
             // The cell may have been recycled by the time this handler gets called;
@@ -1947,6 +1989,47 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 self.imageView2.image = image
 
+                
+            } else {
+                print("error creating image from data")
+            }
+            
+        })
+        
+        // and full spec image to avoid the cloud
+        _ = loadImage(asset: asset, isSynchronous: false, resultHandler:  { imageData, dataUTI, orientation, infoArray in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset.
+            
+            
+            // general information about the loaded asset
+            //print("Load information \(infoArray)")
+            // HERE WE GET THE IMAGE
+            
+            if(infoArray != nil){
+                if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                    if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                        print("============    DEGRADED: Setting no image     ============")
+                        return
+                    }
+                    
+                }
+            }
+            
+            
+            
+            if(imageData == nil){
+                print("next preview image is NIL:")
+                self.imageView2.image = UIImage(named: "taxcloud_hd")
+                return
+            }
+            
+            
+            if let image = UIImage(data: imageData!){
+                
+                
+                self.imageView2.image = image
+                
                 
             } else {
                 print("error creating image from data")
