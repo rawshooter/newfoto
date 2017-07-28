@@ -2138,6 +2138,93 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
+    // silently load the next image of the next image
+    // ;) geeky i know but good for performance
+    func prefetchNextNextImage(){
+        
+        
+        
+        // get the next prefetch image
+        var prefetchPosition = indexPosition + 2
+        
+        
+        // do we have images at all?
+        // and not only one image? otherwise the prefetching is useless
+        if(phAssetResult.count > 1){
+            // did we reach the end of the list, then switch to the start
+            if(prefetchPosition >= phAssetResult.count){
+                prefetchPosition = 0
+                // just do nothing - we were going in circles
+                return
+            }
+            
+            let prefetchAsset: PHAsset = getAsset(atIndex: prefetchPosition)
+            
+            
+            
+            // first load the main image synchronously for a quick result
+            // and the load the image again asyncly and abort loading when the user swipes etc.
+            imageAsyncRequestID =  self.loadImage(asset: prefetchAsset, isSynchronous: false, resultHandler: { imageData, dataUTI, orientation, infoArray in
+              
+                
+                if(infoArray != nil){
+                    
+                    // did we really get the requested image and not an old callback?
+                    if(infoArray!["PHImageResultRequestIDKey"] != nil){
+                        if(infoArray!["PHImageResultRequestIDKey"] as! PHImageRequestID != self.imageAsyncRequestID!){
+                            // print("old image request \(infoArray!["PHImageResultRequestIDKey"]) ignoring result")
+                            // no HUD update needed here, since this is not the image we want to display
+                            return
+                        }
+                        
+                    }
+                    
+                    
+                    
+                    if(infoArray!["PHImageResultIsDegradedKey"] != nil){
+                        if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
+                            print("============    DEGRADED: Setting no image     ============")
+                            
+                            return
+                            
+                        }
+                        
+                    }
+                }
+                
+                if(imageData == nil){
+                    print("missing HQ image data")
+                   
+                    return
+                }
+                
+                
+                
+                // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
+                if let image = UIImage(data: imageData!){
+                    print("next next image was prefetched")
+                    
+                    
+                    
+                    
+                } else {
+                    // loading ended or aborted
+
+                    
+                    print("error creating HQ image from data")
+                }
+                
+            })
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+    }
     
     // loads the full HQ image in the background
     // regardless of the current browsing direction
@@ -2193,8 +2280,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
                             print("============    DEGRADED: Setting no image     ============")
                             
-                            // loading ended or aborted
-                            DetailController.isLoadingProgress = false
                             self.hidePrefetchHUD()
                             return
                             
@@ -2206,8 +2291,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 if(imageData == nil){
                     print("missing HQ image data")
                     // loading ended or aborted
-                    DetailController.isLoadingProgress = false
-                    
 
                     self.hidePrefetchHUD()
                     return
@@ -2231,6 +2314,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         self.isHQImagePrefetched = true
                         
                         self.hidePrefetchHUD()
+                        
+                        self.prefetchNextNextImage()
+                        
+                        
                     }
                     
                     
