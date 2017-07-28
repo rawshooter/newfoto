@@ -74,6 +74,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // loading info text for the user while getting the HQ detail image
     let loadingText = "🌻 loading..."
     
+    // indicates if the HQ image was prefetched
+    // to avoid flickering
+    var isHQImagePrefetched: Bool = false
+    
     // current asset list to be iterated through
     var phAssetResult: PHFetchResult<PHAsset>!
     
@@ -1860,7 +1864,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 if(infoArray != nil){
                     if(infoArray!["PHImageResultIsDegradedKey"] != nil){
                         if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
-                            print("============    DEGRADED: Setting no image     ============")
+                            print("============    DEGRADED: Setting fallback     ============")
+                            self.imageView2.image = UIImage(named: "taxcloud_hd")
                             return
                         }
                         
@@ -1880,6 +1885,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     
                     self.imageView2.image = image
 
+                    self.isHQImagePrefetched = true
+                    
+                    
                     
                 } else {
                     print("error creating image from data")
@@ -1968,7 +1976,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             if(infoArray != nil){
                 if(infoArray!["PHImageResultIsDegradedKey"] != nil){
                     if(infoArray!["PHImageResultIsDegradedKey"] as! Bool == true){
-                        print("============    DEGRADED: Setting no image     ============")
+                        print("============    DEGRADED: Setting fallback     ============")
+                        self.imageView2.image = UIImage(named: "taxcloud_hd")
                         return
                     }
                     
@@ -2030,6 +2039,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 self.imageView2.image = image
                 
+                self.isHQImagePrefetched = true
                 
             } else {
                 print("error creating image from data")
@@ -2113,16 +2123,16 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func showPrefetchHUD(){
         // display prefetch status, but wait a bit in the background
-        UIView.animate(withDuration: 0.5, delay: 1.0, options: .beginFromCurrentState, animations: {
+        UIView.animate(withDuration: 0.7, delay: 1.0, options: .beginFromCurrentState, animations: {
             self.infoLabel!.alpha = 1.0
-            self.infoLabel!.text = "☁️ prefetching next image..."
+            self.infoLabel!.text = "☁️"
         })
     }
     
     
     func hidePrefetchHUD(){
         // display prefetch status, but wait a bit in the background
-        UIView.animate(withDuration: 0.5, delay: 1.7, options: .beginFromCurrentState, animations: {
+        UIView.animate(withDuration: 0.7, delay: 1.7, options: .beginFromCurrentState, animations: {
             self.infoLabel!.alpha = 0.0
         })
     }
@@ -2197,6 +2207,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     print("missing HQ image data")
                     // loading ended or aborted
                     DetailController.isLoadingProgress = false
+                    
+
                     self.hidePrefetchHUD()
                     return
                 }
@@ -2205,19 +2217,19 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
                 if let image = UIImage(data: imageData!){
-                    // print("HQ callback returned with an image \(image.size)")
-                    
-                    // update the metadata display since we have now loaded
-                    // the original image - might take more time to parse
-                    self.updateMetadataHUD(imageData: imageData!)
-                    
+
                     
                     // CHECK FOR SIZE IF IT FAILED PERHAPS
                     if(image.size.width < 400 && image.size.height < 300 ){
                         self.hidePrefetchHUD()
                         return
                     } else {
-                        self.infoLabel!.text = "✅ prefetched next image"
+                        // display no message - just fade out
+                        //self.infoLabel!.text = "✅ prefetched next image"
+                        
+                        // set the image to prefetched in HQ
+                        self.isHQImagePrefetched = true
+                        
                         self.hidePrefetchHUD()
                     }
                     
@@ -2516,12 +2528,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         hideLoadingHUD()
         
 
-        
-        
-        // first load the main image synchronously for a quick result
-        // and the load the image again asyncly and abort loading when the user swipes etc.
-        // discardable result
-        _ = self.loadImage(asset: self.getAsset(), isSynchronous: true, resultHandler: { imageData, dataUTI, orientation, infoArray in
+        // only the quick load when no HQ image is available
+        if(isHQImagePrefetched == false){
+            // first load the main image synchronously for a quick result
+            // and the load the image again asyncly and abort loading when the user swipes etc.
+            // discardable result
+            _ = self.loadImage(asset: self.getAsset(), isSynchronous: true, resultHandler: { imageData, dataUTI, orientation, infoArray in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
                 
@@ -2530,7 +2542,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // print("Load information \(infoArray)")
                 // HERE WE GET THE IMAGE
                 
-         
+                
                 
                 if(infoArray != nil){
                     if(infoArray!["PHImageResultIsDegradedKey"] != nil){
@@ -2538,10 +2550,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                             print("============    DEGRADED: Setting no image     ============")
                             
                             // loading ended or aborted
-
-
+                            
+                            
                             return
-                         
+                            
                         }
                         
                     }
@@ -2552,7 +2564,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     self.imageView.image = UIImage(named: "taxcloud_hd")
                     return
                 }
-            
+                
                 
                 if let image = UIImage(data: imageData!){
                     // hide the preview image before setting the real image...
@@ -2561,7 +2573,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     self.imageView.image = image
                     self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                     // loading ended or aborted
-
+                    
                     // update the metadata hud based on the image
                     self.updateMetadataHUD(imageData: imageData!)
                     
@@ -2575,10 +2587,17 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             })
             
             
+            
+        }
+        
         
         
         // load the additional HQ image if wanted
         if(SettingsController.isHighresDownloadEnabled() == true){
+            
+            // reset that the next HQ image can be loaded
+            isHQImagePrefetched = false
+            
             loadHQImage()
         }
         
