@@ -2309,7 +2309,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     } else {
                         // display no message - just fade out
                         //self.infoLabel!.text = "✅ prefetched next image"
-                        
+
                         // set the image to prefetched in HQ
                         self.isHQImagePrefetched = true
                         
@@ -2764,6 +2764,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     return
                 } else {
                     self.infoLabel!.text = "✅ highres \(image.size)"
+                    
+                    // add resolution information to metadata HUD
+                    self.labelCamera.text = self.labelCamera.text! + "  (\(Int(image.size.width)) x \(Int(image.size.height)))"
+                    
                     
                 }
     
