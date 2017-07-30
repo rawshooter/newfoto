@@ -2576,7 +2576,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                            options: [],
                            animations: { () -> Void in
             self.categoryHUD.alpha = 1
-            self.categoryHUD.frame = CGRect(x:  1475  , y: 175 , width:425 ,  height: 60)
+            self.categoryHUD.frame = CGRect(x:  1475  , y: 175 , width:425 ,  height: 72)
             
         }, completion: {
             (ended) -> Void in
@@ -2835,28 +2835,43 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.async { [weak self] in
                 
                 
+                
                 // show only results if the confidence is higher than 5%
                 if(Int(topResult.confidence * 100) > 20){
                     self!.showCategoryHUD()
                     
-                    self!.category1Label!.text = "🔖 \(topResult.identifier)  (\(Int(topResult.confidence * 100))%)"
+                    self!.category1Label!.text = "🔖\u{00a0}\(topResult.identifier)\u{00a0}(\(Int(topResult.confidence * 100))%)"
                     
                     
                     self!.category2Label!.text = ""
                     
                     // currently disabled for better UXP only showing first category
-                    /*
-                    if(results.count > 2){
+                    
+                    if(results.count >= 2){
                         let secondResult = results[1]
                         
                         // and show only second result on high confidence
                         if(Int(secondResult.confidence * 100) > 10){
-                            self!.category2Label!.text = "\(secondResult.identifier)  (\(Int(secondResult.confidence * 100))%)"
+                            self!.category1Label!.text = self!.category1Label!.text! +
+                                                         "\u{00a0}\u{00a0}🔖\u{00a0}\(secondResult.identifier)\u{00a0}(\(Int(secondResult.confidence * 100))%)"
+                
+                            if(results.count >= 3){
+                                let thirdResult = results[2]
+                                
+                                // and show only second result on high confidence
+                                if(Int(thirdResult.confidence * 100) > 10){
+                                    self!.category1Label!.text = self!.category1Label!.text! +
+                                    "\n🔖\u{00a0}\(thirdResult.identifier)\u{00a0}(\(Int(thirdResult.confidence * 100))%)"
+                                }
+                                
+                                
+                            }
+                            
                         }
                         
 
                     }
-                     */
+                    
                 }
 
                 
