@@ -2766,7 +2766,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     self.infoLabel!.text = "✅ highres \(image.size)"
                     
                     // add resolution information to metadata HUD
-                    self.labelCamera.text = self.labelCamera.text! + "  (\(Int(image.size.width)) x \(Int(image.size.height)))"
+                    
+                    if(self.labelCamera.text!.isEmpty){
+                        self.labelCamera.text = "(\(Int(image.size.width)) x \(Int(image.size.height)))"
+                    } else {
+                        self.labelCamera.text = self.labelCamera.text! + "  (\(Int(image.size.width)) x \(Int(image.size.height)))"
+                    }
+
                     
                     
                 }
