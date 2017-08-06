@@ -2199,13 +2199,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 
-                
+              /*
                 // HERE NO FALLBACK IMAGE, since we already loaded the fallback as lowres before usually
                 if let image = UIImage(data: imageData!){
                     print("next next image was prefetched")
-                    
-                    
-                    
                     
                 } else {
                     // loading ended or aborted
@@ -2213,6 +2210,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     
                     print("error creating HQ image from data")
                 }
+             */
                 
             })
             
