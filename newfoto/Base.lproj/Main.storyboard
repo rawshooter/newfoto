@@ -221,27 +221,34 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Version 1.11  /  Contact us: 4kphoto@alexnat.de" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="taP-sW-khQ">
-                                <rect key="frame" x="20" y="984" width="692" height="76"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1HZ-zX-2sr">
+                                <rect key="frame" x="110" y="318" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.2120709197" green="0.2120709197" blue="0.2120709197" alpha="0.40050066020000002" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" red="0.99991267920000004" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="License"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Bj-cE-HCB">
+                                <rect key="frame" x="110" y="208" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="About"/>
+                                <connections>
+                                    <action selector="actionAbout:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="Hh2-L4-vXH"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkE-oc-Q8J">
-                                <rect key="frame" x="537" y="484" width="861" height="100"/>
+                                <rect key="frame" x="1208" y="428" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🗺  Info Display:  Active when available"/>
+                                <state key="normal" title="🗺  GPS, EXIF and Info Display:  Enabled"/>
                                 <connections>
                                     <action selector="mapOverlayAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="8Hf-hE-Zus"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7W-Es-ZvC">
-                                <rect key="frame" x="537" y="357" width="861" height="100"/>
+                                <rect key="frame" x="1208" y="318" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -252,7 +259,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Upc-JN-kGv">
-                                <rect key="frame" x="537" y="233" width="861" height="100"/>
+                                <rect key="frame" x="1208" y="208" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -263,7 +270,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
-                                <rect key="frame" x="537" y="608" width="861" height="100"/>
+                                <rect key="frame" x="1208" y="538" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -444,6 +451,205 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikn-t2-xV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4736" y="-1224"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="MsH-tY-YP3">
+            <objects>
+                <viewController storyboardIdentifier="AboutController" id="VTh-vp-zl7" customClass="AboutViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Js2-ek-zqP"/>
+                        <viewControllerLayoutGuide type="bottom" id="eLk-OJ-mZA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="epZ-nI-1d6">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-Dc-z7K">
+                                <rect key="frame" x="300" y="137" width="1370" height="875"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
+                                </accessibility>
+                                <mutableString key="text">NEW IN THIS RELEASE
+
+We now support Machine Learning and Computer Vision. With this fun feature 4K Photo now detects the image contents based on objects.
+
+- NEW: General support for tvOS 11
+- NEW: Big Data core ML image detection: Up to three categories
+- NEW: Pixel dimension information in Metadata Display
+- NEW: Image prefetching for faster loading. Loads the next image in background, indicated via a small cloud symbol after loading the main image, when the image takes more than a second to load.  It also tries to load silently anther image, but this without visual interaction for best browsing performance.
+
+- CHANGE: Removed option for Lowres and Highres Image Downloads. The only option is now Highres. 4K we are coming ;)
+- CHANGE: Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
+- CHANGE: Refined loading indicators
+- CHANGE: ordering of main tabs: First is now Shared Albums and the Photostream. Comes more to family picture viewing
+
+- FIX: Now correct loading Metadata on intial startup 
+
+See full release notes for more details. You can still zoom with double tap and show the GPS and EXIF details via the Play button double click.
+
+Stay tuned for upcoming updates. We love to hear feedback from you. Please contact us at 4kphoto@alexnat.de
+
+ABOUT
+
+4K Photo - the tvOS photo viewer with EXIF and GPS support
+
+For you it is a free companion App for your AppleTV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available. 
+
+- Click on a image to show on full screen size
+- Use the swipe gestures left and right of your trackpad to switch to the next or previous image
+- Double tap on the trackpad will enable zoom mode and just clicking forwards to the next photo
+- Use double click or long press the PLAY button to show EXIF and GPS overlay
+
+
+FULL RELEASE NOTES
+
+VERSION 1.11
+
+We now support Machine Learning and Computer Vision. With this fun feature 4K Photo now detects the image contents based on objects.
+
+- NEW: General support for tvOS 11
+- NEW: Big Data core ML image detection
+- NEW: Image prefetching for faster loading
+- NEW: Better loading animations and UXP
+
+
+VERSION 1.10
+
+This update focuses on accessibility. Thank you for the feedback.
+
+- NEW: Long press the trackpad button to access all the detail photo options via a comfortable action menu. This enables you to still use the PLAY button for other scenarios e.g. play and pause from the iTunes Music Library in the background.
+
+
+VERSION 1.9
+
+Maintenance release with fixes as promised. Thank you for the feedback.
+
+- FIX: Browse your photos in detail view and the collection index will scroll automatically to the current photo after exiting. Delivering you a fix as promised in version 1.7
+- FIX: Display now only a lowres badge if the resolution is horizontal below 400 points and vertical below 300 points
+- FIX: Version number 1.9 now set correctly to current release in settings screen
+  
+
+VERSION 1.8
+
+Content is King: Refreshing with a more pleasant layout and a smart photo view, that groups automatically by the captured day. This gives you a more natural browsing experience through large photo sets.
+
+- NEW: All photo collections now support segmentation by day. This makes it more easy to browse through larger photo sets. The cluttered date subtitles have been removed.
+- NEW: Updated photo layout for better content experience
+
+
+VERSION 1.7
+
+This is a maintenance release heading for better performance and quality
+
+- NEW: Initial release compiled for tvOS 10.2
+- FIX: Exiting Fullscreen Map mode now focuses on the main image and not on the map view
+- FIX: Sometimes wrong zoom factors were displayed when switching HUD modes
+- FIX: Removed wrong scrolling position in main collection after intense photo navigation. This will be enhanced over time... ;) 
+
+
+VERSION 1.6
+
+Enjoy your last vacation with your friends and family. Now with a zoomable fullscreen map and photo details overlay. 
+
+- NEW: Photo Details are now shown to provide you more information like: Photoindex, Date, GPS, ISO, Model, Lens, Exposure Time, F-Number, Focal Length
+- NEW: Fullscreen Maps can be activated when the photo provides the needed GPS information (double click or long press the Play Button)
+- NEW: Toggle between the different HUD Settings: None, EXIF Details, Map and Full Screen Map  (double click or long press the Play Button)
+- FIX: Correct HDMI resolution is set according to the AppleTV settings. This gives a more future proof upward compatibility
+
+The new features depend on the provided metadata on the photo. Not all EXIF data is always available. The double click or long press Play Button is needed, to provide still access to the Apple Maps legal information under the maps legal button.
+
+
+VERSION 1.0 - 1.5
+
+Please contact me for full release notes. The list is getting too long here...
+
+
+WE LOVE TO HEAR FROM YOU
+
+Please note that the current AppleTV only supports HD output. For upcoming devices we will try to add a version that also supports 4K output. The version enabled a 4K like zoom.
+
+Please feedback please contact us at 4kphoto@alexnat.de. Have fun and keep on taking good photos. It is free from my learning project. Enjoy!
+
+
+
+-------
+VERSION 1.5
+
+This update brings you some more fixes and features:
+
+- FIX: Loading of high quality images can be now skipped and does not anymore block the user interface.
+- NEW: Status indicator when loading a high quality image: shows loaded resolution on success or failure. Sometimes tvOS and iCloud do not provide the full resolution due to different reasons: disc space, network status, daily quota, images processed by photo library in background, etc. A small icon will update the status of the photo
+- NEW: Placeholder images when no real image representation is available in album and detail mode.
+- NEW: Scrolling position of image collection is updated when browsing in the detail view
+
+
+VERSION 1.4
+
+Do you already enjoy your vacation photos in high quality? This update gives you a boost in image quality.
+
+- New High Quality Option to download the photos at the original iCloud resolution. This is now enabled by default, since we want the best image quality. 
+- The standard loading routine for fast download is also included: Just go to the settings panel and set the image quality to fast loading.
+- Lightweight progress indicator when downloading larger images
+
+
+VERSION 1.3
+
+- Smart sorting for Shared Albums: Customizable options to sort the Shared Album list. These include
+
+  - Alphabetical A to Z
+  - Alphabetical Z to A
+  - Album priority by Oldest Photo in album
+  - Album priority by Newest Photo in album
+
+- Changed settings take immediate effect without the need to restart the app
+
+With the introduction of dedicated sorting options of the Shared Album list all changes take immediate effect. This might take a few seconds to recalculate the Shared Album list. 
+
+Since the current APIs provide no direct access to the album dates, we identify all the dates of the photos and then perform a smart sort algorithm to collect and order the corresponding albums.
+
+VERSION 1.2
+
+- Smoother scrolling performance in PhotoStream and Album mode
+- Better positioning and cell alignment of the photos in the collection view to look more pleasing
+- Updated default preferences for first time users and new installations: By default the sort order for the shared albums is now ascending. This means older photos are shown first. This is more natural when viewing an album. PhotoStream however will display the newest photos as usual.
+
+VERSION 1.1
+
+- Settings Tab for Zoom Factor (1.5x - 3.0x), Sort Order in albums and optional GPS overlay
+- Better localization 
+
+You can now configure the behavior of the GPS map overlay, Sort Order in Album View and a variable Zoom Factor from 1.5x up to 3.0x. Time and Date will be displayed corresponding to your current Locale.
+
+VERSION 1.0
+
+- Browse through your Photo Library with the latest photos first
+- Browse through your shared albums
+- Swipe through photos
+- Double Tap will enable a 4K Zoom, enlarging the photo
+- Optional Metadata (GPS) is displayed when available
+
+</mutableString>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="About" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcv-n6-wWi">
+                                <rect key="frame" x="802" y="43" width="317" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="fTf-Dc-z7K" id="EdB-qd-zDa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yLf-RW-lvd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4650" y="288"/>
         </scene>
     </scenes>
     <resources>
