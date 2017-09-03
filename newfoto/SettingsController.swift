@@ -16,7 +16,6 @@ class SettingsController: UIViewController {
     let sortOrderText = "🖼  Sort order of photos in albums: "
     let zoomFactorText = "🔍  Zoom factor: "
     let mapOverlayText = "🗺  GPS metadata display: "
-    let highresText = "🌻  Highres download: "
     
     
     
@@ -24,7 +23,7 @@ class SettingsController: UIViewController {
     static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
     static let sortOrderDefaultsKey = "SORT_ORDER"
     static let albumListOrderDefaultsKey = "ALBUM_ORDER"
-    static let highresDefaultsKey = "HIGHRES_DOWNLOAD"
+
     
     // have been changed made in the confige while runtime?
     static var hasAlbumListOrderChangedDefault = false
@@ -32,8 +31,8 @@ class SettingsController: UIViewController {
     static let albumListOrder = ["A - Z", "Z - A", "Newest First", "Oldest First"]
     static let albumListOrderInitial = "Newest First"
     
-    static let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0]
-    static let zoomFactorInitial = "2.5"
+    static let zoomFactors = ["1.5": 1.5, "2.0": 2.0, "2.5": 2.5, "3.0": 3.0, "3.5": 3.5, "4.0": 4.0]
+    static let zoomFactorInitial = "3.0"
     
     static let sortOrderAscending = "ASCENDING"
     static let sortOrderDescending = "DECENDING"
@@ -42,8 +41,6 @@ class SettingsController: UIViewController {
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
     
-    static let highresEnabled = "ENABLED"
-    static let highresDisabled = "DISABLED"
     
     
     // return the sort order of the user default as boolean value
@@ -81,17 +78,9 @@ class SettingsController: UIViewController {
     
     
     // return the highres state
+    // only for code compatibility - removed option in userinterface
     class func isHighresDownloadEnabled() -> Bool{
-        // get the defaults
-        let defaults = UserDefaults.standard
-
-        
-        let highresDefault = defaults.object(forKey: highresDefaultsKey) as? String ?? highresEnabled
-        if(highresDefault == highresEnabled){
-            return true
-        } else {
-            return false
-        }
+      return true
     }
     
     // Return the sorting method for the
@@ -129,21 +118,6 @@ class SettingsController: UIViewController {
     }
     
     
-    
-    @IBAction func highresAction(_ sender: UIButton) {
-        // get the defaults
-        let defaults = UserDefaults.standard
-        
-        if(SettingsController.isHighresDownloadEnabled() ){
-            defaults.set(SettingsController.highresDisabled, forKey: SettingsController.highresDefaultsKey)
-            highresButton.setTitle(highresText + "Standard quality, Faster download", for: .normal)
-        } else {
-            defaults.set(SettingsController.highresEnabled, forKey: SettingsController.highresDefaultsKey)
-            highresButton.setTitle(highresText + "Best quality, Slower download", for: .normal)
-            
-        }
-        
-    }
     
     
     
