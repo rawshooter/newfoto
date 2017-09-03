@@ -235,7 +235,7 @@
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🗺  GPS metadata display:  Active when available"/>
+                                <state key="normal" title="🗺  Info Display:  Active when available"/>
                                 <connections>
                                     <action selector="mapOverlayAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="8Hf-hE-Zus"/>
                                 </connections>
@@ -246,7 +246,7 @@
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🖼  Sort order of photos in albums: Latest first"/>
+                                <state key="normal" title="🖼  Ordering of Photos: Latest first"/>
                                 <connections>
                                     <action selector="sortOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="bxe-HD-QeE"/>
                                 </connections>
@@ -257,7 +257,7 @@
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🗄  List of shared albums: Latest first"/>
+                                <state key="normal" title="🗄  Ordering of Albums: Latest first"/>
                                 <connections>
                                     <action selector="albumListOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="wD7-lc-Uog"/>
                                 </connections>
