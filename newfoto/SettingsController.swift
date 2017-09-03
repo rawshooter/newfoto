@@ -12,8 +12,8 @@ import Photos
 class SettingsController: UIViewController {
 
   
-    let albumListOrderText = "🗄  List of shared albums: "
-    let sortOrderText = "🖼  Sort order of photos in albums: "
+    let albumListOrderText = "🗄  Ordering of Albums: "
+    let sortOrderText = "🖼  Ordering of Photos in Albums: "
     let zoomFactorText = "🔍  Zoom factor: "
     let mapOverlayText = "🗺  GPS metadata display: "
     
@@ -320,23 +320,6 @@ class SettingsController: UIViewController {
         if(sortOrderDefault == SettingsController.sortOrderDescending){
             sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
         }
-        
-
-        
-        // hq image loading with slower download
-        let highresDefault = defaults.object(forKey: SettingsController.highresDefaultsKey) as? String ?? SettingsController.highresEnabled
-        
-        print("highresDefault: \(highresDefault)")
-        if(highresDefault == SettingsController.highresEnabled){
-            highresButton.setTitle(highresText + "Best quality, Slower download", for: .normal)
-            
-        }
-        
-        if(highresDefault == SettingsController.highresDisabled){
-            highresButton.setTitle(highresText + "Standard quality, Faster download", for: .normal)
-        }
-        
-        
         
         
         
