@@ -250,7 +250,7 @@ class SettingsController: UIViewController {
     @IBOutlet weak var sortOrderButton: UIButton!
     @IBOutlet weak var zoomFactorButton: UIButton!
     @IBOutlet weak var albumListOrderButton: UIButton!
-    @IBOutlet weak var highresButton: UIButton!
+
     
     
     // The cells zoom when focused.
