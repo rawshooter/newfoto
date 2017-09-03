@@ -2823,7 +2823,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
       
    //     guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
         
-        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+        guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
             
         //guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
             
