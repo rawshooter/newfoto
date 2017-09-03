@@ -13,9 +13,9 @@ class SettingsController: UIViewController {
 
   
     let albumListOrderText = "🗄  Ordering of Albums: "
-    let sortOrderText = "🖼  Ordering of Photos in Albums: "
-    let zoomFactorText = "🔍  Zoom factor: "
-    let mapOverlayText = "🗺  GPS metadata display: "
+    let sortOrderText = "🖼  Ordering of Photos: "
+    let zoomFactorText = "🔍  Zoom Factor: "
+    let mapOverlayText = "🗺  Info Display: "
     
     
     
