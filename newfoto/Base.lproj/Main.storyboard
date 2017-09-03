@@ -673,9 +673,11 @@ VERSION 1.0
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">NO WARRANTY
+                                <mutableString key="text">A WORD FROM THE AUTOR
 
-4K🌻Photo is my free learning project. There is no warranty at all. Please use the software "as-is". On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
+4K🌻Photo is my free learning project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. Currently as of September 3rd 2017 no AppleTV with full 4K support has been release yet. 
+
+On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
 
 Copyright 2016-2017 by Thomas Alexnat
 
