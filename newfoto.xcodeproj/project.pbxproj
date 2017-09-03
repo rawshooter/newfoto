@@ -25,7 +25,7 @@
 		4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */; };
 		4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */; };
 		4FAC56AC1DF34BE400895280 /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A81DF34BE400895280 /* original.jpg */; };
-		4FB809D11F5C4B16005A836C /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4F2916921F5C4AB200983791 /* Inceptionv3.mlmodel */; };
+		4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */; };
 		4FC65CBA1E54CEE20075EA4B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC65CB91E54CEE20075EA4B /* Media.xcassets */; };
 		4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C41F5C338000815763 /* AboutViewController.swift */; };
 		4FDD53C71F5C3D2700815763 /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */; };
@@ -38,7 +38,6 @@
 /* Begin PBXFileReference section */
 		4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = glossy_gradient_gimp.xcf; sourceTree = "<group>"; };
 		4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glossy_gradient.png; sourceTree = "<group>"; };
-		4F2916921F5C4AB200983791 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = Inceptionv3.mlmodel; path = /Volumes/data/projects/dev/cocoa/swift/newfoto/newfoto/Inceptionv3.mlmodel; sourceTree = "<absolute>"; };
 		4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
 		4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
 		4F42FD381E9AAB08006BDE11 /* SmartCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SmartCollectionController.swift; path = ../SmartCollectionController.swift; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-Icon-App-Small-400x240.png"; sourceTree = "<group>"; };
 		4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-TopShelf-1920x720.png"; sourceTree = "<group>"; };
 		4FAC56A81DF34BE400895280 /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original.jpg; sourceTree = "<group>"; };
+		4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 		4FC65CB91E54CEE20075EA4B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4FDD53C41F5C338000815763 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
 				4FDD53C41F5C338000815763 /* AboutViewController.swift */,
 				4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */,
-				4F2916921F5C4AB200983791 /* Inceptionv3.mlmodel */,
+				4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */,
 				4F42FD381E9AAB08006BDE11 /* SmartCollectionController.swift */,
 				4F42FD3A1E9AB7CB006BDE11 /* SmartCell.swift */,
 				4F82CEC61E9ACA430094D4CF /* HeaderView.swift */,
@@ -239,7 +239,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FB809D11F5C4B16005A836C /* Inceptionv3.mlmodel in Sources */,
 				4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */,
 				4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */,
 				4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */,
@@ -250,6 +249,7 @@
 				4FDD53C71F5C3D2700815763 /* LicenseViewController.swift in Sources */,
 				4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */,
 				4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */,
+				4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */,
 				4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */,
 				4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */,
 				4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */,
