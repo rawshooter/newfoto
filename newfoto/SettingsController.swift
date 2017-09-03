@@ -41,6 +41,22 @@ class SettingsController: UIViewController {
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
     
+    
+    @IBAction func actionLicense(_ sender: UIButton) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "LicenseController") as? LicenseViewController{
+            print("Controller found")
+            
+            
+            
+            // controller.presentingSmartController = self
+            self.show(controller, sender: self)
+            
+            //self.present(controller, animated: true, completion: nil)
+            
+        }
+    }
+    
     @IBAction func actionAbout(_ sender: UIButton) {
 
         

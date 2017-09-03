@@ -226,6 +226,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                 <state key="normal" title="License"/>
+                                <connections>
+                                    <action selector="actionLicense:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="XOq-eG-fPh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Bj-cE-HCB">
                                 <rect key="frame" x="110" y="208" width="367" height="86"/>
@@ -464,12 +467,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-Dc-z7K">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-Dc-z7K">
                                 <rect key="frame" x="300" y="137" width="1370" height="875"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" allowsDirectInteraction="YES"/>
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
                                 <mutableString key="text">NEW IN THIS RELEASE
 
@@ -634,8 +637,8 @@ VERSION 1.0
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="About" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcv-n6-wWi">
-                                <rect key="frame" x="802" y="43" width="317" height="86"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="About 4K🌻Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcv-n6-wWi">
+                                <rect key="frame" x="778" y="43" width="407" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
@@ -648,6 +651,58 @@ VERSION 1.0
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLf-RW-lvd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4650" y="288"/>
+        </scene>
+        <!--License View Controller-->
+        <scene sceneID="qkE-yG-VEN">
+            <objects>
+                <viewController storyboardIdentifier="LicenseController" id="CIV-vF-pJB" customClass="LicenseViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FE8-dX-NG2"/>
+                        <viewControllerLayoutGuide type="bottom" id="UzM-Zk-geS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fbb-rF-cBc">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFE-Ra-qoY">
+                                <rect key="frame" x="300" y="137" width="1370" height="883"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <mutableString key="text">NO WARRANTY
+
+4K🌻Photo is my free learning project. There is no warranty at all. Please use the software "as-is". On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
+
+Copyright 2016-2017 by Thomas Alexnat
+
+
+ACKNOWLEDGEMENTS
+
+This software is using the Machine Learning Library called 'Places205-GoogLeNet' by the authors B. Zhou, A. Lapedriza, J. Xiao, A. Torralba, and A. Oliva.
+
+License for Places205-GoogLeNet
+Scene attribute prediction used in the demo are trained from the data of SUN attribute database. This work is partly supported by the National Science Foundation under Grant No. 1016862, and by the McGovern Institute Neurotechnology Program (MINT) to A.O, ONR MURI N000141010933 to A.T, as well as MIT Big Data Initiative at CSAIL, Google, Xerox and Amazon Awards, and a hardware donation from NVIDIA Corporation, to A.O and A.T., and Intel and Google awards to J.X. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation and other funding agencies. The annotation can be used under the Creative Common License (Attribution CC BY). The copyright of all the images belongs to the image owners.</mutableString>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Acknowledgements" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4O-N1-5cp">
+                                <rect key="frame" x="772" y="43" width="391" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="PFE-Ra-qoY" id="a88-9a-Oge"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="abo-a5-ujM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4650" y="288"/>
         </scene>
