@@ -15,7 +15,7 @@ class SettingsController: UIViewController {
     let albumListOrderText = "🗄  Ordering of Albums: "
     let sortOrderText = "🖼  Ordering of Photos: "
     let zoomFactorText = "🔍  Zoom Factor: "
-    let mapOverlayText = "🗺  Info Display: "
+    let mapOverlayText = "🗺  GPS, EXIF & Info Display: "
     
     
     
@@ -41,6 +41,22 @@ class SettingsController: UIViewController {
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
     
+    @IBAction func actionAbout(_ sender: UIButton) {
+
+        
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "AboutController") as? AboutViewController{
+            print("Controller found")
+            
+          
+            
+           // controller.presentingSmartController = self
+            self.show(controller, sender: self)
+            
+            //self.present(controller, animated: true, completion: nil)
+            
+        }
+    }
     
     
     // return the sort order of the user default as boolean value
