@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="13156.6" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="13189.4" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -263,7 +263,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
-                                <rect key="frame" x="537" y="746" width="861" height="100"/>
+                                <rect key="frame" x="537" y="608" width="861" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -273,24 +273,12 @@
                                     <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4iN-SL-W2j">
-                                <rect key="frame" x="537" y="622" width="861" height="100"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🌻  Highres download:  ENABLED"/>
-                                <connections>
-                                    <action selector="highresAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="Sej-Dk-vhB"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" id="erE-sQ-4mD"/>
                     <connections>
                         <outlet property="albumListOrderButton" destination="Upc-JN-kGv" id="59B-NT-X2L"/>
-                        <outlet property="highresButton" destination="4iN-SL-W2j" id="USq-d2-x3v"/>
                         <outlet property="imageView" destination="sab-VP-Rzb" id="7l0-Dj-b5q"/>
                         <outlet property="mapOverlayButton" destination="MkE-oc-Q8J" id="4Lu-mK-oqo"/>
                         <outlet property="sortOrderButton" destination="U7W-Es-ZvC" id="EIB-Bh-ULb"/>
