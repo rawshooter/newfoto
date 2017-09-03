@@ -2821,9 +2821,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
       
-        guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
+   //     guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
             
-    //    guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
+        guard let model = try? VNCoreMLModel(for: GoogLeNetPlaces().model) else {
             
         //guard let model = try? VNCoreMLModel(for: VGG16().model) else {
             fatalError("Failed to load model")
