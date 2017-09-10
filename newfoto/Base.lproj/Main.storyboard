@@ -474,49 +474,101 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">NEW IN THIS RELEASE
+                                <mutableString key="text">4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
-We now support Machine Learning and Computer Vision. With this fun feature 4K Photo now detects the image contents based on objects.
 
-- NEW: General support for tvOS 11
-- NEW: Big Data core ML image detection: Up to three categories
-- NEW: Pixel dimension information in Metadata Display
-- NEW: Image prefetching for faster loading. Loads the next image in background, indicated via a small cloud symbol after loading the main image, when the image takes more than a second to load.  It also tries to load silently anther image, but this without visual interaction for best browsing performance.
+WHAT´S NEW
 
-- CHANGE: Removed option for Lowres and Highres Image Downloads. The only option is now Highres. 4K we are coming ;)
-- CHANGE: Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
-- CHANGE: Refined loading indicators
-- CHANGE: ordering of main tabs: First is now Shared Albums and the Photostream. Comes more to family picture viewing
+• Big Data core ML image detection: Up to three categories can be detected from the core ML engine. Please note that mainly objects are supported. Some detections might not be accurate and should only give a fun fact about the image. This feature is enabled by default.
 
-- FIX: Now correct loading Metadata on intial startup 
+• Pixel dimension information in Metadata Display of the current photo
 
-See full release notes for more details. You can still zoom with double tap and show the GPS and EXIF details via the Play button double click.
+• Image prefetching for faster loading. Loads the next two upcoming images in background. This is indicated with a small cloud symbol after loading the current image. The second image is loaded in the background for better performance.
 
-Stay tuned for upcoming updates. We love to hear feedback from you. Please contact us at 4kphoto@alexnat.de
+• Activity indicator to display loading of larger image sets on first startup
 
-ABOUT
 
-4K Photo - the tvOS photo viewer with EXIF and GPS support
+CHANGES
+
+• Removed option for lowres and highres Image Downloads. The only option is now highres.
+
+• Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
+
+• Refined loading indicators
+
+• First tab is now Shared Albums and then the Photostream tab. This comes closer to family picture viewing habits.
+
+• General support for tvOS 11
+
+
+FIXES
+
+• Now correct loading Metadata on initial startup 
+
+
+Stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
+ 
+
+ABOUT 4K🌻Photo
+
+The only tvOS photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
 For you it is a free companion App for your AppleTV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available. 
 
-- Click on a image to show on full screen size
-- Use the swipe gestures left and right of your trackpad to switch to the next or previous image
-- Double tap on the trackpad will enable zoom mode and just clicking forwards to the next photo
-- Use double click or long press the PLAY button to show EXIF and GPS overlay
+
+QUICK INSTRUCTIONS
+
+• Use your Photostream or Shared Albums to browse your photo library
+
+• Click on an image to show full screen size
+
+• Use the swipe gestures left and right of your trackpad to switch to the next or previous image
+
+• Double tap on the trackpad will enable zoom mode and just clicking forwards to the next photo
+
+• Use double click or long press the PLAY button to show EXIF and GPS overlay
+
+• Long press trackpad on a photo to show up accessibility menu
+
 
 
 FULL RELEASE NOTES
 
+
 VERSION 1.11
 
-We now support Machine Learning and Computer Vision. With this fun feature 4K Photo now detects the image contents based on objects.
+4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
-- NEW: General support for tvOS 11
-- NEW: Big Data core ML image detection
-- NEW: Image prefetching for faster loading
-- NEW: Better loading animations and UXP
 
+WHAT´S NEW IN THIS RELEASE
+
+• Big Data core ML image detection: Up to three categories can be detected from the core ML engine. Please note that mainly objects are supported. Some detections might not be accurate and should only give a fun fact about the image. This feature is enabled by default.
+
+• Pixel dimension information in Metadata Display of the current photo
+
+• Image prefetching for faster loading. Loads the next two upcoming images in background. This is indicated with a small cloud symbol after loading the current image. The second image is loaded in the background for better performance.
+
+• Activity indicator to display loading of larger image sets on first startup
+
+
+CHANGES
+
+• Removed option for lowres and highres Image Downloads. The only option is now highres.
+
+• Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
+
+• Refined loading indicators
+
+• First tab is now Shared Albums and then the Photostream tab. This comes closer to family picture viewing habits.
+
+• General support for tvOS 11
+
+• Added License and About dialog to settings screen for more information
+
+
+FIXES
+
+• Now correct loading Metadata on initial startup 
 
 VERSION 1.10
 
@@ -633,7 +685,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -652,7 +704,7 @@ VERSION 1.0
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yLf-RW-lvd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4650" y="288"/>
+            <point key="canvasLocation" x="4650" y="-2790"/>
         </scene>
         <!--License View Controller-->
         <scene sceneID="qkE-yG-VEN">
@@ -675,7 +727,7 @@ VERSION 1.0
                                 </accessibility>
                                 <mutableString key="text">A WORD FROM THE AUTOR
 
-4K🌻Photo is my free learning project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. Currently as of September 3rd 2017 no AppleTV with full 4K support has been release yet. 
+4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. Currently as of September 3rd 2017 no AppleTV with full 4K support has been release yet. 
 
 On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
 
