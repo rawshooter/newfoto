@@ -41,6 +41,20 @@ class SettingsController: UIViewController {
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
     
+    @IBAction func actionHD(_ sender: UIButton) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "HDViewController") as? HDViewController{
+            self.show(controller, sender: self)
+        }
+    }
+    
+    @IBAction func actionUHD(_ sender: UIButton) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "UHDViewController") as? UHDViewController{
+            self.show(controller, sender: self)
+        }
+    }
+    
     
     @IBAction func actionLicense(_ sender: UIButton) {
         

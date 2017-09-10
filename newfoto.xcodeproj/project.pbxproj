@@ -17,6 +17,8 @@
 		4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6431331E75A76200DB03CA /* AlbumDetail.swift */; };
 		4F6A9D4F1E4F80C3001AFD13 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */; };
 		4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82CEC61E9ACA430094D4CF /* HeaderView.swift */; };
+		4F8863461F658E27003BBF0D /* HDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863451F658E27003BBF0D /* HDViewController.swift */; };
+		4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863491F658E7F003BBF0D /* UHDViewController.swift */; };
 		4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8BB96F1E05E4F6004D3505 /* MapKit.framework */; };
 		4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */; };
 		4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFC1DF0CBBA00DA3104 /* LICENSE */; };
@@ -46,6 +48,8 @@
 		4F6431331E75A76200DB03CA /* AlbumDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetail.swift; sourceTree = "<group>"; };
 		4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		4F82CEC61E9ACA430094D4CF /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		4F8863451F658E27003BBF0D /* HDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDViewController.swift; sourceTree = "<group>"; };
+		4F8863491F658E7F003BBF0D /* UHDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UHDViewController.swift; sourceTree = "<group>"; };
 		4F8BB96F1E05E4F6004D3505 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateAssets.swift; sourceTree = "<group>"; };
 		4F94ADFC1DF0CBBA00DA3104 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -133,6 +137,8 @@
 			children = (
 				4F8D5C7E1E9D61A800C15DEB /* model */,
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
+				4F8863451F658E27003BBF0D /* HDViewController.swift */,
+				4F8863491F658E7F003BBF0D /* UHDViewController.swift */,
 				4FDD53C41F5C338000815763 /* AboutViewController.swift */,
 				4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */,
 				4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */,
@@ -251,8 +257,10 @@
 				4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */,
 				4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */,
 				4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */,
+				4F8863461F658E27003BBF0D /* HDViewController.swift in Sources */,
 				4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */,
 				4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */,
+				4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */,
 				4FFDE34F1DBB954200CC0435 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

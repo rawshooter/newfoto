@@ -104,8 +104,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
+                                <rect key="frame" x="954" y="276" width="871" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0092660712580000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="Ask for permission to show my Photo Library..."/>
+                                <connections>
+                                    <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3L-9H-vIM">
-                                <rect key="frame" x="20" y="276" width="367" height="86"/>
+                                <rect key="frame" x="45" y="276" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                 <state key="normal" title="About"/>
@@ -114,22 +124,13 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Welcome to 4K🌻Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
-                                <rect key="frame" x="20" y="39" width="983" height="103"/>
+                                <rect key="frame" x="45" y="35" width="983" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.21207091968911918" green="0.21207091968911918" blue="0.21207091968911918" alpha="0.40050066021126762" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="0.99991267919540405" green="1" blue="0.99988144636154175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="49"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-rI-iBZ">
-                                <rect key="frame" x="20" y="386" width="367" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="License"/>
-                                <connections>
-                                    <action selector="actionLicense:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="uN2-SX-ivn"/>
-                                </connections>
-                            </button>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hint: Please enable photo access under Settings &gt; Apps &gt; 4K Photo to browse your Photo Library." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dG0-0w-RnH">
                                 <rect key="frame" x="81" y="936" width="1758" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -138,13 +139,31 @@
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="37"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
-                                <rect key="frame" x="954" y="276" width="871" height="165"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-rI-iBZ">
+                                <rect key="frame" x="45" y="386" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Ask for permission to show my Photo Library..."/>
+                                <state key="normal" title="License"/>
                                 <connections>
-                                    <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
+                                    <action selector="actionLicense:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="uN2-SX-ivn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyk-fj-Er3">
+                                <rect key="frame" x="45" y="658" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="UHD Test Card"/>
+                                <connections>
+                                    <action selector="actionUHD:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="P5N-Vc-MEh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5PT-Fw-sJs">
+                                <rect key="frame" x="45" y="557" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="HD Test Card"/>
+                                <connections>
+                                    <action selector="actionHD:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="AVT-mk-XWj"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -239,6 +258,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="niA-y7-QBS">
+                                <rect key="frame" x="110" y="428" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="HD Test Card"/>
+                                <connections>
+                                    <action selector="actionHD:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="zQO-eJ-LgP"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1HZ-zX-2sr">
                                 <rect key="frame" x="110" y="318" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -299,6 +327,15 @@
                                 <state key="normal" title="🔍  Zoom factor:  3.0x"/>
                                 <connections>
                                     <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="epc-cl-Bb2">
+                                <rect key="frame" x="110" y="538" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="UHD Test Card"/>
+                                <connections>
+                                    <action selector="actionUHD:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="HO4-C9-G4k"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -472,6 +509,52 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikn-t2-xV8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4736" y="-1224"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="c6D-1i-tcD">
+            <objects>
+                <viewController storyboardIdentifier="HDViewController" id="nCa-2C-Cez" customClass="HDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="20I-QF-ljZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="SPw-lj-yNK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yIV-GG-kkT">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="1920x1080" translatesAutoresizingMaskIntoConstraints="NO" id="4Xx-IN-Um3">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HTg-tk-sOs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4736" y="-5772"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="G4S-O8-TsN">
+            <objects>
+                <viewController storyboardIdentifier="UHDViewController" id="Wwl-CB-rVk" customClass="UHDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZCK-GF-0ZI"/>
+                        <viewControllerLayoutGuide type="bottom" id="4WG-Bq-Cm1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Vv1-V3-QqF">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3840x2160" translatesAutoresizingMaskIntoConstraints="NO" id="mhS-4Z-66i">
+                                <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EkR-jf-IsK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4733" y="-4429"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="MsH-tY-YP3">
@@ -784,6 +867,8 @@ https://github.com/fchollet/keras/blob/master/LICENSE</string>
         </scene>
     </scenes>
     <resources>
+        <image name="1920x1080" width="1920" height="1080"/>
+        <image name="3840x2160" width="3840" height="2160"/>
         <image name="IMG_1087" width="3504" height="1971"/>
         <image name="glossy_gradient" width="640" height="480"/>
     </resources>

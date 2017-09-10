@@ -28,6 +28,24 @@ class DisclaimerViewController: UIViewController {
         return CGAffineTransform(scaleX: 1.0, y: 1.0)
     }
     
+    @IBAction func actionUHD(_ sender: UIButton) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "UHDViewController") as? UHDViewController{
+            self.show(controller, sender: self)
+        }
+        
+    }
+    
+    
+    @IBAction func actionHD(_ sender: UIButton) {
+    
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "HDViewController") as? HDViewController{
+            self.show(controller, sender: self)
+        }
+    }
+    
+    
+    
     @IBAction func actionAbout(_ sender: UIButton) {
         
         
