@@ -15,9 +15,17 @@ fileprivate let imageManager = PHCachingImageManager()
 fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
 
 
+
+
 // adds the prefetiching protocoll implementation to look forward
 //class AlbumController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
 class AlbumController: UICollectionViewController {
+
+    // indicator shows if the albums are currently loaded
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+
+    // status of the loaded albums
+    var isAlbumCollectionLoaded = false
     
     // contains all the albums, intially an empty array
     var sortedAlbumArray: [AlbumDetail] = []
@@ -40,8 +48,25 @@ class AlbumController: UICollectionViewController {
         super.viewDidLoad()
         
 
+        
+        activityIndicator.center = CGPoint(x: 960, y: 512)
+        
+        activityIndicator.startAnimating()
+        
+        
+        // let button = UIButton(frame: CGRect(x: 100, y: 200, width: 300, height: 100))
+        // button.setTitle("My Button", for: .normal)
+        
+        view.addSubview(activityIndicator)
+        view.bringSubview(toFront: activityIndicator)
+        
+        
+
+        
+
         // Do any additional setup after loading the view.
-        getAlbums()
+      
+        // getAlbums()
         
         // set this instance as the prefetch datasource
         // can be set via storyboard, but lets check it really
@@ -55,6 +80,15 @@ class AlbumController: UICollectionViewController {
     
     // updated configuration 
     override func viewDidAppear(_ animated: Bool) {
+
+        if(!isAlbumCollectionLoaded){
+            getAlbums()
+            collectionView?.reloadData()
+            activityIndicator.stopAnimating()
+            isAlbumCollectionLoaded = true
+        }
+        
+        
         if(SettingsController.hasAlbumListOrderChangedDefault){
             // set to normal since we have already received the event
             SettingsController.hasAlbumListOrderChangedDefault = false
