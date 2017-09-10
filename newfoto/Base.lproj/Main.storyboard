@@ -104,7 +104,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Welcome ☀️ to 4K Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L3L-9H-vIM">
+                                <rect key="frame" x="20" y="276" width="367" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="About"/>
+                                <connections>
+                                    <action selector="actionAbout:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="JdJ-dn-qo7"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Welcome to 4K🌻Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1sj-P1-b6I">
                                 <rect key="frame" x="20" y="39" width="983" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.21207091968911918" green="0.21207091968911918" blue="0.21207091968911918" alpha="0.40050066021126762" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,13 +121,13 @@
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="49"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
-                                <rect key="frame" x="1133" y="864" width="742" height="165"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGx-rI-iBZ">
+                                <rect key="frame" x="20" y="386" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Yes, request access to Photo Library..."/>
+                                <state key="normal" title="License"/>
                                 <connections>
-                                    <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
+                                    <action selector="actionLicense:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="uN2-SX-ivn"/>
                                 </connections>
                             </button>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Hint: Please enable photo access under Settings &gt; Apps &gt; 4K Photo to browse your Photo Library." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dG0-0w-RnH">
@@ -129,6 +138,15 @@
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="37"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rtm-B5-emi">
+                                <rect key="frame" x="954" y="276" width="871" height="165"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="Ask for permission to show my Photo Library..."/>
+                                <connections>
+                                    <action selector="requestLibraryAction:" destination="fYG-kt-ghM" eventType="primaryActionTriggered" id="46C-r6-0tp"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -474,7 +492,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
+                                <string key="text">4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
 
 WHAT´S NEW
@@ -685,7 +703,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -725,7 +743,7 @@ VERSION 1.0
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">A WORD FROM THE AUTOR
+                                <string key="text">A WORD FROM THE AUTOR
 
 4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. Currently as of September 3rd 2017 no AppleTV with full 4K support has been release yet. 
 
@@ -743,7 +761,7 @@ Copyright (c) 2016 François Chollet
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-https://github.com/fchollet/keras/blob/master/LICENSE</mutableString>
+https://github.com/fchollet/keras/blob/master/LICENSE</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>

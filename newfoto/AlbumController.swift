@@ -81,6 +81,27 @@ class AlbumController: UICollectionViewController {
     // updated configuration 
     override func viewDidAppear(_ animated: Bool) {
 
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        if (status != PHAuthorizationStatus.authorized) {
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "DisclaimerController") as? DisclaimerViewController{
+                
+                // show it on the highest level as a modal view
+                // present(controller, animated: false, completion: nil)
+                
+                // show it on the highest level as a modal view
+                //show(controller, sender: self)
+                
+                view.window?.rootViewController = controller
+                
+                
+                // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+                // print("Controller is shown")
+                return
+            }
+        }
+        
+        
         if(!isAlbumCollectionLoaded){
             getAlbums()
             collectionView?.reloadData()

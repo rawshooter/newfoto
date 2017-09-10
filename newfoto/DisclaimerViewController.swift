@@ -28,6 +28,38 @@ class DisclaimerViewController: UIViewController {
         return CGAffineTransform(scaleX: 1.0, y: 1.0)
     }
     
+    @IBAction func actionAbout(_ sender: UIButton) {
+        
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "AboutController") as? AboutViewController{
+            print("Controller found")
+            
+            
+            
+            // controller.presentingSmartController = self
+            self.show(controller, sender: self)
+            
+            //self.present(controller, animated: true, completion: nil)
+            
+        }
+    }
+    
+    
+    @IBAction func actionLicense(_ sender: UIButton) {
+        
+        if let controller = storyboard?.instantiateViewController(withIdentifier: "LicenseController") as? LicenseViewController{
+            print("Controller found")
+            
+            
+            
+            // controller.presentingSmartController = self
+            self.show(controller, sender: self)
+            
+            //self.present(controller, animated: true, completion: nil)
+            
+        }
+        
+    }
     
     func zoomIn(){
         UIView.animate(withDuration: 40,
