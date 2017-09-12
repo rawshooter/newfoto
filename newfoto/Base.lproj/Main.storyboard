@@ -510,10 +510,10 @@
             </objects>
             <point key="canvasLocation" x="4736" y="-1224"/>
         </scene>
-        <!--View Controller-->
+        <!--HD View Controller-->
         <scene sceneID="c6D-1i-tcD">
             <objects>
-                <viewController storyboardIdentifier="HDViewController" id="nCa-2C-Cez" customClass="HDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HDViewController" id="nCa-2C-Cez" userLabel="HD View Controller" customClass="HDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="20I-QF-ljZ"/>
                         <viewControllerLayoutGuide type="bottom" id="SPw-lj-yNK"/>
@@ -533,10 +533,10 @@
             </objects>
             <point key="canvasLocation" x="4736" y="-5772"/>
         </scene>
-        <!--View Controller-->
+        <!--UHD View Controller-->
         <scene sceneID="G4S-O8-TsN">
             <objects>
-                <viewController storyboardIdentifier="UHDViewController" id="Wwl-CB-rVk" customClass="UHDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UHDViewController" id="Wwl-CB-rVk" userLabel="UHD View Controller" customClass="UHDViewController" customModule="newfoto" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZCK-GF-0ZI"/>
                         <viewControllerLayoutGuide type="bottom" id="4WG-Bq-Cm1"/>
@@ -575,7 +575,9 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
+                                <mutableString key="text">NEW IN THIS RELEASE
+
+4K🌻Photo now supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
 
 WHAT´S NEW
@@ -588,10 +590,12 @@ WHAT´S NEW
 
 • Activity indicator to display loading of larger image sets on first startup
 
+• HD (1920x1080) and UHD (3840x2160) calibration images to adjust your television setup for best viewing experience
+
 
 CHANGES
 
-• Removed option for lowres and highres Image Downloads. The only option is now highres.
+• Removed option for lowres and highres image downloads. The only option is now highres.
 
 • Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
 
@@ -612,9 +616,9 @@ Stay tuned for upcoming updates. We love to hear feedback from you. Please conta
 
 ABOUT 4K🌻Photo
 
-The only tvOS photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
+The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
-For you it is a free companion App for your AppleTV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available. 
+4K🌻Photo is a free companion App for your AppleTV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available, including core ML image detection and interactive maps.
 
 
 QUICK INSTRUCTIONS
@@ -632,13 +636,20 @@ QUICK INSTRUCTIONS
 • Long press trackpad on a photo to show up accessibility menu
 
 
+WE LOVE TO HEAR FROM YOU
+
+Please note that the current AppleTV 4th gen only supports HD output. With AppleTV 4K you can also use the full UHD resolution.
+
+Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. Have fun and keep on taking good photos. It is free from my private project. Enjoy!
+
+
 
 FULL RELEASE NOTES
 
 
 VERSION 1.11
 
-4K🌻Photo supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
+4K🌻Photo supports now Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
 
 WHAT´S NEW IN THIS RELEASE
@@ -651,10 +662,12 @@ WHAT´S NEW IN THIS RELEASE
 
 • Activity indicator to display loading of larger image sets on first startup
 
+• HD (1920x1080) and UHD (3840x2160) calibration images to adjust your television setup for best viewing experience
+
 
 CHANGES
 
-• Removed option for lowres and highres Image Downloads. The only option is now highres.
+• Removed option for lowres and highres image downloads. The only option is now highres.
 
 • Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
 
@@ -670,6 +683,7 @@ CHANGES
 FIXES
 
 • Now correct loading Metadata on initial startup 
+
 
 VERSION 1.10
 
@@ -717,20 +731,6 @@ Enjoy your last vacation with your friends and family. Now with a zoomable fulls
 The new features depend on the provided metadata on the photo. Not all EXIF data is always available. The double click or long press Play Button is needed, to provide still access to the Apple Maps legal information under the maps legal button.
 
 
-VERSION 1.0 - 1.5
-
-Please contact me for full release notes. The list is getting too long here...
-
-
-WE LOVE TO HEAR FROM YOU
-
-Please note that the current AppleTV only supports HD output. For upcoming devices we will try to add a version that also supports 4K output. The version enabled a 4K like zoom.
-
-Please feedback please contact us at 4kphoto@alexnat.de. Have fun and keep on taking good photos. It is free from my learning project. Enjoy!
-
-
-
--------
 VERSION 1.5
 
 This update brings you some more fixes and features:
@@ -765,11 +765,13 @@ With the introduction of dedicated sorting options of the Shared Album list all 
 
 Since the current APIs provide no direct access to the album dates, we identify all the dates of the photos and then perform a smart sort algorithm to collect and order the corresponding albums.
 
+
 VERSION 1.2
 
 - Smoother scrolling performance in PhotoStream and Album mode
 - Better positioning and cell alignment of the photos in the collection view to look more pleasing
 - Updated default preferences for first time users and new installations: By default the sort order for the shared albums is now ascending. This means older photos are shown first. This is more natural when viewing an album. PhotoStream however will display the newest photos as usual.
+
 
 VERSION 1.1
 
@@ -777,6 +779,7 @@ VERSION 1.1
 - Better localization 
 
 You can now configure the behavior of the GPS map overlay, Sort Order in Album View and a variable Zoom Factor from 1.5x up to 3.0x. Time and Date will be displayed corresponding to your current Locale.
+
 
 VERSION 1.0
 
@@ -786,7 +789,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -826,9 +829,9 @@ VERSION 1.0
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">A WORD FROM THE AUTOR
+                                <mutableString key="text">A WORD FROM THE AUTOR
 
-4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. Currently as of September 3rd 2017 no AppleTV with full 4K support has been release yet. 
+4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. AppleTV 4th generation is capable of Full HD 1920x1080 and AppleTV 4K supports full 4K at 3840x2160. 
 
 On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
 
@@ -837,6 +840,9 @@ Copyright 2016-2017 by Thomas Alexnat
 
 ACKNOWLEDGEMENTS
 
+
+MACHINE LEARNING
+
 This software is using the Machine Learning Library called 'ResNet50' by the authors Kaiming He and Xiangyu Zhang and Shaoqing Ren and Jian Sun. Keras Implementation: François Chollet
 
 MIT License
@@ -844,7 +850,13 @@ Copyright (c) 2016 François Chollet
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-https://github.com/fchollet/keras/blob/master/LICENSE</string>
+https://github.com/fchollet/keras/blob/master/LICENSE
+
+
+CALIBRATION IMAGES
+
+A big thank you is going to Väinö Helminen who gave me the kind permission to include the calibration images. Copyright by Väinö Helminen
+http://vah.dy.fi/testcard</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
