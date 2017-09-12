@@ -823,7 +823,7 @@ VERSION 1.0
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFE-Ra-qoY">
-                                <rect key="frame" x="300" y="137" width="1370" height="883"/>
+                                <rect key="frame" x="300" y="137" width="1370" height="1580"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -831,7 +831,7 @@ VERSION 1.0
                                 </accessibility>
                                 <mutableString key="text">A WORD FROM THE AUTOR
 
-4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your AppleTV might output on a lower resolution, depending on the model and HDMI connection. AppleTV 4th generation is capable of Full HD 1920x1080 and AppleTV 4K supports full 4K at 3840x2160. 
+4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your Apple TV might output on a lower resolution, depending on the model and HDMI connection. Apple TV 4th generation is capable of Full HD 1920x1080 and Apple TV 4K supports full 4K at 3840x2160. 
 
 On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
 
