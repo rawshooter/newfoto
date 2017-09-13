@@ -4,6 +4,11 @@
       "idiom" : "tv",
       "filename" : "AppleTV-Icon-App-Small-400x240.png",
       "scale" : "1x"
+    },
+    {
+      "idiom" : "tv",
+      "filename" : "AppleTV-Icon-App-Small-400x240@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
