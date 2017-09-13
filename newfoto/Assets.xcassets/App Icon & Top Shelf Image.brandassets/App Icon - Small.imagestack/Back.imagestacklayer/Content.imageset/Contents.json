@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "tv",
-      "filename" : "AppleTV-Icon-App-Small-400x240.png",
+      "filename" : "AppleTV-Icon-App-Small.png",
       "scale" : "1x"
     },
     {
       "idiom" : "tv",
-      "filename" : "AppleTV-Icon-App-Small-400x240@2x.png",
+      "filename" : "AppleTV-Icon-App-Small@2x.png",
       "scale" : "2x"
     }
   ],
