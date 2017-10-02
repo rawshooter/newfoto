@@ -575,7 +575,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">NEW IN THIS RELEASE
+                                <mutableString key="text">NEW IN THIS RELEASE
 
 4K🌻Photo now supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
@@ -645,6 +645,16 @@ Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. 
 
 
 FULL RELEASE NOTES
+
+
+VERSION 1.12
+
+• Sharper text on thumbnails overview when running in UHD 4K resolution
+
+
+VERSION 1.11.1
+
+• Enables scrolling in the About and Acknowledgements section
 
 
 VERSION 1.11
@@ -789,7 +799,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
