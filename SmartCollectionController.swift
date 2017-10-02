@@ -12,7 +12,9 @@ private let reuseIdentifier = "Cell"
 private let headerIdentifier = "Header"
 
 fileprivate let imageManager = PHImageManager()
-fileprivate var thumbnailSize: CGSize =   CGSize(width: 308, height: 308)
+//fileprivate let thumbnailSize =  CGSize(width: 616, height: 616)
+fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
+// fileprivate let thumbnailSize =  CGSize(width: 512, height: 512)
 
 import Photos
 
@@ -363,10 +365,11 @@ class SmartCollectionController: UICollectionViewController {
             
             // TODO: WARNING Rasterization bakes all the layers
             // and cannot be moved individually
-            cell.layer.rasterizationScale = UIScreen.main.scale;
+//            cell.layer.rasterizationScale = UIScreen.main.scale;
             
-            cell.layer.shouldRasterize = true;
+//            cell.layer.shouldRasterize = true;
             
+//            print("UIScreen.main.scale: \(UIScreen.main.nativeScale) and \(UIScreen.main.nativeBounds)")
             return cell
             
             

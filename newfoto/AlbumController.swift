@@ -12,7 +12,9 @@ import Photos
 private let reuseIdentifier = "AlbumCell"
 
 fileprivate let imageManager = PHCachingImageManager()
+//fileprivate let thumbnailSize =  CGSize(width: 616, height: 616)
 fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
+//fileprivate let thumbnailSize =  CGSize(width: 512, height: 512)
 
 
 
@@ -325,8 +327,8 @@ class AlbumController: UICollectionViewController {
         
         // TODO: WARNING Rasterization bakes all the layers 
         // and cannot be moved individually
-        cell.layer.shouldRasterize = true;
-        cell.layer.rasterizationScale = UIScreen.main.scale;
+   //     cell.layer.shouldRasterize = true;
+   //     cell.layer.rasterizationScale = UIScreen.main.scale;
         
         return cell
     }
