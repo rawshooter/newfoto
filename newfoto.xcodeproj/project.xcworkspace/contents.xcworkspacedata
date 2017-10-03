@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Volumes/data/projects/dev/cocoa/swift/newfoto/newfoto/Inceptionv3.mlmodel">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>
