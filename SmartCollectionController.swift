@@ -369,7 +369,7 @@ class SmartCollectionController: UICollectionViewController {
             
 //            cell.layer.shouldRasterize = true;
             
-//            print("UIScreen.main.scale: \(UIScreen.main.nativeScale) and \(UIScreen.main.nativeBounds)")
+            print("UIScreen.main.scale: \(UIScreen.main.nativeScale) and \(UIScreen.main.nativeBounds)")
             return cell
             
             

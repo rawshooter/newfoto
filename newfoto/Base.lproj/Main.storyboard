@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="13196" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -569,54 +569,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-Dc-z7K">
-                                <rect key="frame" x="300" y="137" width="1370" height="875"/>
+                                <rect key="frame" x="300" y="137" width="1370" height="883"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">NEW IN THIS RELEASE
-
-4K🌻Photo now supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
-
-
-WHAT´S NEW
-
-• Big Data core ML image detection: Up to three categories can be detected from the core ML engine. Please note that mainly objects are supported. Some detections might not be accurate and should only give a fun fact about the image. This feature is enabled by default.
-
-• Pixel dimension information in Metadata Display of the current photo
-
-• Image prefetching for faster loading. Loads the next two upcoming images in background. This is indicated with a small cloud symbol after loading the current image. The second image is loaded in the background for better performance.
-
-• Activity indicator to display loading of larger image sets on first startup
-
-• HD (1920x1080) and UHD (3840x2160) calibration images to adjust your television setup for best viewing experience
-
-
-CHANGES
-
-• Removed option for lowres and highres image downloads. The only option is now highres.
-
-• Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
-
-• Refined loading indicators
-
-• First tab is now Shared Albums and then the Photostream tab. This comes closer to family picture viewing habits.
-
-• General support for tvOS 11
-
-
-FIXES
-
-• Now correct loading Metadata on initial startup 
-
-
-Stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
- 
-
-ABOUT 4K🌻Photo
-
-The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
+                                <mutableString key="text">The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
 4K🌻Photo is a free companion App for your Apple TV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available, including core ML image detection and interactive maps.
 
@@ -647,6 +606,12 @@ Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. 
 FULL RELEASE NOTES
 
 
+VERSION 1.13
+
+• Faster startup time and splash image for better UXP
+• Indicator when loading the album collections, helpful for large libraries
+
+
 VERSION 1.12
 
 • Sharper text on thumbnails overview when running in UHD 4K resolution
@@ -659,7 +624,7 @@ VERSION 1.11.1
 
 VERSION 1.11
 
-4K🌻Photo supports now Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
+4K🌻Photo now supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
 
 
 WHAT´S NEW IN THIS RELEASE
@@ -736,7 +701,7 @@ Enjoy your last vacation with your friends and family. Now with a zoomable fulls
 - NEW: Photo Details are now shown to provide you more information like: Photoindex, Date, GPS, ISO, Model, Lens, Exposure Time, F-Number, Focal Length
 - NEW: Fullscreen Maps can be activated when the photo provides the needed GPS information (double click or long press the Play Button)
 - NEW: Toggle between the different HUD Settings: None, EXIF Details, Map and Full Screen Map  (double click or long press the Play Button)
-- FIX: Correct HDMI resolution is set according to the AppleTV settings. This gives a more future proof upward compatibility
+- FIX: Correct HDMI resolution is set according to the Apple TV settings. This gives a more future proof upward compatibility
 
 The new features depend on the provided metadata on the photo. Not all EXIF data is always available. The double click or long press Play Button is needed, to provide still access to the Apple Maps legal information under the maps legal button.
 

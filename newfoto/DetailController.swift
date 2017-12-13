@@ -2098,7 +2098,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                                                       regionRadius, regionRadius)
             mapView!.setRegion(coordinateRegion, animated: true)
             
-            
+  
             
             
             // remove all old annotations
@@ -2428,18 +2428,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         
+        
+        
         // EXIF METADATA
 
         if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
+            
+            print(CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary)
+            
             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary;
             
-           // print("getting Exif data")
-           // print(imageProperties)
+       
             
             if let exifAuxDict = imageProperties.value(forKey: "{ExifAux}") as? NSDictionary{
                 
-
-                
+        
                 
                 if let lensModel = exifAuxDict.value(forKey: "LensModel") as? NSString{
                     labelLens.text = lensModel as String
@@ -2452,6 +2455,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             if let exifDict = imageProperties.value(forKey: "{Exif}") as? NSDictionary{
           
+        
                 
                 if let iso = exifDict.value(forKey: "ISOSpeedRatings") as! NSArray? {
 
