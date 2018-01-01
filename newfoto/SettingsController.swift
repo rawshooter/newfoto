@@ -14,6 +14,7 @@ class SettingsController: UIViewController {
   
     let albumListOrderText = "🗄  Ordering of Albums: "
     let sortOrderText = "🖼  Ordering of Photos: "
+    let groupText = "📅  Group Photos by Date: "
     let zoomFactorText = "🔍  Zoom Factor: "
     let mapOverlayText = "🗺  GPS, EXIF & Info Display: "
     
@@ -23,7 +24,7 @@ class SettingsController: UIViewController {
     static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
     static let sortOrderDefaultsKey = "SORT_ORDER"
     static let albumListOrderDefaultsKey = "ALBUM_ORDER"
-
+    static let groupByDateDefaultsKey = "GROUP_BY_DATE"
     
     // have been changed made in the confige while runtime?
     static var hasAlbumListOrderChangedDefault = false
@@ -37,6 +38,10 @@ class SettingsController: UIViewController {
     static let sortOrderAscending = "ASCENDING"
     static let sortOrderDescending = "DECENDING"
 
+    static let groupByDateEnabled = "ENABLED"
+    static let groupByDateDisabled = "DISABLED"
+
+    
     
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
@@ -54,6 +59,23 @@ class SettingsController: UIViewController {
             self.show(controller, sender: self)
         }
     }
+    
+    @IBAction func groupByDateAction(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        
+        if(SettingsController.isGroupByDateEnabled()){
+            defaults.set(SettingsController.groupByDateDisabled, forKey: SettingsController.groupByDateDefaultsKey)
+            groupByDateButton.setTitle(groupText + SettingsController.groupByDateDisabled, for: .normal)
+        } else {
+            defaults.set(SettingsController.groupByDateEnabled, forKey: SettingsController.groupByDateDefaultsKey)
+            groupByDateButton.setTitle(groupText + SettingsController.groupByDateEnabled, for: .normal)
+        }
+        
+    }
+    
+    
     
     
     @IBAction func actionLicense(_ sender: UIButton) {
@@ -105,6 +127,23 @@ class SettingsController: UIViewController {
             return false
         }
     }
+    
+    
+    // return the group order by date of the user default as boolean value
+    class func isGroupByDateEnabled() -> Bool{
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        
+        let groupByDateDefault = defaults.object(forKey: groupByDateDefaultsKey) as? String ?? groupByDateEnabled
+        if(groupByDateDefault == groupByDateEnabled){
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
     
     // return the sort order of the user default as boolean value
     // true when it is descending and false when ascending
@@ -296,7 +335,8 @@ class SettingsController: UIViewController {
     @IBOutlet weak var sortOrderButton: UIButton!
     @IBOutlet weak var zoomFactorButton: UIButton!
     @IBOutlet weak var albumListOrderButton: UIButton!
-
+    @IBOutlet weak var groupByDateButton: UIButton!
+    
     
     
     // The cells zoom when focused.
@@ -366,6 +406,19 @@ class SettingsController: UIViewController {
         if(sortOrderDefault == SettingsController.sortOrderDescending){
             sortOrderButton.setTitle(sortOrderText + "Newest First", for: .normal)
         }
+        
+        
+        let groupByDateDefault = defaults.object(forKey: SettingsController.groupByDateDefaultsKey) as? String ?? SettingsController.groupByDateEnabled
+        print("groupByDateDefault: \(groupByDateDefault)")
+        
+        if(groupByDateDefault == SettingsController.groupByDateEnabled){
+            groupByDateButton.setTitle(groupText + SettingsController.groupByDateEnabled, for: .normal)
+        }
+        
+        if(groupByDateDefault == SettingsController.groupByDateDisabled){
+            groupByDateButton.setTitle(groupText + SettingsController.groupByDateDisabled, for: .normal)
+        }
+        
         
         
         

@@ -286,7 +286,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MkE-oc-Q8J">
-                                <rect key="frame" x="1208" y="428" width="602" height="86"/>
+                                <rect key="frame" x="1208" y="538" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -307,6 +307,17 @@
                                     <action selector="sortOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="bxe-HD-QeE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7l6-LG-Knu" userLabel="Group Date Button">
+                                <rect key="frame" x="1208" y="428" width="602" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="📅  Group Photos by Date: Enabled"/>
+                                <connections>
+                                    <action selector="groupByDateAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="dMU-k9-Sfm"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Upc-JN-kGv">
                                 <rect key="frame" x="1208" y="208" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -318,17 +329,6 @@
                                     <action selector="albumListOrderAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="wD7-lc-Uog"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
-                                <rect key="frame" x="1208" y="538" width="602" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="🔍  Zoom factor:  3.0x"/>
-                                <connections>
-                                    <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="epc-cl-Bb2">
                                 <rect key="frame" x="110" y="538" width="367" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -338,12 +338,24 @@
                                     <action selector="actionUHD:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="HO4-C9-G4k"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxk-PO-8nz">
+                                <rect key="frame" x="1208" y="648" width="602" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🔍  Zoom factor:  3.0x"/>
+                                <connections>
+                                    <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" id="erE-sQ-4mD"/>
                     <connections>
                         <outlet property="albumListOrderButton" destination="Upc-JN-kGv" id="59B-NT-X2L"/>
+                        <outlet property="groupByDateButton" destination="7l6-LG-Knu" id="9E0-S4-YAg"/>
                         <outlet property="imageView" destination="sab-VP-Rzb" id="7l0-Dj-b5q"/>
                         <outlet property="mapOverlayButton" destination="MkE-oc-Q8J" id="4Lu-mK-oqo"/>
                         <outlet property="sortOrderButton" destination="U7W-Es-ZvC" id="EIB-Bh-ULb"/>
@@ -568,8 +580,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="About 4K🌻Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcv-n6-wWi">
+                                <rect key="frame" x="778" y="43" width="407" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTf-Dc-z7K">
-                                <rect key="frame" x="300" y="137" width="1370" height="883"/>
+                                <rect key="frame" x="296" y="137" width="1370" height="883"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -604,6 +623,11 @@ Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. 
 
 
 FULL RELEASE NOTES
+
+
+VERSION 1.14
+
+• NEW: Ever wanted to display all photos in an album or have the option to group all the photos by day? The new settings option allows you to enable or disable the grouping by date based on your preferences. The Photo Stream tab still groups by day. 
 
 
 VERSION 1.13
@@ -766,13 +790,6 @@ VERSION 1.0
 
 </mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="About 4K🌻Photo" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lcv-n6-wWi">
-                                <rect key="frame" x="778" y="43" width="407" height="132"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>

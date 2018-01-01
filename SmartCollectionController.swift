@@ -22,6 +22,17 @@ import Photos
 // and other phasset collections
 class SmartCollectionController: UICollectionViewController {
 
+    
+    // indicates if the photo collection should be grouped
+    // by date or just a classic collection
+    var groupByDate: Bool = false
+    
+    
+    // indicator if the current photoset is in photostream mode
+    // photo stream mode should get by default everytime a grouping by date
+    var isPhotoStream: Bool = false
+    
+    
     // phfetch result of the current photos
     var allPhotos: PHFetchResult<PHAsset>?
     
@@ -145,8 +156,15 @@ class SmartCollectionController: UICollectionViewController {
         
         let status = PHPhotoLibrary.authorizationStatus()
         if (status == PHAuthorizationStatus.authorized) {
+            
             if(allPhotos == nil){
                 print("loading photostream")
+                
+                // set photostream mode on, to treat photos in collection later different
+                // from preference
+                
+                isPhotoStream = true
+                
                 let allPhotosOptions = PHFetchOptions()
                 // ONLY fotostream is ascending - the rest is configurable
                 allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -224,7 +242,21 @@ class SmartCollectionController: UICollectionViewController {
                 }
                 
                 
-                let isSameDay = calendar.isDate(currentSectionDate!,equalTo: creationDate, toGranularity: .day)
+                
+                
+                
+            
+                var granularity: Calendar.Component
+                
+                if(SettingsController.isGroupByDateEnabled() || isPhotoStream){
+                    granularity = Calendar.Component.day
+                } else {
+                    granularity = Calendar.Component.era
+                }
+                
+                let isSameDay = calendar.isDate(currentSectionDate!,equalTo: creationDate, toGranularity: granularity)
+                
+                
                 
                 // on the same day
                 // just append it to the asset container
@@ -299,18 +331,27 @@ class SmartCollectionController: UICollectionViewController {
         
         
         
-        let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.dateStyle = .full
-        formatter.timeStyle = .none
-     
+        if(SettingsController.isGroupByDateEnabled() || isPhotoStream){
+        
+            let formatter = DateFormatter()
+            formatter.locale = Locale.current
+            formatter.dateStyle = .full
+            formatter.timeStyle = .none
+            
+            
+            
+            let date = dateAssetsArray[indexPath.section].date
+            
+            let dateStr = formatter.string(from: date)
+            
+            view.label.text = dateStr
+            
+        } else {
+            view.label.text = "\(dateAssetsArray[indexPath.section].assetArray.count) Photos"
+        }
         
         
-        let date = dateAssetsArray[indexPath.section].date
         
-        let dateStr = formatter.string(from: date)
-        
-        view.label.text = dateStr
         
         
         return view
