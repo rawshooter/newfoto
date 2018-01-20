@@ -2434,7 +2434,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
         if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
             
-            print(CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary)
+            //print(CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary)
             
             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil)! as NSDictionary;
             
@@ -2816,9 +2816,82 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     }
     
+    // computer vision function and method
+    // to detect if the current image has a horizon
+    // and the corresponding angle
+    func detectHorizon(){
+        // Create a vision request
+
+        let request = VNDetectHorizonRequest() {[weak self] request, error in
+            guard let results = request.results as? [VNHorizonObservation],
+                let topResult = results.first
+                else {
+                    print("No horizon detected. Skipping image rotation: \(error)")
+                   // fatalError("Unexpected results")
+                    return
+            }
+            
+            // did we get any result?
+            if(results.count > 0){
+                print("Horizon detected: \(topResult)")
+                print("Horizon angle: \(topResult.angle)")
+                print("Horizon transform: \(topResult.transform)")
+            
+                // Update the Main UI Thread with our result
+                DispatchQueue.main.async { [weak self] in
+                   // DO UI STUFF
+                    //            self.imageView.transform = CGAffineTransformInvert(CGAffineTransformMakeRotation(horizonObservation.angle));
+                    //            self.imageView.transform = CGAffineTransformInvert(horizonObservation.transform);
+                    
+                    
+                    UIView.animate(withDuration: 1.5,
+                                   delay: 0,
+                                   usingSpringWithDamping: 0.8,
+                                   initialSpringVelocity: 0,
+                                   options: .beginFromCurrentState,
+                                   animations: { () -> Void in
+                                    
+                                    self?.imageView2.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted()
+                    },
+                    completion: nil)
+                    
+                    
+                }
+                
+
+            } else {
+                print("No Horzion was detected")
+            }
+            
+        }
+        
+        // set the image to analyze
+        guard let ciImage = CIImage(image: self.imageView.image!)
+            else { fatalError("Cant create CIImage from UIImage") }
+        
+        // now we want to process asynchronously
+        // the detection with the image handler
+        // please note that the callback is defined in the handler above
+        let handler = VNImageRequestHandler(ciImage: ciImage)
+        DispatchQueue.global().async {
+            do {
+                try handler.perform([request])
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
     
+    
+    
+    
+    // coreML vision to detect the image categories e.g. flower, sea, ...
     func detectImage() {
-    
+        // EXPERIMENTAL CHECK HORIZON IF AVAILABLE
+        detectHorizon()
+        
+        
         // display nothing when the HUD is disabled
         
         if(HUDMode == .none){
