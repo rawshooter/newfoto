@@ -2837,11 +2837,26 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 print("Horizon angle: \(topResult.angle)")
                 print("Horizon transform: \(topResult.transform)")
             
+                
+                if(topResult.angle > 0.06 || topResult.angle < -0.06){
+                    return
+                }
+                
                 // Update the Main UI Thread with our result
                 DispatchQueue.main.async { [weak self] in
                    // DO UI STUFF
                     //            self.imageView.transform = CGAffineTransformInvert(CGAffineTransformMakeRotation(horizonObservation.angle));
                     //            self.imageView.transform = CGAffineTransformInvert(horizonObservation.transform);
+                    
+                    if(topResult.angle > 0.03 || topResult.angle < -0.03){
+                        self?.labelLens.text = String(format: "⚖️ Autorotate Off: %.2f 🚫", topResult.angle)
+                        
+                        
+                        return
+                    }
+                    
+                    
+                    
                     
                     
                     UIView.animate(withDuration: 1.5,
@@ -2851,7 +2866,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                    options: .beginFromCurrentState,
                                    animations: { () -> Void in
                                     
-                                    self?.imageView2.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted()
+                                    
+                                    
+                                    // rotate the main image view
+                                  //  self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted()
+                                  //  self?.imageView.transform = CGAffineTransform(scaleX: 1.0 * (abs(topResult.angle) + 1.0) , y: 1.0 * (abs(topResult.angle) + 1.0) )
+                        
+                                    self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x: 1.0 * (abs(topResult.angle) + 1.06), y: 1.0 * (abs(topResult.angle) + 1.06) )
+                                    
+                                    
+                                    
+                                    //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle)
+                                    
+                                    self?.labelLens.text = String(format: "⚖️ Autorotate: %.2f", topResult.angle)
+
                     },
                     completion: nil)
                     
