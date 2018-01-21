@@ -114,7 +114,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // feature toggle to enable autorotate
     // via coreML computer vision APIs
-    let featureAutorotateEnabled = false
+    let featureAutorotateEnabled = true
     
     @IBOutlet weak var labelSpeed: UILabel!
     @IBOutlet weak var labelFstop: UILabel!
@@ -757,11 +757,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         
                         
                         
-
-
+                        self.imageView.transform = CGAffineTransform.identity
+                        
+/*
                         // reset to identity transform
                         if(!self.featureAutorotateEnabled){
-                                self.imageView2.transform = CGAffineTransform.identity
+                                self.imageView.transform = CGAffineTransform.identity
                         } else {
                             // reset to default image position, scale and rotation
                             // and use an animation to have a smoother expierence
@@ -772,10 +773,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                            initialSpringVelocity: 0,
                                            options: .beginFromCurrentState,
                                            animations: { () -> Void in
-                                            self.imageView2.transform =  CGAffineTransform.identity
+                                            self.imageView.transform =  CGAffineTransform.identity
                             }, completion: nil)
                         }
-                        
+ 
+ */
                         // self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                         
                        /* UIView.animate(withDuration: 2,
@@ -882,6 +884,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         self.loadNextImage()
 
                 
+                                                    self.imageView.transform = CGAffineTransform.identity
+                        
+                        /*
                         // reset to identity transform
                         if(!self.featureAutorotateEnabled){
                             self.imageView.transform = CGAffineTransform.identity
@@ -899,7 +904,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                             }, completion: nil)
                         }
                         
-                        
+                        */
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                            self.isImageTransition = false
            
