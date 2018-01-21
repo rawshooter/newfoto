@@ -176,6 +176,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var zommedTransform: CGAffineTransform {
         return CGAffineTransform(scaleX: CGFloat(self.zoomFactor), y: CGFloat(self.zoomFactor))
     }
+
+    
+    // AI Transform including Rotation and Zoom, when detected
+    // by detectHorizon logic. should be NIL or zoomedTransform standard when
+    // no horizon or else is detected
+    var aiTransform: CGAffineTransform?
+    
     
     // The cells zoom when focused.
     var normalTransform: CGAffineTransform {
@@ -321,23 +328,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
         
-        // reset to identity transform
-        if(!featureAutorotateEnabled){
-            imageView2.transform = CGAffineTransform.identity
-        } else {
-            // reset to default image position, scale and rotation
-            // and use an animation to have a smoother expierence
+        imageView2.transform = CGAffineTransform.identity
         
-            UIView.animate(withDuration: 0.7,
-                           delay: 0,
-                           usingSpringWithDamping: 0.8,
-                           initialSpringVelocity: 0,
-                           options: .beginFromCurrentState,
-                           animations: { () -> Void in
-                        self.imageView2.transform =  CGAffineTransform.identity
-            }, completion: nil)
-        }
-
         
 
         
@@ -395,25 +387,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
         
-   
-        // reset to identity transform
-        if(!featureAutorotateEnabled){
-            imageView2.transform = CGAffineTransform.identity
-        } else {
-            // reset to default image position, scale and rotation
-            // and use an animation to have a smoother expierence
-            
-            UIView.animate(withDuration: 0.7,
-                           delay: 0,
-                           usingSpringWithDamping: 0.8,
-                           initialSpringVelocity: 0,
-                           options: .beginFromCurrentState,
-                           animations: { () -> Void in
-                        self.imageView2.transform =  CGAffineTransform.identity
-            }, completion: nil)
-        }
-        
-        
+
+        imageView2.transform = CGAffineTransform.identity
+
         // set the boundaries for the image on the left side
         imageView2.frame = CGRect(x: screenWidth , y: 0, width: screenWidth, height: screenHeight)
         
@@ -465,10 +441,18 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         
+
+        
+        
+        
         // add the dynamic system initially
         // for later movement in the "changed" phase
         // release the anchors later in "ended"
         if (recognizer.state == UIGestureRecognizerState.began){
+  
+            
+            
+            
             
             // we are starting a new animation so
             // reset all dynamic animations and setup it like a new stage
@@ -969,16 +953,36 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // zoom in
             
-            UIView.animate(withDuration: 0.7,
-                           delay: 0,
-                           usingSpringWithDamping: 0.8,
-                           initialSpringVelocity: 0,
-                           options: .beginFromCurrentState,
-                           animations: { () -> Void in
-                            self.imageView.transform = self.zommedTransform
+            if(!featureAutorotateEnabled){
+                UIView.animate(withDuration: 0.7,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                self.imageView.transform = self.zommedTransform
+                                
+                                
+                }, completion: nil)
+            } else {
+                UIView.animate(withDuration: 0.7,
+                               delay: 0,
+                               usingSpringWithDamping: 0.8,
+                               initialSpringVelocity: 0,
+                               options: .beginFromCurrentState,
+                               animations: { () -> Void in
+                                
+                                if let autoZoom = self.aiTransform{
+                                    self.imageView.transform = autoZoom
+                                } else {
+                                    self.imageView.transform = self.zommedTransform
+                                }
+                                
+                                
+                                
+                }, completion: nil)
+            }
 
-                            
-            }, completion: nil)
             
             
         }
@@ -2853,6 +2857,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         
+        // at the moment we don´t know nothing about the zoom state
+        aiTransform = nil
+        
         // check if the aspect ratio is fine. should work only with aspect ratio > 4:3
 
         
@@ -2862,9 +2869,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         if(aspectRatio > 1.32){
             
         } else {
+            
+            /*
             DispatchQueue.main.async { [weak self] in
                 self?.labelLens.text = String(format: "🚫 Autorotate off: Aspect Ratio %.2f too low", aspectRatio )
             }
+             */
             return
         }
         
@@ -2877,7 +2887,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             guard let results = request.results as? [VNHorizonObservation],
                 let topResult = results.first
                 else {
-                    print("No horizon detected. Skipping image rotation: \(error)")
+                    print("No horizon detected. Skipping image rotation.")
                    // fatalError("Unexpected results")
                     return
             }
@@ -2895,12 +2905,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
                 // Update the Main UI Thread with our result
                 DispatchQueue.main.async { [weak self] in
-                   // DO UI STUFF
-                    //            self.imageView.transform = CGAffineTransformInvert(CGAffineTransformMakeRotation(horizonObservation.angle));
-                    //            self.imageView.transform = CGAffineTransformInvert(horizonObservation.transform);
+                   
                     
                     if(topResult.angle > 0.035 || topResult.angle < -0.035){
-                        self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", abs(topResult.angle) * 100 )
+                       // self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", abs(topResult.angle) * 100 )
                         
                         
                         return
@@ -2930,17 +2938,27 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                     
                                     if(aspectRatio  >= (16/9) ){
                                     
-                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * (1.012 + abs(topResult.angle)) ) / (16/9) ,
+                                        //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * (1.012 + abs(topResult.angle)) ) / (16/9) ,
+                                       //                                                                                                   y:  (aspectRatio * (1.012 + abs(topResult.angle)) ) / (16/9) )
+                                      
+                                        // set the aiTransform property
+                                        // ready to be used in switchZoomToggle
+                                        self?.aiTransform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * (1.012 + abs(topResult.angle)) ) / (16/9) ,
                                                                                                                                           y:  (aspectRatio * (1.012 + abs(topResult.angle)) ) / (16/9) )
+                                        
                                         
                                     } else {
                                         // 4:3 images do not need so much zoom
                                         let zoom = (1.005 + abs(topResult.angle) )
                                         let zoomFactor = zoom * (16/9)
                                        
-                                        
-                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  zoomFactor / (aspectRatio )  ,
+                                        // set the aiTransform property
+                                        // ready to be used in switchZoomToggle
+                                        self?.aiTransform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  zoomFactor / (aspectRatio )  ,
                                                                                                                                           y:  zoomFactor / (aspectRatio )  )
+                                        
+                                        //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  zoomFactor / (aspectRatio )  ,
+                                        //                                                                                                  y:  zoomFactor / (aspectRatio )  )
                                         
                                     }
                                     
@@ -2950,7 +2968,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                     
                                     //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle)
                                     
-                                    self?.labelLens.text = String(format: "⚖️ Autorotate by %.1f°", abs(topResult.angle) * 100)
+                                    
+
+                                    self?.labelLens.text = String(format: "🏞 AI Autoadjust with %.1f° available in Zoom Mode", abs(topResult.angle) * 100)
+
+                                    
+                      
 
                     },
                     completion: nil)
