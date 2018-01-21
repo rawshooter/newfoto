@@ -19,10 +19,13 @@ class TabBarController: UITabBarController {
         ]
         
        
-        if let tabs = tabBar.items as? [UITabBarItem]{
+        if let tabs = tabBar.items {
             for tab in tabs{
                 tab.setTitleTextAttributes(attributes, for: .normal)
-                tab.setTitleTextAttributes([NSAttributedStringKey.font : UIFont.systemFont(ofSize: 40, weight: .bold)], for: .selected)
+                tab.setTitleTextAttributes(attributes, for: .selected)
+                
+                
+                //tab.setTitleTextAttributes([NSAttributedStringKey.font : UIFont.systemFont(ofSize: 40, weight: .bold)], for: .selected)
                 
             }
         }
