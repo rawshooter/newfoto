@@ -2849,7 +2849,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     //            self.imageView.transform = CGAffineTransformInvert(horizonObservation.transform);
                     
                     if(topResult.angle > 0.03 || topResult.angle < -0.03){
-                        self?.labelLens.text = String(format: "⚖️ Autorotate Off: %.2f 🚫", topResult.angle)
+                        self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", topResult.angle * 100 )
                         
                         
                         return
@@ -2878,7 +2878,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                     
                                     //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle)
                                     
-                                    self?.labelLens.text = String(format: "⚖️ Autorotate: %.2f", topResult.angle)
+                                    self?.labelLens.text = String(format: "⚖️ Autorotate by %.1f°", topResult.angle * 100)
 
                     },
                     completion: nil)
@@ -2918,6 +2918,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func detectImage() {
         // EXPERIMENTAL CHECK HORIZON IF AVAILABLE
         detectHorizon()
+        detectHorizon()
+                detectHorizon()
+                detectHorizon()
         
         
         // display nothing when the HUD is disabled
