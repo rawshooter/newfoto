@@ -2887,18 +2887,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             guard let results = request.results as? [VNHorizonObservation],
                 let topResult = results.first
                 else {
-                    print("No horizon detected. Skipping image rotation.")
-                   // fatalError("Unexpected results")
+                    print("No horizon detected.")
                     return
             }
             
             // did we get any result?
             if(results.count > 0){
+                /*
                 print("Horizon detected: \(topResult)")
                 print("Horizon angle: \(topResult.angle)")
                 print("Horizon transform: \(topResult.transform)")
             
+                */
                 
+                // we only want up to 6 degrees
                 if(topResult.angle > 0.06 || topResult.angle < -0.06){
                     return
                 }
@@ -2908,14 +2910,15 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                    
 
                //                         if(topResult.angle > 0.035 || topResult.angle < -0.035){
-                                            
+                    
+                    /*
                     if(topResult.angle > 0.06 || topResult.angle < -0.06){
                        // self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", abs(topResult.angle) * 100 )
                         
                         
                         return
                     }
-                    
+                    */
                     
                     
                     
