@@ -594,7 +594,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
+                                <string key="text">The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
 4K🌻Photo is a free companion App for your Apple TV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available, including core ML image detection and interactive maps.
 
@@ -788,7 +788,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -821,13 +821,13 @@ VERSION 1.0
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">A WORD FROM THE AUTOR
+                                <mutableString key="text">A WORD FROM THE AUTOR
 
 4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your Apple TV might output on a lower resolution, depending on the model and HDMI connection. Apple TV 4th generation is capable of Full HD 1920x1080 and Apple TV 4K supports full 4K at 3840x2160. 
 
 On questions and feedback please leave me an E-Mail at 4kphoto@alexnat.de
 
-Copyright 2016-2017 by Thomas Alexnat
+Copyright 2016-2018 by Thomas Alexnat
 
 
 ACKNOWLEDGEMENTS
@@ -848,7 +848,7 @@ https://github.com/fchollet/keras/blob/master/LICENSE
 CALIBRATION IMAGES
 
 A big thank you is going to Väinö Helminen who gave me the kind permission to include the calibration images. Copyright by Väinö Helminen
-http://vah.dy.fi/testcard</string>
+http://vah.dy.fi/testcard</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
