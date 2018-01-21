@@ -2906,8 +2906,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // Update the Main UI Thread with our result
                 DispatchQueue.main.async { [weak self] in
                    
-                    
-                    if(topResult.angle > 0.035 || topResult.angle < -0.035){
+
+               //                         if(topResult.angle > 0.035 || topResult.angle < -0.035){
+                                            
+                    if(topResult.angle > 0.06 || topResult.angle < -0.06){
                        // self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", abs(topResult.angle) * 100 )
                         
                         
@@ -2949,7 +2951,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                         
                                     } else {
                                         // 4:3 images do not need so much zoom
-                                        let zoom = (1.005 + abs(topResult.angle) )
+                                        let zoom = (1.004 + abs(topResult.angle) )
                                         let zoomFactor = zoom * (16/9)
                                        
                                         // set the aiTransform property
@@ -2970,7 +2972,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                     
                                     
 
-                                    self?.labelLens.text = String(format: "🏞 AI Autoadjust with %.1f° available in Zoom Mode", abs(topResult.angle) * 100)
+                                    self?.labelLens.text = String(format: "🏞 AI Autoadjust: %.1f° available in Zoom Mode", abs(topResult.angle) * 100)
 
                                     
                       
