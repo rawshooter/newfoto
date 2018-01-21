@@ -1742,14 +1742,25 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let min: CGFloat
         let max: CGFloat
         
+        
+        // are we in auto adjust zoom mode
+        // then shrink and limit the zoom factor
+        var zoomAdjustFactor = zoomFactor
+        if(featureAutorotateEnabled){
+            if self.aiTransform != nil {
+                zoomAdjustFactor = 1.2
+            }
+        }
+        
+        
         // scaled image is smaller than screensize
-        if( displayImageWidth*CGFloat(zoomFactor) <=  CGFloat(screenWidth) ){
-            min = displayImageWidth*CGFloat(zoomFactor) / 2
-            max = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomFactor) / 2
+        if( displayImageWidth*CGFloat(zoomAdjustFactor) <=  CGFloat(screenWidth) ){
+            min = displayImageWidth*CGFloat(zoomAdjustFactor) / 2
+            max = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomAdjustFactor) / 2
         // scaled image is larger than screensize
         } else {
-            min = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomFactor) / 2
-            max = displayImageWidth*CGFloat(zoomFactor) / 2
+            min = CGFloat(screenWidth) - displayImageWidth*CGFloat(zoomAdjustFactor) / 2
+            max = displayImageWidth*CGFloat(zoomAdjustFactor) / 2
         }
 
         
@@ -1784,14 +1795,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         let min: CGFloat
         let max: CGFloat
         
+        // are we in auto adjust zoom mode
+        // then shrink and limit the zoom factor
+        var zoomAdjustFactor = zoomFactor
+        if(featureAutorotateEnabled){
+            if self.aiTransform != nil {
+                zoomAdjustFactor = 1.2
+            }
+        }
+        
+        
         // scaled image is smaller than screensize
-        if( displayImageHeight*CGFloat(zoomFactor) <=  CGFloat(screenHeight) ){
-            min = displayImageHeight*CGFloat(zoomFactor) / 2
-            max = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomFactor) / 2
+        if( displayImageHeight*CGFloat(zoomAdjustFactor) <=  CGFloat(screenHeight) ){
+            min = displayImageHeight*CGFloat(zoomAdjustFactor) / 2
+            max = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomAdjustFactor) / 2
             // scaled image is larger than screensize
         } else {
-            min = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomFactor) / 2
-            max = displayImageHeight*CGFloat(zoomFactor) / 2
+            min = CGFloat(screenHeight) - displayImageHeight*CGFloat(zoomAdjustFactor) / 2
+            max = displayImageHeight*CGFloat(zoomAdjustFactor) / 2
         }
         
         
