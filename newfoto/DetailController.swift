@@ -759,38 +759,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         
                         self.imageView.transform = CGAffineTransform.identity
                         
-/*
-                        // reset to identity transform
-                        if(!self.featureAutorotateEnabled){
-                                self.imageView.transform = CGAffineTransform.identity
-                        } else {
-                            // reset to default image position, scale and rotation
-                            // and use an animation to have a smoother expierence
-                            
-                            UIView.animate(withDuration: 0.7,
-                                           delay: 0,
-                                           usingSpringWithDamping: 0.8,
-                                           initialSpringVelocity: 0,
-                                           options: .beginFromCurrentState,
-                                           animations: { () -> Void in
-                                            self.imageView.transform =  CGAffineTransform.identity
-                            }, completion: nil)
-                        }
- 
- */
-                        // self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+
                         
-                       /* UIView.animate(withDuration: 2,
-                                       delay: 0,
-                                       usingSpringWithDamping: 0.10,
-                                       initialSpringVelocity: 0,
-                                       options: .beginFromCurrentState,
-                                       animations: { () -> Void in
-                                        self.imageView.alpha = 1
-                                        
-                                        
-                        }, completion: nil)
-                        */
+                        
+                        self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
+
+                        
                         self.isImageTransition = false
                     }
                     
@@ -884,29 +858,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         self.loadNextImage()
 
                 
-                                                    self.imageView.transform = CGAffineTransform.identity
+                        self.imageView.transform = CGAffineTransform.identity
                         
-                        /*
-                        // reset to identity transform
-                        if(!self.featureAutorotateEnabled){
-                            self.imageView.transform = CGAffineTransform.identity
-                        } else {
-                            // reset to default image position, scale and rotation
-                            // and use an animation to have a smoother expierence
-                            
-                            UIView.animate(withDuration: 0.7,
-                                           delay: 0,
-                                           usingSpringWithDamping: 0.8,
-                                           initialSpringVelocity: 0,
-                                           options: .beginFromCurrentState,
-                                           animations: { () -> Void in
-                                            self.imageView.transform =  CGAffineTransform.identity
-                            }, completion: nil)
-                        }
-                        
-                        */
+
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
-                           self.isImageTransition = false
+                        self.isImageTransition = false
            
                         
                         
