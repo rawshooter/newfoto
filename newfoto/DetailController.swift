@@ -112,7 +112,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var metadataHUD: UIVisualEffectView!
     
-
+    // feature toggle to enable autorotate
+    // via coreML computer vision APIs
+    let featureAutorotateEnabled = false
     
     @IBOutlet weak var labelSpeed: UILabel!
     @IBOutlet weak var labelFstop: UILabel!
@@ -320,7 +322,25 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         imageView2.alpha = 0.0
         
         // reset to identity transform
-        imageView2.transform = CGAffineTransform.identity
+        if(!featureAutorotateEnabled){
+            imageView2.transform = CGAffineTransform.identity
+        } else {
+            // reset to default image position, scale and rotation
+            // and use an animation to have a smoother expierence
+        
+            UIView.animate(withDuration: 0.7,
+                           delay: 0,
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0,
+                           options: .beginFromCurrentState,
+                           animations: { () -> Void in
+                        self.imageView2.transform =  CGAffineTransform.identity
+            }, completion: nil)
+        }
+
+        
+
+        
         
         
         // set the boundaries for the image on the left side
@@ -375,8 +395,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // hide the imageview while setting the stage
         imageView2.alpha = 0.0
         
+   
         // reset to identity transform
-        imageView2.transform = CGAffineTransform.identity
+        if(!featureAutorotateEnabled){
+            imageView2.transform = CGAffineTransform.identity
+        } else {
+            // reset to default image position, scale and rotation
+            // and use an animation to have a smoother expierence
+            
+            UIView.animate(withDuration: 0.7,
+                           delay: 0,
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0,
+                           options: .beginFromCurrentState,
+                           animations: { () -> Void in
+                        self.imageView2.transform =  CGAffineTransform.identity
+            }, completion: nil)
+        }
+        
         
         // set the boundaries for the image on the left side
         imageView2.frame = CGRect(x: screenWidth , y: 0, width: screenWidth, height: screenHeight)
@@ -721,9 +757,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         
                         
                         
-                       // self.imageView.transform = self.normalTransform
-                        self.imageView.transform = CGAffineTransform.identity
-                        
+
+
+                        // reset to identity transform
+                        if(!self.featureAutorotateEnabled){
+                                self.imageView2.transform = CGAffineTransform.identity
+                        } else {
+                            // reset to default image position, scale and rotation
+                            // and use an animation to have a smoother expierence
+                            
+                            UIView.animate(withDuration: 0.7,
+                                           delay: 0,
+                                           usingSpringWithDamping: 0.8,
+                                           initialSpringVelocity: 0,
+                                           options: .beginFromCurrentState,
+                                           animations: { () -> Void in
+                                            self.imageView2.transform =  CGAffineTransform.identity
+                            }, completion: nil)
+                        }
                         
                         // self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                         
@@ -830,9 +881,24 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                         
                         self.loadNextImage()
 
+                
+                        // reset to identity transform
+                        if(!self.featureAutorotateEnabled){
+                            self.imageView.transform = CGAffineTransform.identity
+                        } else {
+                            // reset to default image position, scale and rotation
+                            // and use an animation to have a smoother expierence
+                            
+                            UIView.animate(withDuration: 0.7,
+                                           delay: 0,
+                                           usingSpringWithDamping: 0.8,
+                                           initialSpringVelocity: 0,
+                                           options: .beginFromCurrentState,
+                                           animations: { () -> Void in
+                                            self.imageView.transform =  CGAffineTransform.identity
+                            }, completion: nil)
+                        }
                         
-                    //    self.imageView.transform = self.normalTransform
-                        self.imageView.transform = CGAffineTransform.identity
                         
                         self.imageView.center = CGPoint(x: self.initialCenterX, y: self.initialCenterY)
                            self.isImageTransition = false
@@ -2821,6 +2887,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // and the corresponding angle
     func detectHorizon(){
         
+        // skip if the feature is not enabled
+        if(!featureAutorotateEnabled){
+            return
+        }
+        
         // check if the aspect ratio is fine. should work only with aspect ratio > 4:3
 
         
@@ -2956,8 +3027,12 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // coreML vision to detect the image categories e.g. flower, sea, ...
     func detectImage() {
+        
         // EXPERIMENTAL CHECK HORIZON IF AVAILABLE
-        detectHorizon()
+        if(featureAutorotateEnabled){
+            detectHorizon()
+        }
+      
 
         
         
