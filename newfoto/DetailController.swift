@@ -2820,8 +2820,27 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // to detect if the current image has a horizon
     // and the corresponding angle
     func detectHorizon(){
-        // Create a vision request
+        
+        // check if the aspect ratio is fine. should work only with aspect ratio > 4:3
 
+        
+        let aspectRatio = self.imageView.image!.size.width / self.imageView.image!.size.height
+        
+        // start only at 4:3 aspect ratio
+        if(aspectRatio > 1.32){
+            
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.labelLens.text = String(format: "🚫 Autorotate off: Aspect Ratio %.2f too low", aspectRatio )
+            }
+            return
+        }
+        
+        
+        
+        
+        
+        // Create a vision request
         let request = VNDetectHorizonRequest() {[weak self] request, error in
             guard let results = request.results as? [VNHorizonObservation],
                 let topResult = results.first
@@ -2848,8 +2867,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     //            self.imageView.transform = CGAffineTransformInvert(CGAffineTransformMakeRotation(horizonObservation.angle));
                     //            self.imageView.transform = CGAffineTransformInvert(horizonObservation.transform);
                     
-                    if(topResult.angle > 0.03 || topResult.angle < -0.03){
-                        self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", topResult.angle * 100 )
+                    if(topResult.angle > 0.035 || topResult.angle < -0.035){
+                        self?.labelLens.text = String(format: "🚫 Autorotate off: %.1f° (too high)", abs(topResult.angle) * 100 )
                         
                         
                         return
@@ -2861,7 +2880,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     
                     UIView.animate(withDuration: 1.5,
                                    delay: 0,
-                                   usingSpringWithDamping: 0.8,
+                                   usingSpringWithDamping: 0.6,
                                    initialSpringVelocity: 0,
                                    options: .beginFromCurrentState,
                                    animations: { () -> Void in
@@ -2872,13 +2891,30 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                   //  self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted()
                                   //  self?.imageView.transform = CGAffineTransform(scaleX: 1.0 * (abs(topResult.angle) + 1.0) , y: 1.0 * (abs(topResult.angle) + 1.0) )
                         
-                                    self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x: 1.0 * (abs(topResult.angle) + 1.06), y: 1.0 * (abs(topResult.angle) + 1.06) )
+                                    //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x: 1.0 * (abs(topResult.angle) + 1.06), y: 1.0 * (abs(topResult.angle) + 1.06) )
+                                    
+                                    
+                                    
+                                    
+                                    if(aspectRatio  >= (16/9) ){
+                                    
+                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * 1.015  ) / (16/9) ,
+                                                                                                                                          y:  (aspectRatio * 1.015  ) / (16/9) )
+                                        
+                                    } else {
+                                        // 4:3 images do not need so much zoom
+                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (1.01 * (16/9)) / (aspectRatio )  ,
+                                                                                                                                          y:  (1.01 * (16/9)) / (aspectRatio )  )
+                                        
+                                    }
+                                    
+                                    
                                     
                                     
                                     
                                     //self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle)
                                     
-                                    self?.labelLens.text = String(format: "⚖️ Autorotate by %.1f°", topResult.angle * 100)
+                                    self?.labelLens.text = String(format: "⚖️ Autorotate by %.1f°", abs(topResult.angle) * 100)
 
                     },
                     completion: nil)
@@ -2918,9 +2954,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func detectImage() {
         // EXPERIMENTAL CHECK HORIZON IF AVAILABLE
         detectHorizon()
-        detectHorizon()
-                detectHorizon()
-                detectHorizon()
+
+        
         
         
         // display nothing when the HUD is disabled
