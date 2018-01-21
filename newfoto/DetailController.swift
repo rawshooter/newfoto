@@ -3,7 +3,7 @@
 //  newfoto
 //
 //  Created by Thomas Alexnat on 16.11.16.
-//  Copyright © 2016 Thomas Alexnat. All rights reserved.
+//  Copyright © 2016 - 2018 Thomas Alexnat. All rights reserved.
 //
 
 import UIKit
