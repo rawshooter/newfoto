@@ -2898,13 +2898,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                     
                                     if(aspectRatio  >= (16/9) ){
                                     
-                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * 1.015  ) / (16/9) ,
-                                                                                                                                          y:  (aspectRatio * 1.015  ) / (16/9) )
+                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (aspectRatio * 1.012  ) / (16/9) ,
+                                                                                                                                          y:  (aspectRatio * 1.012  ) / (16/9) )
                                         
                                     } else {
                                         // 4:3 images do not need so much zoom
-                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (1.01 * (16/9)) / (aspectRatio )  ,
-                                                                                                                                          y:  (1.01 * (16/9)) / (aspectRatio )  )
+                                        self?.imageView.transform = CGAffineTransform(rotationAngle: topResult.angle).inverted().scaledBy(x:  (1.005 * (16/9)) / (aspectRatio )  ,
+                                                                                                                                          y:  (1.005 * (16/9)) / (aspectRatio )  )
                                         
                                     }
                                     
