@@ -605,7 +605,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">The only tvOS 11 photo viewer with EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
+                                <mutableString key="text">The only tvOS 11 photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
 4K🌻Photo is a free companion App for your Apple TV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available, including core ML image detection and interactive maps.
 
@@ -636,6 +636,15 @@ Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. 
 FULL RELEASE NOTES
 
 
+VERSION 1.15
+
+• NEW: Experimental automatic horizon detection with AI Autoadjustment. This works on landscape photos starting with aspect ratios of 4:3, 3:2, 16:9 and so on. Portrait photos can be also auto adjusted. When 4K Photo detects a possible correction angle between -6° and 6° the double tap zoom feature switches to autoadjust. This option can be also configured in the settings tab.
+
+• NEW: Updated look of the navigation bar at the top to resemble the bolder and bigger fonts for better visual appearance and accessbility
+
+• FIX: Smoother cloud placeholder images
+
+
 VERSION 1.14
 
 • NEW: Ever wanted to display all photos in an album or have the option to group all the photos by day? The new settings option allows you to enable or disable the grouping by date based on your preferences. The Photo Stream tab still groups by day. 
@@ -644,7 +653,7 @@ VERSION 1.14
 VERSION 1.13
 
 • Faster startup time and splash image for better UXP
-• Indicator when loading the album collections, helpful for large libraries
+• Loading indicator when loading the album collections, helpful for large libraries
 
 
 VERSION 1.12
@@ -799,7 +808,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
