@@ -1390,13 +1390,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     alertController.addAction(zoomOutAction)
                     
                 } else {
-                    let zoomInAction = UIAlertAction(title: "🔍 \(zoomFactor)x Zoom", style: .default, handler:{
-                        (action:UIAlertAction) -> Void in
-                        
-                        self.switchZoomMode()
-                    })
-                    alertController.addAction(zoomInAction)
-                    
+                    if(SettingsController.isHorizonEnabled() && aiTransform != nil){
+                        let zoomInAction = UIAlertAction(title: "⚖️ Horizon AI Autoadjust", style: .default, handler:{
+                            (action:UIAlertAction) -> Void in
+                            
+                            self.switchZoomMode()
+                        })
+                        alertController.addAction(zoomInAction)
+                    } else {
+                        let zoomInAction = UIAlertAction(title: "🔍 \(zoomFactor)x Zoom", style: .default, handler:{
+                            (action:UIAlertAction) -> Void in
+                            
+                            self.switchZoomMode()
+                        })
+                        alertController.addAction(zoomInAction)
+                    }
                 }
                 
             }
