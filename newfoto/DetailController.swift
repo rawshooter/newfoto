@@ -114,7 +114,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // feature toggle to enable autorotate
     // via coreML computer vision APIs
-    let featureAutorotateEnabled = true
+    let featureAutorotateEnabled = SettingsController.isHorizonEnabled()
     
     @IBOutlet weak var labelSpeed: UILabel!
     @IBOutlet weak var labelFstop: UILabel!

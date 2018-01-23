@@ -17,7 +17,7 @@ class SettingsController: UIViewController {
     let groupText = "📅  Group Photos by Date: "
     let zoomFactorText = "🔍  Zoom Factor: "
     let mapOverlayText = "🗺  GPS, EXIF & Info Display: "
-    let horizonText ="⚖️  Horizon Autodetect: "
+    let horizonText = "⚖️  Horizon Autoadjust: "
     
     
     
