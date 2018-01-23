@@ -17,7 +17,7 @@ class AlbumCell: UICollectionViewCell {
 
     @IBOutlet weak var glossyParentView: UIView!
     
-         
+     
     
     
 }
