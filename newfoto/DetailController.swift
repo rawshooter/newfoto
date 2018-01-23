@@ -1748,7 +1748,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         var zoomAdjustFactor = zoomFactor
         if(featureAutorotateEnabled){
             if self.aiTransform != nil {
-                zoomAdjustFactor = 1.2
+                zoomAdjustFactor = 1.5
             }
         }
         
@@ -1800,7 +1800,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         var zoomAdjustFactor = zoomFactor
         if(featureAutorotateEnabled){
             if self.aiTransform != nil {
-                zoomAdjustFactor = 1.2
+                zoomAdjustFactor = 1.5
             }
         }
         

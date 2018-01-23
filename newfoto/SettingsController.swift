@@ -17,6 +17,7 @@ class SettingsController: UIViewController {
     let groupText = "📅  Group Photos by Date: "
     let zoomFactorText = "🔍  Zoom Factor: "
     let mapOverlayText = "🗺  GPS, EXIF & Info Display: "
+    let horizonText ="⚖️  Horizon Autodetect: "
     
     
     
@@ -25,6 +26,7 @@ class SettingsController: UIViewController {
     static let sortOrderDefaultsKey = "SORT_ORDER"
     static let albumListOrderDefaultsKey = "ALBUM_ORDER"
     static let groupByDateDefaultsKey = "GROUP_BY_DATE"
+    static let horizonDefaultsKey = "HORIZON"
     
     // have been changed made in the confige while runtime?
     static var hasAlbumListOrderChangedDefault = false
@@ -41,10 +43,29 @@ class SettingsController: UIViewController {
     static let groupByDateEnabled = "ENABLED"
     static let groupByDateDisabled = "DISABLED"
 
-    
+    static let horizonEnabled = "ENABLED"
+    static let horizonDisabled = "DISABLED"
     
     static let mapEnabled = "ENABLED"
     static let mapDisabled = "DISABLED"
+    
+    
+    
+    @IBAction func actionHorizon(_ sender: UIButton) {
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        
+        if(SettingsController.isHorizonEnabled()){
+            defaults.set(SettingsController.horizonDisabled, forKey: SettingsController.horizonDefaultsKey)
+            horizonButton.setTitle(horizonText + SettingsController.horizonDisabled, for: .normal)
+        } else {
+            defaults.set(SettingsController.horizonEnabled, forKey: SettingsController.horizonDefaultsKey)
+            horizonButton.setTitle(horizonText + SettingsController.horizonEnabled, for: .normal)
+        }
+        
+        
+    }
     
     @IBAction func actionHD(_ sender: UIButton) {
         
@@ -137,6 +158,21 @@ class SettingsController: UIViewController {
         
         let groupByDateDefault = defaults.object(forKey: groupByDateDefaultsKey) as? String ?? groupByDateEnabled
         if(groupByDateDefault == groupByDateEnabled){
+            return true
+        } else {
+            return false
+        }
+    }
+    
+
+    
+    // return if the horizon AI detection is enabled
+    class func isHorizonEnabled() -> Bool{
+        // get the defaults
+        let defaults = UserDefaults.standard
+        
+        let horizonDefault = defaults.object(forKey: horizonDefaultsKey) as? String ?? horizonEnabled
+        if(horizonDefault == horizonEnabled){
             return true
         } else {
             return false
@@ -336,6 +372,7 @@ class SettingsController: UIViewController {
     @IBOutlet weak var zoomFactorButton: UIButton!
     @IBOutlet weak var albumListOrderButton: UIButton!
     @IBOutlet weak var groupByDateButton: UIButton!
+    @IBOutlet weak var horizonButton: UIButton!
     
     
     
@@ -417,6 +454,18 @@ class SettingsController: UIViewController {
         
         if(groupByDateDefault == SettingsController.groupByDateDisabled){
             groupByDateButton.setTitle(groupText + SettingsController.groupByDateDisabled, for: .normal)
+        }
+        
+        
+        let horizonDefault = defaults.object(forKey: SettingsController.horizonDefaultsKey) as? String ?? SettingsController.horizonEnabled
+        print("horzizonDefault: \(horizonDefault)")
+        
+        if(horizonDefault == SettingsController.horizonEnabled){
+            horizonButton.setTitle(horizonText + SettingsController.horizonEnabled, for: .normal)
+        }
+        
+        if(horizonDefault == SettingsController.horizonDisabled){
+            horizonButton.setTitle(horizonText + SettingsController.horizonDisabled, for: .normal)
         }
         
         

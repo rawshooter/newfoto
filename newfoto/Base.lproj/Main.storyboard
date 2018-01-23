@@ -349,6 +349,16 @@
                                     <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="06O-Ch-D4n">
+                                <rect key="frame" x="1208" y="758" width="602" height="86"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="🔍  Horizon Detection:  Enabled"/>
+                                <connections>
+                                    <action selector="actionHorizon:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="PYU-ZW-07p"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -356,6 +366,7 @@
                     <connections>
                         <outlet property="albumListOrderButton" destination="Upc-JN-kGv" id="59B-NT-X2L"/>
                         <outlet property="groupByDateButton" destination="7l6-LG-Knu" id="9E0-S4-YAg"/>
+                        <outlet property="horizonButton" destination="06O-Ch-D4n" id="Pay-k5-AJu"/>
                         <outlet property="imageView" destination="sab-VP-Rzb" id="7l0-Dj-b5q"/>
                         <outlet property="mapOverlayButton" destination="MkE-oc-Q8J" id="4Lu-mK-oqo"/>
                         <outlet property="sortOrderButton" destination="U7W-Es-ZvC" id="EIB-Bh-ULb"/>
@@ -821,7 +832,7 @@ VERSION 1.0
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">A WORD FROM THE AUTOR
+                                <string key="text">A WORD FROM THE AUTOR
 
 4K🌻Photo is a free private project. There is no warranty at all. Please use the software "as-is". This software is prepared for upcoming highres output devices. However limitations of your Apple TV might output on a lower resolution, depending on the model and HDMI connection. Apple TV 4th generation is capable of Full HD 1920x1080 and Apple TV 4K supports full 4K at 3840x2160. 
 
@@ -848,7 +859,7 @@ https://github.com/fchollet/keras/blob/master/LICENSE
 CALIBRATION IMAGES
 
 A big thank you is going to Väinö Helminen who gave me the kind permission to include the calibration images. Copyright by Väinö Helminen
-http://vah.dy.fi/testcard</mutableString>
+http://vah.dy.fi/testcard</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
