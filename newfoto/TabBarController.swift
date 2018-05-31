@@ -10,6 +10,12 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    // will be true when the focus in the
+    // first subcontroller was loaded (the focus environment)
+    
+
+    var isAlbumLoaded = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,8 +35,29 @@ class TabBarController: UITabBarController {
                 
             }
         }
-
-        
+    }
     
+    
+    func focusOnceAlbumController(){
+        isAlbumLoaded = true
+         view.updateFocusIfNeeded()
+        
+    }
+    
+    // just display the initial first tab
+    // without the menu
+    // and then display the menu
+    override var preferredFocusEnvironments: [UIFocusEnvironment]{
+        print("checking focus")
+        
+        if(isAlbumLoaded){
+            isAlbumLoaded = false
+            return self.selectedViewController!.preferredFocusEnvironments
+        
+        } else {
+            return self.tabBar.preferredFocusEnvironments
+        }
+        
+        
     }
 }

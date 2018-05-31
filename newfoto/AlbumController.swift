@@ -109,6 +109,12 @@ class AlbumController: UICollectionViewController {
             collectionView?.reloadData()
             activityIndicator.stopAnimating()
             isAlbumCollectionLoaded = true
+            
+            if let tabController = (tabBarController as? TabBarController){
+                
+               tabController.focusOnceAlbumController()
+            }
+            
         }
         
         
