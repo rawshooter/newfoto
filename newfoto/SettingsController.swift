@@ -20,6 +20,10 @@ class SettingsController: UIViewController {
     let horizonText = "⚖️  Horizon Autoadjust: "
     
     
+    // avoid a race condition
+    // when the view reappears from
+    // acceptance of photo libaray
+    static var animationsRunning = false
     
     static let zoomFactorDefaultsKey = "ZOOM_FACTOR"
     static let mapConfigOverlayDefaultsKey = "MAP_OVERLAY"
@@ -499,8 +503,13 @@ class SettingsController: UIViewController {
 
         
         
-        // start animations
-        zoomIn()
+        // start animations only if they are NOT running
+        // to avoid flickering
+        if(!SettingsController.animationsRunning){
+            SettingsController.animationsRunning = true
+            zoomIn()
+        }
+        
     }
     
     

@@ -17,6 +17,11 @@ class DisclaimerViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     
+    // avoid a race condition
+    // when the view reappears from
+    // acceptance of photo libaray
+    static var animationsRunning = false
+    
     
     // The cells zoom when focused.
     var focusedTransform: CGAffineTransform {
@@ -107,8 +112,12 @@ class DisclaimerViewController: UIViewController {
     // check when the controller is shown if we have access to the photo library
     override func viewDidAppear(_ animated: Bool) {
         
-        // start animations
-        zoomIn()
+        // start animations only if they are NOT running
+        // to avoid flickering
+        if(!DisclaimerViewController.animationsRunning){
+            DisclaimerViewController.animationsRunning = true
+            zoomIn()
+        }
     }
     
     override func viewDidLoad() {
