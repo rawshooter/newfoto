@@ -90,7 +90,16 @@ class DisclaimerViewController: UIViewController {
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.focusedTransform}
         ,
-                       completion: { (completed: Bool) -> Void in  self.zoomOut() }
+                       completion: { (completed: Bool) -> Void in
+                        
+                        
+                        // boolean check if really the animation was completed
+                        if(completed){
+                            self.zoomOut()
+                        }
+                        
+                        
+        }
         )
     }
     
@@ -102,7 +111,15 @@ class DisclaimerViewController: UIViewController {
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.unFocusedTransform}
             ,
-                       completion: { (completed: Bool) -> Void in  self.zoomIn() }
+                       completion: { (completed: Bool) -> Void in
+                        
+                        // boolean check if really the animation was completed
+                        if(completed){
+                            self.zoomIn()
+                        }
+                        
+                        
+        }
         )
         
         

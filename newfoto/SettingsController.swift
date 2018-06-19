@@ -397,7 +397,13 @@ class SettingsController: UIViewController {
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.focusedTransform}
             ,
-                       completion: { (completed: Bool) -> Void in  self.zoomOut() }
+                       completion: { (completed: Bool) -> Void in
+                        
+                        // boolean check if really the animation was completed
+                        if(completed){
+                            self.zoomOut()
+                        }
+                       }
         )
     }
     
@@ -409,7 +415,12 @@ class SettingsController: UIViewController {
                        options: [.beginFromCurrentState, .curveLinear],
                        animations: { () -> Void in self.imageView.transform = self.unFocusedTransform}
             ,
-                       completion: { (completed: Bool) -> Void in  self.zoomIn() }
+                       completion: { (completed: Bool) -> Void in
+                        // boolean check if really the animation was completed
+                        if(completed){
+                            self.zoomIn()
+                        }
+                        }
         )
         
         
@@ -500,8 +511,9 @@ class SettingsController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         
-
+        print("view appear")
         
+    //    view.layer.removeAllAnimations()
         
         // start animations only if they are NOT running
         // to avoid flickering
@@ -687,4 +699,7 @@ class SettingsController: UIViewController {
         }
 
     */
+    
+    
+    
 }
