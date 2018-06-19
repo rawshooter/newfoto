@@ -513,14 +513,14 @@ class SettingsController: UIViewController {
         
         print("view appear")
         
-    //    view.layer.removeAllAnimations()
+       view.layer.removeAllAnimations()
         
         // start animations only if they are NOT running
         // to avoid flickering
-        if(!SettingsController.animationsRunning){
-            SettingsController.animationsRunning = true
+     //   if(!SettingsController.animationsRunning){
+      //      SettingsController.animationsRunning = true
             zoomIn()
-        }
+    //    }
         
     }
     

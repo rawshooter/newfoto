@@ -129,12 +129,14 @@ class DisclaimerViewController: UIViewController {
     // check when the controller is shown if we have access to the photo library
     override func viewDidAppear(_ animated: Bool) {
         
+               view.layer.removeAllAnimations()
+        
         // start animations only if they are NOT running
         // to avoid flickering
-        if(!DisclaimerViewController.animationsRunning){
+        //if(!DisclaimerViewController.animationsRunning){
             DisclaimerViewController.animationsRunning = true
             zoomIn()
-        }
+       // }
     }
     
     override func viewDidLoad() {
