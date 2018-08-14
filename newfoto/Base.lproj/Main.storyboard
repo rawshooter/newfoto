@@ -606,7 +606,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">The only tvOS 11 photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
+                                <mutableString key="text">The only tvOS 11 photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
 4K🌻Photo is a free companion App for your Apple TV to browse through your Photo Library with pleasure. It adds more value by optional zooming and display of GPS metadata when available, including core ML image detection and interactive maps.
 
@@ -635,6 +635,13 @@ Please feedback please contact me at 4kphoto@alexnat.de or Twitter @innovateme. 
 
 
 FULL RELEASE NOTES
+
+
+VERSION 1.18
+
+• NEW: Displays the current zoom factor when double tapping on a photo to zoom in
+
+• FIX: GPS EXIF detection greatly enhanced. 4K Photo now parses directly the EXIF information for the selected photo and can now display more reliable the corresponding map.  
 
 
 VERSION 1.17
@@ -821,7 +828,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
