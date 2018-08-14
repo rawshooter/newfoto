@@ -2151,22 +2151,38 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate func getGPSCoordinates(imageData: Data) -> CLLocationCoordinate2D?{
         if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
             if let newProps = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [String: AnyObject]  {
+                
+                
+                var latitude: CLLocationDegrees
+                var longitude: CLLocationDegrees
+                
                 if let gpsDic = newProps[kCGImagePropertyGPSDictionary as String] as? [String: AnyObject] {
-                    guard let longitude = gpsDic[kCGImagePropertyGPSLongitude as String] as? Double else {
-                        return nil
-                    }
+                    guard let longitudeRaw = gpsDic[kCGImagePropertyGPSLongitude as String] as? Double else { return nil }
                     
-                    guard let latitude = gpsDic[kCGImagePropertyGPSLatitude as String] as? Double else {
-                        return nil
-                    }
-
+                    guard let longitudeRef = gpsDic[kCGImagePropertyGPSLongitudeRef as String] as? String else { return nil }
+                    let longSign = ((longitudeRef == "E") ? 1 : -1)
+                    longitude = CLLocationDegrees(Double(longSign) * Double(longitudeRaw))
+                    
+                    
+                    
+                    
+                    guard let latitudeRaw = gpsDic[kCGImagePropertyGPSLatitude as String] as? Double else { return nil }
+                    
+                    
+                    guard let latitudeRef = gpsDic[kCGImagePropertyGPSLatitudeRef as String] as? String else { return nil }
+                    let latSign = ((latitudeRef == "N") ? 1 : -1)
+                    latitude = CLLocationDegrees(Double(latSign) * Double(latitudeRaw))
+                    
                     return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                 }
+                
+                
             }
         }
         return nil
     }
     
+
     
     
 
@@ -2224,61 +2240,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
 
     
     
-    
-    /*
-    
-    func showMap(){
-        if(HUDMode == .none){
-            
-            // do nothing
-            return
-        }
-        
-                mapView.isHidden = false
-        
-        
-        // MAP overlay display logic
-        if (currentGPSLocation != nil){
-            
-            // fade in map and resize
-            UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState,
-                animations: {
-                    self.mapView.alpha = 1.0
-                    self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
-                }
-            )
-        
-
-        
-            // zoom of map in meters
-            let regionRadius: CLLocationDistance = 200
-            
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(currentGPSLocation!,
-                                                                      regionRadius, regionRadius)
-            mapView!.setRegion(coordinateRegion, animated: true)
-            
-  
-            
-            
-            // remove all old annotations
-            mapView.removeAnnotations(mapView.annotations)
-            
-            // pin the current annotation
-            //var pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(your latitude, your longitude)
-            let objectAnnotation = MKPointAnnotation()
-            objectAnnotation.coordinate = currentGPSLocation!
-            
-            //objectAnnotation.title = your title
-            
-            mapView.addAnnotation(objectAnnotation)
-            
-        } else {
-            hideMap()
-        }
-  
-    }
-
-*/
     
     func showPrefetchHUD(){
         // display prefetch status, but wait a bit in the background
