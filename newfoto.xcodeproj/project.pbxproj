@@ -20,6 +20,7 @@
 		4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82CEC61E9ACA430094D4CF /* HeaderView.swift */; };
 		4F8863461F658E27003BBF0D /* HDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863451F658E27003BBF0D /* HDViewController.swift */; };
 		4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863491F658E7F003BBF0D /* UHDViewController.swift */; };
+		4F89045D210364A800255154 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F89045C210364A800255154 /* NotificationView.swift */; };
 		4F8BB9701E05E4F6004D3505 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F8BB96F1E05E4F6004D3505 /* MapKit.framework */; };
 		4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */; };
 		4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFC1DF0CBBA00DA3104 /* LICENSE */; };
@@ -52,6 +53,7 @@
 		4F82CEC61E9ACA430094D4CF /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		4F8863451F658E27003BBF0D /* HDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDViewController.swift; sourceTree = "<group>"; };
 		4F8863491F658E7F003BBF0D /* UHDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UHDViewController.swift; sourceTree = "<group>"; };
+		4F89045C210364A800255154 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		4F8BB96F1E05E4F6004D3505 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateAssets.swift; sourceTree = "<group>"; };
 		4F94ADFC1DF0CBBA00DA3104 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				4F578F2C1DD7A61500252331 /* OverviewCell.swift */,
 				4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */,
 				4FA1D3471DE1E84200C60391 /* SettingsController.swift */,
+				4F89045C210364A800255154 /* NotificationView.swift */,
 				4FFDE3571DBB954200CC0435 /* Assets.xcassets */,
 				4FC65CB91E54CEE20075EA4B /* Media.xcassets */,
 				4FFDE3591DBB954200CC0435 /* Info.plist */,
@@ -265,6 +268,7 @@
 				4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */,
 				4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */,
 				4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */,
+				4F89045D210364A800255154 /* NotificationView.swift in Sources */,
 				4FFDE34F1DBB954200CC0435 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

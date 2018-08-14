@@ -33,7 +33,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // current options for HUD display
     enum HUDModeEnum{
         case none  // no info HUD
-        case standard
+        case standard // HUD and optional map then GPS available
         case fullmap
     }
     
@@ -73,6 +73,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     // loading info text for the user while getting the HQ detail image
     let loadingText = "🌻 loading..."
+    
+    // stores the current location of a finally loaded image
+    var currentGPSLocation: CLLocationCoordinate2D?
     
     // indicates if the HQ image was prefetched
     // to avoid flickering
@@ -224,6 +227,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // was the finger accidently moved, so that this is not a tap but a move?
     var hasMoved: Bool = false
     
+    // notification view to display messages
+    let notification: NotificationView = NotificationView()
     
     
     
@@ -926,6 +931,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // add dynamic system
             addDynamics()
             
+            notification.showMessage(message: "Zoomed out to fit screen", completion: nil)
             
             // zoom out
             UIView.animate(withDuration: 0.7,
@@ -961,6 +967,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                options: .beginFromCurrentState,
                                animations: { () -> Void in
                                 self.imageView.transform = self.zommedTransform
+                                self.notification.showMessage(message: "Zoomed in by \(self.zoomFactor)x", completion: nil)
+                                
                                 
                                 
                 }, completion: nil)
@@ -974,10 +982,13 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                                 
                                 if let autoZoom = self.aiTransform{
                                     self.imageView.transform = autoZoom
+                                    self.notification.showMessage(message: "Zoomed and rotated with AI", completion: nil)
                                 } else {
                                     self.imageView.transform = self.zommedTransform
+                                    self.notification.showMessage(message: "Zoomed in by \(self.zoomFactor)x", completion: nil)
                                 }
                                 
+                               
                                 
                                 
                 }, completion: nil)
@@ -1186,7 +1197,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // this only applies if the have a backupframe position
             // after restoring this location we set the backupframe
             // to NIL to be in an "unused" state
-            if(getAsset().location != nil && mainImageFrameBackup != nil ){
+            if(currentGPSLocation != nil && mainImageFrameBackup != nil ){
                 // change Z index for smoother visual transition
                 view.sendSubview(toBack: self.imageView)
                 
@@ -1229,7 +1240,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             // we don´t have a location
             // just send back to NO overlay display
-            if(getAsset().location == nil){
+            if(currentGPSLocation == nil){
                 print("no GPS available. send back to normal")
                 // go to previous mode mode
                 HUDMode = .none
@@ -1305,7 +1316,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // after restoring this location we set the backupframe
             // to NIL to be in an "unused" state
 
-            if(getAsset().location != nil && mainImageFrameBackup != nil ){
+            if(currentGPSLocation != nil && mainImageFrameBackup != nil ){
                 // NILPOINTER BY MAINFRAME
                 print("getting to main backup frame")
                 UIView.animate(withDuration: 0.5, animations: { () -> Void in
@@ -1420,7 +1431,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 alertController.addAction(toggleHUD)
             }
          
-            if(HUDMode == .standard && getAsset().location != nil){
+            if(HUDMode == .standard && currentGPSLocation != nil){
                 let hideHUD = UIAlertAction(title: "📷 Hide Infos", style: .default, handler:{
                     (action:UIAlertAction) -> Void in
                     
@@ -1433,7 +1444,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
 
             
-            if(HUDMode == .standard && getAsset().location == nil){
+            if(HUDMode == .standard && currentGPSLocation == nil){
                 let hideHUD = UIAlertAction(title: "📷 Hide Infos", style: .default, handler:{
                     (action:UIAlertAction) -> Void in
                     
@@ -1458,7 +1469,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 alertController.addAction(showHUD)
             }
 
-            if(HUDMode == .none && getAsset().location != nil){
+            if(HUDMode == .none && currentGPSLocation != nil){
                 let showFull = UIAlertAction(title: "🗺 Fullscreen Map", style: .default, handler:{
                     (action:UIAlertAction) -> Void in
                     //self.HUDMode = .standard
@@ -1471,7 +1482,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             
             
             
-            if(HUDMode == .standard && getAsset().location != nil){
+            if(HUDMode == .standard && currentGPSLocation != nil){
                 let fullMAP = UIAlertAction(title: "🗺 Fullscreen Map", style: .default, handler:{
                     (action:UIAlertAction) -> Void in
                     
@@ -2125,8 +2136,96 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         */
         
     }
+    
+    
+    
+    /**
+     Parses the provided images EXIF data to get more
+     information about the GPS location and returns the GPS coordinates
+     if available
+     
+     - parameter imageData: CFData image data stream e.g. from a PHAsset image request
+     
+     - returns:  CLLocationCoordinate2D GPS coordinates of the image or nil if unable to detct
+     */
+    fileprivate func getGPSCoordinates(imageData: Data) -> CLLocationCoordinate2D?{
+        if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
+            if let newProps = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [String: AnyObject]  {
+                if let gpsDic = newProps[kCGImagePropertyGPSDictionary as String] as? [String: AnyObject] {
+                    guard let longitude = gpsDic[kCGImagePropertyGPSLongitude as String] as? Double else {
+                        return nil
+                    }
+                    
+                    guard let latitude = gpsDic[kCGImagePropertyGPSLatitude as String] as? Double else {
+                        return nil
+                    }
+
+                    return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                }
+            }
+        }
+        return nil
+    }
+    
+    
+    
+
+    /**
+     will display the current GPS map
+     then the HUDmode is enabled AND also
+     the currentGPSLocation variable for the current image
+     has been set
+     */
+    func showMap(){
+        
+        if(HUDMode == .none){
+            
+            // do nothing
+            return
+        }
+        
+        // no GPS data analyzed for current image
+        if(currentGPSLocation == nil){
+            hideMap()
+            return
+        }
+        
+        mapView.isHidden = false
+        
+        // fade in map and resize
+        UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState,
+                       animations: {
+                        self.mapView.alpha = 1.0
+                        self.mapView.frame = CGRect(x:  1475  , y: 714 , width:425 ,  height: 346)
+        }
+        )
+        
+        // zoom of map in meters
+        let regionRadius: CLLocationDistance = 200
+        
+        
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(currentGPSLocation!,
+                                                                  regionRadius, regionRadius)
+        mapView!.setRegion(coordinateRegion, animated: true)
+    
+        
+        // remove all old annotations
+        mapView.removeAnnotations(mapView.annotations)
+        
+        // pin the current annotation
+        //var pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(your latitude, your longitude)
+        let objectAnnotation = MKPointAnnotation()
+        objectAnnotation.coordinate = currentGPSLocation!
+        
+        //objectAnnotation.title = your title
+        
+        mapView.addAnnotation(objectAnnotation)
+    }
 
     
+    
+    
+    /*
     
     func showMap(){
         if(HUDMode == .none){
@@ -2139,7 +2238,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // MAP overlay display logic
-        if (getAsset().location != nil){
+        if (currentGPSLocation != nil){
             
             // fade in map and resize
             UIView.animate(withDuration: 0.5, delay: 0, options: .beginFromCurrentState,
@@ -2154,7 +2253,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // zoom of map in meters
             let regionRadius: CLLocationDistance = 200
             
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(getAsset().location!.coordinate,
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(currentGPSLocation!,
                                                                       regionRadius, regionRadius)
             mapView!.setRegion(coordinateRegion, animated: true)
             
@@ -2167,7 +2266,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             // pin the current annotation
             //var pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(your latitude, your longitude)
             let objectAnnotation = MKPointAnnotation()
-            objectAnnotation.coordinate = getAsset().location!.coordinate
+            objectAnnotation.coordinate = currentGPSLocation!
             
             //objectAnnotation.title = your title
             
@@ -2179,7 +2278,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
   
     }
 
-
+*/
     
     func showPrefetchHUD(){
         // display prefetch status, but wait a bit in the background
@@ -2487,9 +2586,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         
-        
-        
-        
         // EXIF METADATA
 
         if let imageSource = CGImageSourceCreateWithData(imageData as CFData, nil){
@@ -2571,24 +2667,6 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 
             }
             
-            
-            // EXIF METADATA
-            /*
-             let imageSource = CGImageSourceCreateWithData(imageData as! CFData, nil)
-             let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource!, 0, nil)! as NSDictionary;
-             
-             print(imageProperties)
-             let exifDict = imageProperties.value(forKey: "{Exif}")  as! NSDictionary;
-             let dateTimeOriginal = exifDict.value(forKey: "DateTimeOriginal") as! NSString;
-             print ("DateTimeOriginal: \(dateTimeOriginal)");
-             
-             let lensMake = exifDict.value(forKey: "LensMake");
-             print ("LensMake: \(lensMake)");
-             */
-            
-            
-            
-            
         }
         
         
@@ -2600,13 +2678,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         // reset category classification HUD
         // category1Label!.text = ""
         // category2Label!.text = ""
-        
-        
 
-        
-        
- 
-                    
         
         /*UIView.animate(withDuration: 0.3,
                        delay: 0,
@@ -2669,7 +2741,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
 
         // check and display the map overlay when needed
-        showMap()
+        //showMap()
         
         // indicate we are loading an image
         self.infoLabel!.alpha = 0.0
@@ -2726,6 +2798,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                     // update the metadata hud based on the image
                     self.updateMetadataHUD(imageData: imageData!)
                     
+                
+                    self.currentGPSLocation = self.getGPSCoordinates(imageData: imageData!)
+                    self.showMap()
                     
                     
                 } else {
@@ -2818,6 +2893,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
                 // update the metadata display since we have now loaded
                 // the original image - might take more time to parse
                 self.updateMetadataHUD(imageData: imageData!)
+                
+                self.currentGPSLocation = self.getGPSCoordinates(imageData: imageData!)
+                self.showMap()
                 
 
                 // CHECK FOR SIZE IF IT FAILED PERHAPS
@@ -3230,6 +3308,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         mapView.layer.cornerRadius = 16
         
 
+        // add the notification view
+        view.addSubview(notification)
+        view.bringSubview(toFront: notification)
         
         
     }
