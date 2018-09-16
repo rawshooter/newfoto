@@ -18,6 +18,7 @@
 		4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6431331E75A76200DB03CA /* AlbumDetail.swift */; };
 		4F6A9D4F1E4F80C3001AFD13 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */; };
 		4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82CEC61E9ACA430094D4CF /* HeaderView.swift */; };
+		4F86777B214D9FD7009AA683 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86777A214D9FD7009AA683 /* MapController.swift */; };
 		4F8863461F658E27003BBF0D /* HDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863451F658E27003BBF0D /* HDViewController.swift */; };
 		4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8863491F658E7F003BBF0D /* UHDViewController.swift */; };
 		4F89045D210364A800255154 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F89045C210364A800255154 /* NotificationView.swift */; };
@@ -25,6 +26,7 @@
 		4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */; };
 		4F94ADFD1DF0CBBA00DA3104 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4F94ADFC1DF0CBBA00DA3104 /* LICENSE */; };
 		4FA1D3481DE1E84200C60391 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1D3471DE1E84200C60391 /* SettingsController.swift */; };
+		4FAB8A60214E4E980045CDEB /* AssetMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAB8A5F214E4E980045CDEB /* AssetMetadata.swift */; };
 		4FAC56A91DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A51DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png */; };
 		4FAC56AA1DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */; };
 		4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */; };
@@ -51,6 +53,7 @@
 		4F6431331E75A76200DB03CA /* AlbumDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumDetail.swift; sourceTree = "<group>"; };
 		4F6A9D4E1E4F80C3001AFD13 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		4F82CEC61E9ACA430094D4CF /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		4F86777A214D9FD7009AA683 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		4F8863451F658E27003BBF0D /* HDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDViewController.swift; sourceTree = "<group>"; };
 		4F8863491F658E7F003BBF0D /* UHDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UHDViewController.swift; sourceTree = "<group>"; };
 		4F89045C210364A800255154 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		4F94ADFC1DF0CBBA00DA3104 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4F94ADFE1DF0CBC200DA3104 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4FA1D3471DE1E84200C60391 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		4FAB8A5F214E4E980045CDEB /* AssetMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetMetadata.swift; sourceTree = "<group>"; };
 		4FAC56A51DF34BE400895280 /* AppleTV-Icon-App-Large-1280x768.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-Icon-App-Large-1280x768.png"; sourceTree = "<group>"; };
 		4FAC56A61DF34BE400895280 /* AppleTV-Icon-App-Small-400x240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-Icon-App-Small-400x240.png"; sourceTree = "<group>"; };
 		4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-TopShelf-1920x720.png"; sourceTree = "<group>"; };
@@ -100,6 +104,7 @@
 			children = (
 				4F6431331E75A76200DB03CA /* AlbumDetail.swift */,
 				4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */,
+				4FAB8A5F214E4E980045CDEB /* AssetMetadata.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -141,6 +146,7 @@
 			children = (
 				4F8D5C7E1E9D61A800C15DEB /* model */,
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
+				4F86777A214D9FD7009AA683 /* MapController.swift */,
 				4F45119820152E5B00F383CE /* TabBarController.swift */,
 				4F8863451F658E27003BBF0D /* HDViewController.swift */,
 				4F8863491F658E7F003BBF0D /* UHDViewController.swift */,
@@ -252,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */,
+				4FAB8A60214E4E980045CDEB /* AssetMetadata.swift in Sources */,
 				4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */,
 				4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */,
 				4F45119920152E5B00F383CE /* TabBarController.swift in Sources */,
@@ -259,6 +266,7 @@
 				4FA1D3481DE1E84200C60391 /* SettingsController.swift in Sources */,
 				4F6A9D4F1E4F80C3001AFD13 /* DisclaimerViewController.swift in Sources */,
 				4F42FD3B1E9AB7CB006BDE11 /* SmartCell.swift in Sources */,
+				4F86777B214D9FD7009AA683 /* MapController.swift in Sources */,
 				4FDD53C71F5C3D2700815763 /* LicenseViewController.swift in Sources */,
 				4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */,
 				4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */,

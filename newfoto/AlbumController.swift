@@ -74,7 +74,43 @@ class AlbumController: UICollectionViewController {
         // can be set via storyboard, but lets check it really
         // collectionView?.isPrefetchingEnabled = true
        // collectionView?.prefetchDataSource =  self
+        
+        
+        
+        // handle long press to open dedicated map view
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+        self.view.addGestureRecognizer(lpgr)
 
+    }
+    
+    
+    /**
+     handle the long press on a select album
+     and display then the map view
+     */
+    @objc func handleLongPress(gesture : UILongPressGestureRecognizer!) {
+        // react on the first timeout of the longpress
+        // and not other events to avoid duplicate loading and ignore
+        // when we have no album collections
+        if(gesture.state != .began || sortedAlbumArray.isEmpty) {
+            return
+        }
+        
+        let p = gesture.location(in: self.collectionView)
+        
+        if let indexPath = self.collectionView?.indexPathForItem(at: p) {
+            // instantiate the map view
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "MapController") as? MapController{
+                let album    = sortedAlbumArray[indexPath.row]
+                // give the controller all the needed assets
+                controller.album = album
+                
+                self.show(controller, sender: self)
+            }
+        } else {
+            // nothing found
+            print("couldn't find index path")
+        }
     }
     
     
@@ -340,6 +376,10 @@ class AlbumController: UICollectionViewController {
     }
     
 
+    
+    
+    
+    
     
     
     
