@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F1FE00E1E01D17000EEEE29 /* glossy_gradient_gimp.xcf in Resources */ = {isa = PBXBuildFile; fileRef = 4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */; };
 		4F1FE00F1E01D17000EEEE29 /* glossy_gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */; };
+		4F21C562214EB5C500CF643C /* ImageAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F21C561214EB5C500CF643C /* ImageAnnotation.swift */; };
 		4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */; };
 		4F3E0C621DF4782C00AF2B7E /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */; };
 		4F42FD391E9AAB08006BDE11 /* SmartCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F42FD381E9AAB08006BDE11 /* SmartCollectionController.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		4F1FE00C1E01D17000EEEE29 /* glossy_gradient_gimp.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = glossy_gradient_gimp.xcf; sourceTree = "<group>"; };
 		4F1FE00D1E01D17000EEEE29 /* glossy_gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glossy_gradient.png; sourceTree = "<group>"; };
+		4F21C561214EB5C500CF643C /* ImageAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnnotation.swift; sourceTree = "<group>"; };
 		4F3E0C5F1DF477E200AF2B7E /* AlbumController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumController.swift; sourceTree = "<group>"; };
 		4F3E0C611DF4782C00AF2B7E /* AlbumCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
 		4F42FD381E9AAB08006BDE11 /* SmartCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SmartCollectionController.swift; path = ../SmartCollectionController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		4F8D5C7E1E9D61A800C15DEB /* model */ = {
 			isa = PBXGroup;
 			children = (
+				4F21C561214EB5C500CF643C /* ImageAnnotation.swift */,
 				4F6431331E75A76200DB03CA /* AlbumDetail.swift */,
 				4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */,
 				4FAB8A5F214E4E980045CDEB /* AssetMetadata.swift */,
@@ -277,6 +280,7 @@
 				4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */,
 				4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */,
 				4F89045D210364A800255154 /* NotificationView.swift in Sources */,
+				4F21C562214EB5C500CF643C /* ImageAnnotation.swift in Sources */,
 				4FFDE34F1DBB954200CC0435 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

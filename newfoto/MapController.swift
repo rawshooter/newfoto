@@ -10,11 +10,11 @@ import UIKit
 import Photos
 import MapKit
 
-class MapController: UIViewController {
+class MapController: UIViewController, MKMapViewDelegate {
 
     var album: AlbumDetail?
     
-    fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
+    fileprivate let thumbnailSize =  CGSize(width: 100, height: 100)
     fileprivate let imageManager = PHImageManager()
     
     // the map view to display all image positions
@@ -48,23 +48,69 @@ class MapController: UIViewController {
         view.addSubview(notification)
         view.bringSubview(toFront: notification)
         
+        
+        // set this class as the mapview delegate controller
+        // to get more options e.g. for annotations
+        mapView.delegate = self
+        
     }
+    
+    //
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        print("asking for annotation view for map")
+
+        // check if we have found a
+        // image annotation data model
+        // and set the image as annotation
+        // but it might be to big :)
+        if let imageAnnotation = annotation as? ImageAnnotation{
+            let annotationView = MKAnnotationView()
+            
+            // Request an image for the asset from the PHCachingImageManager.
+            //  cell.representedAssetIdentifier = asset.localIdentifier
+            // better photo fetch options
+            let options: PHImageRequestOptions = PHImageRequestOptions()
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .fastFormat
+            options.version = .current
+            options.isSynchronous = true
+            
+            // disabled for the momoent
+            /*
+            self.imageManager.requestImage(for: imageAnnotation.phAsset!, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: options, resultHandler: { image, _ in
+                if(image != nil){
+                    annotationView.image = image
+                }
+                
+            })
+            */
+
+
+            return annotationView
+        }
+        
+        
+        return nil
+    }
+    
+    
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         notification.showMessage(message: "Building Geo Locations")
         buildImageLibrary()
-       notification.showMessage(message: "Building Geo Locations.DONE")
+       notification.showMessage(message: "Found \(assetMetas.count) Locations")
         
         
         
         
         for assetMeta in assetMetas{
-        
-            //var pinLocation : CLLocationCoordinate2D = CLLocationCoordinate2DMake(your latitude, your longitude)
-            let objectAnnotation = MKPointAnnotation()
-            objectAnnotation.coordinate = assetMeta.geoLoaction!
+            let annotation = ImageAnnotation(coordinate: assetMeta.geoLocation!)
+            annotation.phAsset = assetMeta.phAsset
             
-            mapView.addAnnotation(objectAnnotation)
+
+            mapView.addAnnotation(annotation)
             
         }
         
@@ -90,27 +136,6 @@ class MapController: UIViewController {
         // iterate over all assets
         assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
             // add asset meta
-            
-            /*
-            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-            
-                
-       
-                
-                    if(image==nil){
-                        print("NIL image: fallback loaded")
-                        cell.imageView?.image = UIImage(named: "taxcloud_small")
-                    } else {
-                        // HERE WE SET THE IMAGE
-                        cell.imageView?.image = image
-                    }
-                    
-                
-                
-            })
-            
-            */
-            
             _ = self.loadImage(asset: phAsset, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
                 
                 guard let imageData = imageData else { return }
@@ -118,17 +143,33 @@ class MapController: UIViewController {
                 
                 // now check every image for GPS
                 
+                var gpsLocation: CLLocationCoordinate2D?
+                
+                // take a shortcut and try to obtain a location
+                if(phAsset.location?.coordinate != nil){
+                    gpsLocation = phAsset.location!.coordinate
+                }
+                
+                // or via the image data
                 if let location = self.getGPSCoordinates(imageData: imageData){
+                    gpsLocation = location
+                }
+                
+                if( gpsLocation != nil){
                     // oh we did get a gps coordinate
-                    if let image = UIImage(data: imageData){
-                        let assetMeta = AssetMetadata(phAsset: phAsset)
-                        assetMeta.thumbnail = image
-                        assetMeta.geoLoaction = location
-                        self.assetMetas.append(assetMeta)
-                        print(assetMeta.geoLoaction)
-                    }
+                    
+                    
+                    
+                    let assetMeta = AssetMetadata(phAsset: phAsset)
+                    //   assetMeta.thumbnail = image
+                    
+                    assetMeta.geoLocation = gpsLocation
+                    
+                    self.assetMetas.append(assetMeta)
                 }
             }
+ 
+ 
         }
     }
     
@@ -155,7 +196,7 @@ class MapController: UIViewController {
         // only the highest quality available: only one call (!)
         // deliverymode is ignored on requestimagedata (!) method
         
-        //options.deliveryMode = .highQualityFormat
+        options.deliveryMode = .fastFormat
         
         // latest version of the asset
         options.version = .current

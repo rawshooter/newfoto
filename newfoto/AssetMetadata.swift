@@ -17,7 +17,7 @@ class AssetMetadata: NSObject {
 
     let phAsset: PHAsset
     
-    var geoLoaction: CLLocationCoordinate2D?
+    var geoLocation: CLLocationCoordinate2D?
     var thumbnail: UIImage?
     
     
