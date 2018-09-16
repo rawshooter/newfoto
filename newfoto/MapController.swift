@@ -86,7 +86,7 @@ class MapController: UIViewController, MKMapViewDelegate {
             */
 
 
-            return annotationView
+            return nil
         }
         
         
