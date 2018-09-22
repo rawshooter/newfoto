@@ -136,7 +136,10 @@ class MapController: UIViewController, MKMapViewDelegate {
         // iterate over all assets
         assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
             // add asset meta
-            _ = self.loadImage(asset: phAsset, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
+            
+  //          _ = self.loadImage(asset: phAsset, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
+                
+            _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
                 
                 guard let imageData = imageData else { return }
       
@@ -147,11 +150,13 @@ class MapController: UIViewController, MKMapViewDelegate {
                 
                 // take a shortcut and try to obtain a location
                 if(phAsset.location?.coordinate != nil){
+                    print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
                     gpsLocation = phAsset.location!.coordinate
                 }
                 
                 // or via the image data
                 if let location = self.getGPSCoordinates(imageData: imageData){
+                    print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
                     gpsLocation = location
                 }
                 
