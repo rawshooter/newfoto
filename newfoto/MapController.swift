@@ -10,15 +10,19 @@ import UIKit
 import Photos
 import MapKit
 
-class MapController: UIViewController, MKMapViewDelegate {
+class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+
+    
 
     var album: AlbumDetail?
     
-    fileprivate let thumbnailSize =  CGSize(width: 100, height: 100)
+    fileprivate let thumbnailSize =  CGSize(width: 320, height: 200)
     fileprivate let imageManager = PHImageManager()
+    fileprivate let reuseIdentifier = "cell"
     
     // the map view to display all image positions
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // array with the identified assets containing
     // location infos
@@ -29,6 +33,123 @@ class MapController: UIViewController, MKMapViewDelegate {
     
     
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // do we really have the album set from outside?
+        guard let album = album else { return 0 }
+        
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        // fetch the collection
+        let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
+        return assets.count
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! mapThumbnailCell
+        
+        // just save the current index path
+        // when we are called async to check if we
+        // really loaded the correct image
+        cell.indexPath = indexPath
+        
+        
+        
+        
+        cell.imageView.image = UIImage(named: "taxcloud_hd")
+        
+        
+        // load the image for the cell async
+        
+        
+        
+        
+        
+        // do we really have the album set from outside?
+        guard let album = album else { return cell }
+        
+        
+        // get the date of the latest
+        // photo to sort the albums
+        // later by date
+        // if no date is available the album should be
+        // sorted out
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // fetch the collection
+        let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
+        
+     
+        
+        
+        // iterate over all assets
+        assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
+            // just find the correct asset
+            // sounds all like really bad performance
+            // must be optimzed later to load from an array!
+            if (index != indexPath.row) {
+                return
+            }
+            
+            _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
+                
+                guard let imageData = imageData else { return }
+                
+                
+                if let image = UIImage(data: imageData){
+                    if(cell.indexPath?.row == index){
+                        cell.imageView.image = image
+                    }
+                }
+                
+                // now check every image for GPS
+                
+                var gpsLocation: CLLocationCoordinate2D?
+                
+                // take a shortcut and try to obtain a location
+                if(phAsset.location?.coordinate != nil){
+                    print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
+                    gpsLocation = phAsset.location!.coordinate
+                }
+                
+                // or via the image data
+                if let location = self.getGPSCoordinates(imageData: imageData){
+                    print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
+                    gpsLocation = location
+                }
+                
+                if( gpsLocation != nil){
+                    // oh we did get a gps coordinate
+                    
+                    
+                    
+                    let assetMeta = AssetMetadata(phAsset: phAsset)
+                    //   assetMeta.thumbnail = image
+                    
+                    
+                    let annotation = ImageAnnotation(coordinate: gpsLocation!)
+                    annotation.phAsset = assetMeta.phAsset
+                    assetMeta.geoLocation = gpsLocation
+                    
+                    
+                    self.mapView.addAnnotation(annotation)
+                    
+                    
+                    
+                    //self.assetMetas.append(assetMeta)
+                }
+            }
+            
+            
+        }
+        
+        
+        
+        
+        
+        return cell
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,9 +174,199 @@ class MapController: UIViewController, MKMapViewDelegate {
         // to get more options e.g. for annotations
         mapView.delegate = self
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        
+        
+        
     }
     
-    //
+    
+    // make the collection view as environment first
+    override var preferredFocusEnvironments: [UIFocusEnvironment]{
+
+        return collectionView.preferredFocusEnvironments
+    }
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        // do we really have the album set from outside?
+        guard let album = album else { return  }
+        
+        
+        // get the date of the latest
+        // photo to sort the albums
+        // later by date
+        // if no date is available the album should be
+        // sorted out
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // fetch the collection
+        let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
+        
+        
+        
+        
+        // iterate over all assets
+        assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
+            // just find the correct asset
+            // sounds all like really bad performance
+            // must be optimzed later to load from an array!
+            if (index != indexPath.row) {
+                return
+            }
+            
+            _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
+                
+                guard let imageData = imageData else { return }
+                
+  
+                // now check every image for GPS
+                
+                var gpsLocation: CLLocationCoordinate2D?
+                
+                // take a shortcut and try to obtain a location
+                if(phAsset.location?.coordinate != nil){
+                    print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
+                    gpsLocation = phAsset.location!.coordinate
+                }
+                
+                // or via the image data
+                if let location = self.getGPSCoordinates(imageData: imageData){
+                    print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
+                    gpsLocation = location
+                }
+                
+                if( gpsLocation != nil){
+                    // oh we did get a gps coordinate
+                    
+                    
+                    // zoom of map in meters
+                    let regionRadius: CLLocationDistance = 600
+                    
+                    
+                    let coordinateRegion = MKCoordinateRegionMakeWithDistance(gpsLocation!,
+                                                                              regionRadius, regionRadius)
+                    self.mapView!.setRegion(coordinateRegion, animated: true)
+                    
+                
+                }
+            }
+            
+            
+        }
+        
+        
+        
+        
+        
+
+        
+        
+    }
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        
+        if let cell = context.nextFocusedView as? UICollectionViewCell {
+        
+            if let indexPath = collectionView.indexPath(for: cell) {
+            
+                
+                
+                // do we really have the album set from outside?
+                guard let album = album else { return  }
+                
+                
+                // get the date of the latest
+                // photo to sort the albums
+                // later by date
+                // if no date is available the album should be
+                // sorted out
+                let allPhotosOptions = PHFetchOptions()
+                allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                
+                // fetch the collection
+                let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
+                
+                
+                
+                
+                // iterate over all assets
+                assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
+                    // just find the correct asset
+                    // sounds all like really bad performance
+                    // must be optimzed later to load from an array!
+                    if (index != indexPath.row) {
+                        return
+                    }
+                    
+                    _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
+                        
+                        guard let imageData = imageData else { return }
+                        
+                        
+                        // now check every image for GPS
+                        
+                        var gpsLocation: CLLocationCoordinate2D?
+                        
+                        // take a shortcut and try to obtain a location
+                        if(phAsset.location?.coordinate != nil){
+                            print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
+                            gpsLocation = phAsset.location!.coordinate
+                        }
+                        
+                        // or via the image data
+                        if let location = self.getGPSCoordinates(imageData: imageData){
+                            print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
+                            gpsLocation = location
+                        }
+                        
+                        if( gpsLocation != nil){
+                            // oh we did get a gps coordinate
+                            
+                            
+                            // zoom of map in meters
+                            let regionRadius: CLLocationDistance = 600
+                            
+                            
+                            let coordinateRegion = MKCoordinateRegionMakeWithDistance(gpsLocation!,
+                                                                                      regionRadius, regionRadius)
+                            self.mapView!.setRegion(coordinateRegion, animated: true)
+                            
+                            
+                        }
+                    }
+                    
+                    
+                }
+                
+                
+                
+                
+                
+                
+                
+            }
+            
+        }
+
+    }
+    
+ 
+    
+    
+    
+    
+    
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         print("asking for annotation view for map")
 
@@ -66,27 +377,12 @@ class MapController: UIViewController, MKMapViewDelegate {
         if let imageAnnotation = annotation as? ImageAnnotation{
             let annotationView = MKAnnotationView()
             
-            // Request an image for the asset from the PHCachingImageManager.
-            //  cell.representedAssetIdentifier = asset.localIdentifier
-            // better photo fetch options
-            let options: PHImageRequestOptions = PHImageRequestOptions()
-            options.isNetworkAccessAllowed = true
-            options.deliveryMode = .fastFormat
-            options.version = .current
-            options.isSynchronous = true
             
-            // disabled for the momoent
-            /*
-            self.imageManager.requestImage(for: imageAnnotation.phAsset!, targetSize: self.thumbnailSize, contentMode: .aspectFill, options: options, resultHandler: { image, _ in
-                if(image != nil){
-                    annotationView.image = image
-                }
-                
-            })
-            */
-
-
-            return nil
+            
+         //   return annotationView
+            
+            
+            
         }
         
         
@@ -98,7 +394,9 @@ class MapController: UIViewController, MKMapViewDelegate {
     
     
     override func viewDidAppear(_ animated: Bool) {
+        /*
         notification.showMessage(message: "Building Geo Locations")
+   
         buildImageLibrary()
        notification.showMessage(message: "Found \(assetMetas.count) Locations")
         
@@ -113,7 +411,7 @@ class MapController: UIViewController, MKMapViewDelegate {
             mapView.addAnnotation(annotation)
             
         }
-        
+        */
     }
 
     func buildImageLibrary(){

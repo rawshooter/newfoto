@@ -34,6 +34,7 @@
 		4FAC56AC1DF34BE400895280 /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A81DF34BE400895280 /* original.jpg */; };
 		4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */; };
 		4FC65CBA1E54CEE20075EA4B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC65CB91E54CEE20075EA4B /* Media.xcassets */; };
+		4FCE5C142156D09F004EB734 /* mapThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */; };
 		4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C41F5C338000815763 /* AboutViewController.swift */; };
 		4FDD53C71F5C3D2700815763 /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */; };
 		4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */; };
@@ -71,6 +72,7 @@
 		4FAC56A81DF34BE400895280 /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original.jpg; sourceTree = "<group>"; };
 		4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
 		4FC65CB91E54CEE20075EA4B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapThumbnailCell.swift; sourceTree = "<group>"; };
 		4FDD53C41F5C338000815763 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
 		4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				4F6431331E75A76200DB03CA /* AlbumDetail.swift */,
 				4F8D5C7F1E9D622500C15DEB /* DateAssets.swift */,
 				4FAB8A5F214E4E980045CDEB /* AssetMetadata.swift */,
+				4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */,
 				4F82CEC71E9ACA430094D4CF /* HeaderView.swift in Sources */,
 				4F8863461F658E27003BBF0D /* HDViewController.swift in Sources */,
+				4FCE5C142156D09F004EB734 /* mapThumbnailCell.swift in Sources */,
 				4F6431341E75A76200DB03CA /* AlbumDetail.swift in Sources */,
 				4F3E0C601DF477E200AF2B7E /* AlbumController.swift in Sources */,
 				4F88634A1F658E7F003BBF0D /* UHDViewController.swift in Sources */,
