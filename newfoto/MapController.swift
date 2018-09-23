@@ -12,13 +12,18 @@ import MapKit
 
 class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    
+    fileprivate let mapRadius = 700.0
 
     var album: AlbumDetail?
     
     fileprivate let thumbnailSize =  CGSize(width: 320, height: 200)
     fileprivate let imageManager = PHImageManager()
     fileprivate let reuseIdentifier = "cell"
+    fileprivate let clusterIdentifier = "photoCluster"
+    
+    // lookup if already an annotation coordinate exists
+    fileprivate var annotationDic: [Int: MKAnnotation] = [:]
+    
     
     // the map view to display all image positions
     @IBOutlet weak var mapView: MKMapView!
@@ -105,45 +110,51 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 
                 // now check every image for GPS
                 
-                var gpsLocation: CLLocationCoordinate2D?
-                
-                // take a shortcut and try to obtain a location
-                if(phAsset.location?.coordinate != nil){
-                    print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
-                    gpsLocation = phAsset.location!.coordinate
+                if ( self.annotationDic[indexPath.row] == nil){
+                    
+                    
+                    var gpsLocation: CLLocationCoordinate2D?
+                    
+                    // take a shortcut and try to obtain a location
+                    if(phAsset.location?.coordinate != nil){
+                        print("asset location found \(phAsset.creationDate ?? nil) location \(phAsset.location!)")
+                        gpsLocation = phAsset.location!.coordinate
+                    }
+                    
+                    // or via the image data
+                    if let location = self.getGPSCoordinates(imageData: imageData){
+                        print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
+                        gpsLocation = location
+                    }
+                    
+                    if( gpsLocation != nil){
+                        // oh we did get a gps coordinate
+                        
+                        
+                        
+                        let assetMeta = AssetMetadata(phAsset: phAsset)
+                        //   assetMeta.thumbnail = image
+                        
+                        
+                        let annotation = ImageAnnotation(coordinate: gpsLocation!)
+                        annotation.phAsset = assetMeta.phAsset
+                        assetMeta.geoLocation = gpsLocation
+                        
+                        // check if via async the annotation was set already
+                        if (self.annotationDic[indexPath.row] == nil){
+                            self.annotationDic[indexPath.row] = annotation
+                            self.mapView.addAnnotation(annotation)
+                        }
+                        
+                        
+                        
+                        //self.assetMetas.append(assetMeta)
+                    }
                 }
                 
-                // or via the image data
-                if let location = self.getGPSCoordinates(imageData: imageData){
-                    print("exif location found \(phAsset.creationDate ?? nil) location \(location)")
-                    gpsLocation = location
-                }
                 
-                if( gpsLocation != nil){
-                    // oh we did get a gps coordinate
-                    
-                    
-                    
-                    let assetMeta = AssetMetadata(phAsset: phAsset)
-                    //   assetMeta.thumbnail = image
-                    
-                    
-                    let annotation = ImageAnnotation(coordinate: gpsLocation!)
-                    annotation.phAsset = assetMeta.phAsset
-                    assetMeta.geoLocation = gpsLocation
-                    
-                    
-                    self.mapView.addAnnotation(annotation)
-                    
-                    
-                    
-                    //self.assetMetas.append(assetMeta)
-                }
             }
-            
-            
         }
-        
         
         
         
@@ -197,7 +208,20 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // do we really have the album set from outside?
         guard let album = album else { return  }
         
+        // already found coordinates
+        if let annotation = self.annotationDic[indexPath.row]{
+            let regionRadius: CLLocationDistance = self.mapRadius
+            
+            
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate,
+                                                                      regionRadius, regionRadius)
+            self.mapView!.setRegion(coordinateRegion, animated: true)
+  //          self.mapView.selectedAnnotations = [annotation]
+            self.mapView.selectedAnnotations = Array(self.annotationDic.values)
+            return
+        }
         
+                            
         // get the date of the latest
         // photo to sort the albums
         // later by date
@@ -245,15 +269,28 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 if( gpsLocation != nil){
                     // oh we did get a gps coordinate
                     
+                    let assetMeta = AssetMetadata(phAsset: phAsset)
+                    let annotation = ImageAnnotation(coordinate: gpsLocation!)
+                    annotation.phAsset = assetMeta.phAsset
+                    assetMeta.geoLocation = gpsLocation
+                    
+                    
+                    // check if via async the annotation was set already
+                    if (self.annotationDic[indexPath.row] == nil){
+                        self.annotationDic[indexPath.row] = annotation
+                        self.mapView.addAnnotation(annotation)
+                    } else {
+                        self.mapView.selectedAnnotations = [self.annotationDic[indexPath.row]!]
+                    }
+                    
                     
                     // zoom of map in meters
-                    let regionRadius: CLLocationDistance = 600
+                    let regionRadius: CLLocationDistance = self.mapRadius
                     
                     
                     let coordinateRegion = MKCoordinateRegionMakeWithDistance(gpsLocation!,
                                                                               regionRadius, regionRadius)
                     self.mapView!.setRegion(coordinateRegion, animated: true)
-                    
                 
                 }
             }
@@ -275,11 +312,27 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         
+        
+        
+
+        
+        
         if let cell = context.nextFocusedView as? UICollectionViewCell {
         
             if let indexPath = collectionView.indexPath(for: cell) {
             
                 
+                // already found coordinates
+                if let annotation = self.annotationDic[indexPath.row]{
+                    let regionRadius: CLLocationDistance = self.mapRadius
+                    
+                    
+                    let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate,
+                                                                              regionRadius, regionRadius)
+                    self.mapView!.setRegion(coordinateRegion, animated: true)
+                     self.mapView.selectedAnnotations = [annotation]
+                    return
+                }
                 
                 // do we really have the album set from outside?
                 guard let album = album else { return  }
@@ -332,15 +385,32 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                         if( gpsLocation != nil){
                             // oh we did get a gps coordinate
                             
+                            let assetMeta = AssetMetadata(phAsset: phAsset)
+                            let annotation = ImageAnnotation(coordinate: gpsLocation!)
+                            annotation.phAsset = assetMeta.phAsset
+                            assetMeta.geoLocation = gpsLocation
+                            
+                            
+                            // check if via async the annotation was set already
+                            if (self.annotationDic[indexPath.row] == nil){
+                                self.annotationDic[indexPath.row] = annotation
+                                
+                                
+                                
+                                self.mapView.addAnnotation(annotation)
+                            } else {
+                                self.mapView.selectedAnnotations = [self.annotationDic[indexPath.row]!]
+                            }
+                            
+                            
                             
                             // zoom of map in meters
-                            let regionRadius: CLLocationDistance = 600
+                            let regionRadius: CLLocationDistance = self.mapRadius
                             
                             
                             let coordinateRegion = MKCoordinateRegionMakeWithDistance(gpsLocation!,
                                                                                       regionRadius, regionRadius)
                             self.mapView!.setRegion(coordinateRegion, animated: true)
-                            
                             
                         }
                     }
@@ -375,14 +445,53 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // and set the image as annotation
         // but it might be to big :)
         if let imageAnnotation = annotation as? ImageAnnotation{
-            let annotationView = MKAnnotationView()
+            let annotationView = MKMarkerAnnotationView()
+            
+        
+            annotationView.glyphText = "📷"
+            annotationView.titleVisibility = .hidden
+            annotationView.subtitleVisibility = .hidden
+            annotationView.displayPriority = .defaultHigh
+            
+        // clustering is allowed
+           annotationView.clusteringIdentifier = clusterIdentifier
+     
             
             
+           /*
+            _ = self.loadImage(asset: imageAnnotation.phAsset!, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
+                
+                guard let imageData = imageData else { return }
+                
+                if let image = UIImage(data: imageData){
+                    annotationView.glyphImage = image
+                }
+            }
+            */
+        
+            
+            return annotationView
             
          //   return annotationView
             
             
             
+        }
+        
+        // check for clusters
+        if let clusterAnnotation = annotation as? MKClusterAnnotation{
+            print("found a cluster annotation")
+            
+            clusterAnnotation.title = ""
+            clusterAnnotation.subtitle = ""
+            
+            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: clusterIdentifier)
+            
+  
+            
+            
+            return clusterView
+                    
         }
         
         
