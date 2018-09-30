@@ -16,7 +16,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
 
     var album: AlbumDetail?
     
-    fileprivate let mapThumbSize = CGSize(width: 170, height: 170)
+    fileprivate let mapThumbSize = CGSize(width: 240, height: 200)
     fileprivate let mapThumbSizeSmall = CGSize(width: 80, height: 80)
     fileprivate let mapThumbSizeLarge = CGSize(width: 3200, height: 200)
     
