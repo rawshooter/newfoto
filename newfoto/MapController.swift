@@ -17,6 +17,8 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     var album: AlbumDetail?
     
     fileprivate let mapThumbSize = CGSize(width: 170, height: 170)
+    fileprivate let mapThumbSizeSmall = CGSize(width: 80, height: 80)
+    fileprivate let mapThumbSizeLarge = CGSize(width: 3200, height: 200)
     
     fileprivate let thumbnailSize =  CGSize(width: 160, height: 100)
     fileprivate let imageManager = PHImageManager()
@@ -237,9 +239,13 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 
                 let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate,
                                                                           regionRadius, regionRadius)
+                
+                
+                
                 self.mapView!.setRegion(coordinateRegion, animated: true)
                 //          self.mapView.selectedAnnotations = [annotation]
-                self.mapView.selectedAnnotations = Array(self.annotationDic.values)
+              
+                //self.mapView.selectedAnnotations = Array(self.annotationDic.values)
                 return
             }
             
@@ -482,6 +488,12 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // image annotation data model
         // and set the image as annotation
         // but it might be to big :)
+        
+        
+     //   notification.showMessage(message: "\(mapView.region.span)")
+        
+        
+        
         if let imageAnnotation = annotation as? ImageAnnotation{
            // let annotationView = MKMarkerAnnotationView()
             let annotationView = MKAnnotationView()
