@@ -16,6 +16,8 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
 
     var album: AlbumDetail?
     
+    fileprivate let mapThumbSize = CGSize(width: 150, height: 150)
+    
     fileprivate let thumbnailSize =  CGSize(width: 320, height: 200)
     fileprivate let imageManager = PHImageManager()
     fileprivate let reuseIdentifier = "cell"
@@ -432,6 +434,14 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
  
     
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
     
     
     
@@ -445,21 +455,22 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // and set the image as annotation
         // but it might be to big :)
         if let imageAnnotation = annotation as? ImageAnnotation{
-            //let annotationView = MKMarkerAnnotationView()
-            let annotationView = MKPinAnnotationView()
+           // let annotationView = MKMarkerAnnotationView()
+            let annotationView = MKAnnotationView()
+            //let annotationView = MKPinAnnotationView()
             
         
             //annotationView.glyphText = "📷"
-          //  annotationView.titleVisibility = .hidden
-          //  annotationView.subtitleVisibility = .hidden
-            annotationView.displayPriority = .defaultHigh
+        //    annotationView.titleVisibility = .hidden
+        //    annotationView.subtitleVisibility = .hidden
+        //    annotationView.displayPriority = .defaultHigh
             
         // clustering is allowed
            annotationView.clusteringIdentifier = clusterIdentifier
      
             
             
-            /*
+            
             // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
             imageManager.requestImage(for: imageAnnotation.phAsset!, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
@@ -470,10 +481,20 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                     print("NIL image: fallback loaded")
                     annotationView.image = UIImage(named: "taxcloud_small")
                 } else {
-                    annotationView.image = image
+                    
+                   // resizedImageWithinRect
+                    
+                    //let smallImage = self.imageWithImage(image: image!, scaledToSize: CGSize(width: 90, height: 90))
+                    annotationView.image = image?.resizedImageWithinRect(rectSize: self.mapThumbSize )
+                    annotationView.layer.masksToBounds = false;
+                    annotationView.layer.shadowOffset = CGSize(width:15, height:15);
+                    annotationView.layer.shadowRadius = 5;
+                    annotationView.layer.shadowOpacity = 0.6;
+                    annotationView.layer.cornerRadius = 16
+                    
                 }
             })
-            */
+            
             
             
             /*
@@ -503,12 +524,52 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         if let clusterAnnotation = annotation as? MKClusterAnnotation{
             print("found a cluster annotation")
             
-            clusterAnnotation.title = ""
+            clusterAnnotation.title = "\(clusterAnnotation.memberAnnotations.count)"
             clusterAnnotation.subtitle = ""
             
-            let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: clusterIdentifier)
+            //let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: clusterIdentifier)
+            //let clusterView = MKAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
+            let clusterView = MKMarkerAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
+            
+            clusterView.titleVisibility = .hidden
+            clusterView.subtitleVisibility = .hidden
+            
+            //    annotationView.titleVisibility = .hidden
+            //    annotationView.subtitleVisibility = .hidden
+            //    annotationView.displayPriority = .defaultHigh
             
   
+            if let imageAnnotation = clusterAnnotation.memberAnnotations.first as? ImageAnnotation{
+                
+                // Request an image for the asset from the PHCachingImageManager.
+                //  cell.representedAssetIdentifier = asset.localIdentifier
+                imageManager.requestImage(for: imageAnnotation.phAsset!, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                    // The cell may have been recycled by the time this handler gets called;
+                    // set the cell's thumbnail image only if it's still showing the same asset.
+                    
+                    if(image==nil){
+                        print("NIL image: fallback loaded")
+                        //clusterView.image = UIImage(named: "taxcloud_small")
+                        
+                    } else {
+                        
+                        // resizedImageWithinRect
+                        
+                        //let smallImage = self.imageWithImage(image: image!, scaledToSize: CGSize(width: 90, height: 90))
+                        clusterView.image = image?.resizedImageWithinRect(rectSize: self.mapThumbSize )
+                        clusterView.layer.masksToBounds = false;
+                        clusterView.layer.shadowOffset = CGSize(width:15, height:15);
+                        clusterView.layer.shadowRadius = 5;
+                        clusterView.layer.shadowOpacity = 0.6;
+                        clusterView.layer.cornerRadius = 16
+                        
+                    }
+                })
+                
+            }
+            
+       
+            
             
             
             return clusterView
@@ -722,3 +783,40 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     }
     
 }
+
+
+
+extension UIImage {
+    
+    /// Returns a image that fills in newSize
+    func resizedImage(newSize: CGSize) -> UIImage {
+        // Guard newSize is different
+        guard self.size != newSize else { return self }
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height:newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    /// Returns a resized image that fits in rectSize, keeping it's aspect ratio
+    /// Note that the new image size is not rectSize, but within it.
+    func resizedImageWithinRect(rectSize: CGSize) -> UIImage {
+        let widthFactor = size.width / rectSize.width
+        let heightFactor = size.height / rectSize.height
+        
+        var resizeFactor = widthFactor
+        if size.height > size.width {
+            resizeFactor = heightFactor
+        }
+        
+
+        let newSize = CGSize(width: size.width/resizeFactor, height: size.height/resizeFactor)
+        let resized = resizedImage(newSize: newSize)
+        return resized
+    }
+    
+}
+
+
