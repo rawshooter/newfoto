@@ -26,7 +26,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
     
     // the map view to display all image positions
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: focusMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     // array with the identified assets containing
@@ -445,12 +445,13 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // and set the image as annotation
         // but it might be to big :)
         if let imageAnnotation = annotation as? ImageAnnotation{
-            let annotationView = MKMarkerAnnotationView()
+            //let annotationView = MKMarkerAnnotationView()
+            let annotationView = MKPinAnnotationView()
             
         
-            annotationView.glyphText = "📷"
-            annotationView.titleVisibility = .hidden
-            annotationView.subtitleVisibility = .hidden
+            //annotationView.glyphText = "📷"
+          //  annotationView.titleVisibility = .hidden
+          //  annotationView.subtitleVisibility = .hidden
             annotationView.displayPriority = .defaultHigh
             
         // clustering is allowed
@@ -458,17 +459,37 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
      
             
             
-           /*
+            /*
+            // Request an image for the asset from the PHCachingImageManager.
+            //  cell.representedAssetIdentifier = asset.localIdentifier
+            imageManager.requestImage(for: imageAnnotation.phAsset!, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+                // The cell may have been recycled by the time this handler gets called;
+                // set the cell's thumbnail image only if it's still showing the same asset.
+                
+                if(image==nil){
+                    print("NIL image: fallback loaded")
+                    annotationView.image = UIImage(named: "taxcloud_small")
+                } else {
+                    annotationView.image = image
+                }
+            })
+            */
+            
+            
+            /*
+            
             _ = self.loadImage(asset: imageAnnotation.phAsset!, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
                 
                 guard let imageData = imageData else { return }
                 
                 if let image = UIImage(data: imageData){
-                    annotationView.glyphImage = image
+                    annotationView.image = image
+                  
+                    
+                    
                 }
             }
             */
-        
             
             return annotationView
             
@@ -521,8 +542,41 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             
         }
         */
+        
+        
+        let menuPressRecognizer = UITapGestureRecognizer()
+        menuPressRecognizer.addTarget(self, action: #selector(menuPressed(_:)) )
+        menuPressRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
+        mapView.addGestureRecognizer(menuPressRecognizer)
+        
+
     }
 
+
+    @objc func menuPressed(_ recognizer: UIGestureRecognizer){
+        print("menu pressed")
+        notification.showMessage(message: "Menu Pressed")
+        // make the collection view as environment first
+        
+        
+        mapView.refocus(focusEnvironments: collectionView.preferredFocusEnvironments)
+     
+        /*view.setNeedsFocusUpdate()
+        view.updateFocusIfNeeded()
+        */
+        /*
+        mapView.preferredFocusEnvironments = collectionView.preferredFocusEnvironments
+        
+        /*
+        override var preferredFocusEnvironments: [UIFocusEnvironment]{
+            
+ return collectionView.preferredFocusEnvironments
+        }
+ */
+        */
+    }
+    
+    
     func buildImageLibrary(){
         
         // do we really have the album set from outside?
