@@ -579,11 +579,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="966"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jK-jW-5Wo" userLabel="previewImage">
+                                <rect key="frame" x="850" y="455" width="219" height="173"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="ZWC-qn-oFE" id="Pcg-co-zk0"/>
                         <outlet property="mapView" destination="eEW-sb-HgL" id="Uxq-zm-Inc"/>
+                        <outlet property="previewImage" destination="0jK-jW-5Wo" id="uTD-az-Rr6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TLl-Ie-fx8" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -14,16 +14,24 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
 
     fileprivate let mapRadius = 50.0
 
+    @IBOutlet weak var previewImage: UIImageView!
     var album: AlbumDetail?
     
     fileprivate let mapThumbSize = CGSize(width: 240, height: 200)
     fileprivate let mapThumbSizeSmall = CGSize(width: 80, height: 80)
-    fileprivate let mapThumbSizeLarge = CGSize(width: 3200, height: 200)
+    fileprivate let mapThumbSizeLarge = CGSize(width: 320, height: 200)
+    
+    fileprivate let previewSize = CGSize(width: 1920, height: 1080)
+    
     
     fileprivate let thumbnailSize =  CGSize(width: 160, height: 100)
     fileprivate let imageManager = PHImageManager()
     fileprivate let reuseIdentifier = "cell"
     fileprivate let clusterIdentifier = "photoCluster"
+    
+    
+    // local identifier of ph asset
+    fileprivate var selectedImage: String = ""
     
     // lookup if already an annotation coordinate exists
     fileprivate var annotationDic: [String: MKAnnotation] = [:]
@@ -224,7 +232,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         
         
         
-        // iterate over all assets
+        // iterate over all assets and find image to center
         assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
             // just find the correct asset
             // sounds all like really bad performance
@@ -246,7 +254,60 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 //          self.mapView.selectedAnnotations = [annotation]
               
                 //self.mapView.selectedAnnotations = Array(self.annotationDic.values)
-                return
+            
+                //return
+                
+                // second selection of image
+                // show the preview in larger
+                
+                if(self.selectedImage == phAsset.localIdentifier){
+                    
+                    
+                    _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
+                        
+                        guard let imageData = imageData else { return }
+ 
+                        if let image = UIImage(data: imageData){
+
+                                self.previewImage.image = image
+
+                                UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                                    
+                                    self.previewImage.bounds = CGRect(x: 550, y: 250, width: 800, height: 500)
+                                    //  self.previewImage.frame =
+                                    self.previewImage.layer.masksToBounds = false
+                                    self.previewImage.layer.shadowOffset = CGSize(width:15, height:15);
+                                    self.previewImage.layer.shadowRadius = 5;
+                                    self.previewImage.layer.shadowOpacity = 0.5;
+                                    self.previewImage.alpha = 1.0
+                                    self.previewImage.clipsToBounds = false
+                                    
+                                }, completion: {
+                                    (ended) -> Void in
+                                    
+                                })
+
+                        }
+                    }
+
+                    
+                } else {
+                    UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                        self.previewImage.frame = CGRect(x: (1920 / 2) - 50 , y: (1080 / 2) - 50, width: 100, height: 100)
+                        self.previewImage.layer.shadowOffset = CGSize(width:15, height:15);
+                        self.previewImage.layer.shadowRadius = 0
+                        self.previewImage.layer.shadowOpacity = 0.0
+                        self.previewImage.alpha = 0.0
+                        
+                        
+                    }, completion: {
+                        (ended) -> Void in
+                        
+                    })
+                
+                }
+                
+                self.selectedImage = phAsset.localIdentifier
             }
             
             
@@ -530,7 +591,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                     annotationView.layer.shadowOffset = CGSize(width:15, height:15);
                     annotationView.layer.shadowRadius = 5;
                     annotationView.layer.shadowOpacity = 0.6;
-                    annotationView.layer.cornerRadius = 16
+                 //   annotationView.layer.cornerRadius = 16
                     
                 }
             })
@@ -836,7 +897,13 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
 
 
 
+
+
+
 extension UIImage {
+    
+    
+    
     
     /// Returns a image that fills in newSize
     func resizedImage(newSize: CGSize) -> UIImage {
