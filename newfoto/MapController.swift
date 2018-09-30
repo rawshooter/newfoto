@@ -12,19 +12,19 @@ import MapKit
 
 class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    fileprivate let mapRadius = 700.0
+    fileprivate let mapRadius = 50.0
 
     var album: AlbumDetail?
     
-    fileprivate let mapThumbSize = CGSize(width: 150, height: 150)
+    fileprivate let mapThumbSize = CGSize(width: 170, height: 170)
     
-    fileprivate let thumbnailSize =  CGSize(width: 320, height: 200)
+    fileprivate let thumbnailSize =  CGSize(width: 160, height: 100)
     fileprivate let imageManager = PHImageManager()
     fileprivate let reuseIdentifier = "cell"
     fileprivate let clusterIdentifier = "photoCluster"
     
     // lookup if already an annotation coordinate exists
-    fileprivate var annotationDic: [Int: MKAnnotation] = [:]
+    fileprivate var annotationDic: [String: MKAnnotation] = [:]
     
     
     // the map view to display all image positions
@@ -112,6 +112,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 
                 // now check every image for GPS
                 
+                /*
                 if ( self.annotationDic[indexPath.row] == nil){
                     
                     
@@ -153,7 +154,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                         //self.assetMetas.append(assetMeta)
                     }
                 }
-                
+                */
                 
             }
         }
@@ -211,18 +212,45 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         guard let album = album else { return  }
         
         // already found coordinates
-        if let annotation = self.annotationDic[indexPath.row]{
-            let regionRadius: CLLocationDistance = self.mapRadius
-            
-            
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate,
-                                                                      regionRadius, regionRadius)
-            self.mapView!.setRegion(coordinateRegion, animated: true)
-  //          self.mapView.selectedAnnotations = [annotation]
-            self.mapView.selectedAnnotations = Array(self.annotationDic.values)
-            return
-        }
         
+        let allPhotosOptions = PHFetchOptions()
+        allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // fetch the collection
+        let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
+        
+        
+        
+        
+        // iterate over all assets
+        assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
+            // just find the correct asset
+            // sounds all like really bad performance
+            // must be optimzed later to load from an array!
+            if (index != indexPath.row) {
+                return
+            }
+            
+            if let annotation = self.annotationDic[phAsset.localIdentifier]{
+                let regionRadius: CLLocationDistance = self.mapRadius
+                
+                
+                let coordinateRegion = MKCoordinateRegionMakeWithDistance(annotation.coordinate,
+                                                                          regionRadius, regionRadius)
+                self.mapView!.setRegion(coordinateRegion, animated: true)
+                //          self.mapView.selectedAnnotations = [annotation]
+                self.mapView.selectedAnnotations = Array(self.annotationDic.values)
+                return
+            }
+            
+            
+            
+        }
+
+        
+        
+        
+        /*
                             
         // get the date of the latest
         // photo to sort the albums
@@ -299,7 +327,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             
             
         }
-        
+        */
         
         
         
@@ -311,7 +339,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
     
     
-    
+    /*
     func collectionView(_ collectionView: UICollectionView, didUpdateFocusIn context: UICollectionViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         
         
@@ -431,7 +459,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         }
 
     }
-    
+    */
  
     
     func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{
@@ -585,7 +613,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
     
     override func viewDidAppear(_ animated: Bool) {
-        /*
+        
         notification.showMessage(message: "Building Geo Locations")
    
         buildImageLibrary()
@@ -602,7 +630,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             mapView.addAnnotation(annotation)
             
         }
-        */
+        
         
         
         let menuPressRecognizer = UITapGestureRecognizer()
@@ -692,7 +720,17 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                     
                     assetMeta.geoLocation = gpsLocation
                     
-                    self.assetMetas.append(assetMeta)
+                    // self.assetMetas.append(assetMeta)
+                    
+                    let annotation = ImageAnnotation(coordinate: gpsLocation!)
+                    annotation.phAsset = assetMeta.phAsset
+                    assetMeta.geoLocation = gpsLocation
+                    
+                    self.annotationDic[phAsset.localIdentifier] = annotation
+                    
+                    self.mapView.addAnnotation(annotation)
+                
+                    
                 }
             }
  
