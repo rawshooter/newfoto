@@ -1922,9 +1922,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
         }
-        
-            notification.showMessage(message: "index \(indexPosition) preview \(previewPosition)")
-        
+
 
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
@@ -2035,9 +2033,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
             }
             
         }
-        
-            notification.showMessage(message: "index \(indexPosition) preview \(previewPosition)")
-        
+
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
 
