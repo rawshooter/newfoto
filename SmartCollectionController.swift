@@ -456,7 +456,19 @@ class SmartCollectionController: UICollectionViewController {
             
             controller.indexPosition = rowNumber
             
-            controller.phAssetResult = allPhotos!
+            
+            var allAssets: [PHAsset] = []
+            
+            
+            
+            allPhotos!.enumerateObjects { (phAsset, index, stopBoolPointer) in
+                allAssets.append(phAsset)
+            }
+            
+            controller.photoAssets = allAssets
+            
+            
+            
             //controller.collectionViewController = self
             
             //    print(didSelectItemAt)

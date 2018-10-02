@@ -82,7 +82,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     var isHQImagePrefetched: Bool = false
     
     // current asset list to be iterated through
-    var phAssetResult: PHFetchResult<PHAsset>!
+    //var phAssetResult: PHFetchResult<PHAsset>!
+
+    // contains all the photo assets to cycle through
+    var photoAssets: [PHAsset] = []
+
     
     // variable containing the current request id for 
     // the large async running image loader
@@ -142,8 +146,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // returns the current asset from the indexPosition and Album Collection
     func getAsset() -> PHAsset {
         
-        if(phAssetResult.count > 0){
-            return phAssetResult.object(at: indexPosition) as PHAsset
+        if(photoAssets.count > 0){
+            return photoAssets[indexPosition]
         } else {
             print("Warning: No image. swichting to backup asset")
             return PHAsset();
@@ -153,8 +157,8 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     // returns the current asset from the indexPosition and Album Collection
     func getAsset(atIndex: Int) -> PHAsset {
         
-        if(phAssetResult.count > 0){
-            return phAssetResult.object(at: atIndex) as PHAsset
+        if(photoAssets.count > 0){
+            return photoAssets[atIndex]
         } else {
             print("Warning: No image. swichting to backup image")
             return PHAsset();
@@ -1087,10 +1091,10 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func loadNextImage(){
         indexPosition = indexPosition + 1
         
-        if(phAssetResult.count > 0){
+        if(photoAssets.count > 0){
             
             // did we reach the end of the list, then switch to the start
-            if(indexPosition == phAssetResult.count){
+            if(indexPosition == photoAssets.count){
                 indexPosition = 0
             }
             
@@ -1110,11 +1114,11 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func loadPreviousImage(){
         indexPosition = indexPosition - 1
         
-        if(phAssetResult.count > 0){
+        if(photoAssets.count > 0){
             
             // did we reach the end of the list, then switch to the start
             if(indexPosition < 0){
-                indexPosition = phAssetResult.count - 1
+                indexPosition = photoAssets.count - 1
             }
             
         }
@@ -1906,18 +1910,20 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     
     func loadPreviousPreviewImage(){
         // load the asset image for the detail view
-        
+
         
         var previewPosition: Int = indexPosition - 1
         
-        if(phAssetResult.count > 0){
+        if(photoAssets.count > 0){
             
             // did we reach the end of the list, then switch to the start
             if(previewPosition < 0){
-                previewPosition = phAssetResult.count - 1
+                previewPosition = photoAssets.count - 1
             }
             
         }
+        
+            notification.showMessage(message: "index \(indexPosition) preview \(previewPosition)")
         
 
         let asset: PHAsset = getAsset(atIndex: previewPosition)
@@ -2016,18 +2022,21 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
     func loadNextPreviewImage(){
         // load the asset image for the detail view
         
+
         
         var previewPosition: Int = indexPosition + 1
         
-        if(phAssetResult.count > 0){
+        if(photoAssets.count > 0){
             
             // did we reach the end of the list, then switch to the start
-            if(previewPosition == phAssetResult.count){
+            if(previewPosition == photoAssets.count){
                 previewPosition = 0
+  
             }
             
         }
         
+            notification.showMessage(message: "index \(indexPosition) preview \(previewPosition)")
         
         let asset: PHAsset = getAsset(atIndex: previewPosition)
 
@@ -2270,9 +2279,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // do we have images at all?
         // and not only one image? otherwise the prefetching is useless
-        if(phAssetResult.count > 1){
+        if(photoAssets.count > 1){
             // did we reach the end of the list, then switch to the start
-            if(prefetchPosition >= phAssetResult.count){
+            if(prefetchPosition >= photoAssets.count){
                 prefetchPosition = 0
                 // just do nothing - we were going in circles
                 return
@@ -2357,9 +2366,9 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         // do we have images at all?
         // and not only one image? otherwise the prefetching is useless
-        if(phAssetResult.count > 1){
+        if(photoAssets.count > 1){
             // did we reach the end of the list, then switch to the start
-            if(prefetchPosition == phAssetResult.count){
+            if(prefetchPosition == photoAssets.count){
                 prefetchPosition = 0
             }
     
@@ -2531,7 +2540,7 @@ class DetailController: UIViewController, UIGestureRecognizerDelegate {
         
         
         // POSITION
-        labelIndex.text = "\(favText) \(indexPosition + 1 ) of \(phAssetResult.count )"
+        labelIndex.text = "\(favText) \(indexPosition + 1 ) of \(photoAssets.count )"
         
         
         
