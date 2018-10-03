@@ -38,6 +38,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     // lookup if already an annotation coordinate exists
     fileprivate var annotationDic: [String: MKAnnotation] = [:]
     
+    @IBOutlet weak var infoLabel: UILabel!
     
     // the map view to display all image positions
     @IBOutlet weak var mapView: focusMapView!
@@ -796,6 +797,8 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // fetch the collection
         let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
         
+        var assetsToGoCounter = 0
+            
         // iterate over all assets
         assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
             // add asset meta
@@ -803,6 +806,12 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
   //          _ = self.loadImage(asset: phAsset, isSynchronous: true){ imageData, dataUTI, orientation, infoArray in
                 
             _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
+                
+                assetsToGoCounter = assetsToGoCounter + 1
+                DispatchQueue.main.async {
+                    self.infoLabel.text = "Reading \(assets.count) photos\nAnalyzed \(assetsToGoCounter) and \(self.annotationDic.count) locations"
+                }
+                
                 
                 guard let imageData = imageData else { return }
       
