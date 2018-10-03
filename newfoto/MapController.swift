@@ -202,6 +202,25 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         collectionView.delegate = self
         
         
+        buildImageLibrary()
+        
+        for assetMeta in assetMetas{
+            let annotation = ImageAnnotation(coordinate: assetMeta.geoLocation!)
+            annotation.phAsset = assetMeta.phAsset
+            
+            
+            mapView.addAnnotation(annotation)
+            
+        }
+        
+        
+        
+        let menuPressRecognizer = UITapGestureRecognizer()
+        menuPressRecognizer.addTarget(self, action: #selector(menuPressed(_:)) )
+        menuPressRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
+        mapView.addGestureRecognizer(menuPressRecognizer)
+        
+
         
         
     }
@@ -229,8 +248,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         // fetch the collection
         let assets = PHAsset.fetchAssets(in: album.assetCol, options: allPhotosOptions)
         
-        
-        
+
         
         // iterate over all assets and find image to center
         assets.enumerateObjects { (phAsset, index, stopBooleanPointer) in
@@ -251,18 +269,35 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 
                 
                 self.mapView!.setRegion(coordinateRegion, animated: true)
-                //          self.mapView.selectedAnnotations = [annotation]
-              
-                //self.mapView.selectedAnnotations = Array(self.annotationDic.values)
-            
-                //return
                 
-                // second selection of image
-                // show the preview in larger
                 
+                
+                // SELECT ANNOTATION
+                
+                // already positioned on last click
+                // then display detail image
                 if(self.selectedImage == phAsset.localIdentifier){
+
+                    // display detail image browser
+                    if let controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailController") as? DetailController{
+                        print("Controller found")
+                        var allAssets: [PHAsset] = []
+                        // calculate the position
+                        var rowNumber = indexPath.row
+                        for sec in 0..<indexPath.section {
+                            rowNumber = rowNumber + collectionView.numberOfItems(inSection: sec)
+                        }
+                        
+                        controller.indexPosition = rowNumber
+                        assets.enumerateObjects { (phAsset, index, stopBoolPointer) in
+                            allAssets.append(phAsset)
+                        }
+                        
+                        controller.photoAssets = allAssets
+                        self.show(controller, sender: self)
+                    }
                     
-                    
+                    /*
                     _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
                         
                         guard let imageData = imageData else { return }
@@ -290,6 +325,8 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                         }
                     }
 
+                    */
+                    
                     
                 } else {
                     UIView.animate(withDuration: 0.5, animations: { () -> Void in
@@ -308,6 +345,28 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 }
                 
                 self.selectedImage = phAsset.localIdentifier
+            }
+            else
+            {
+                // no location data - directly show the image
+                // display detail image browser
+                if let controller = self.storyboard?.instantiateViewController(withIdentifier: "DetailController") as? DetailController{
+                    print("Controller found")
+                    var allAssets: [PHAsset] = []
+                    // calculate the position
+                    var rowNumber = indexPath.row
+                    for sec in 0..<indexPath.section {
+                        rowNumber = rowNumber + collectionView.numberOfItems(inSection: sec)
+                    }
+                    
+                    controller.indexPosition = rowNumber
+                    assets.enumerateObjects { (phAsset, index, stopBoolPointer) in
+                        allAssets.append(phAsset)
+                    }
+                    
+                    controller.photoAssets = allAssets
+                    self.show(controller, sender: self)
+                }
             }
             
             
@@ -640,6 +699,11 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             //    annotationView.displayPriority = .defaultHigh
             
   
+            // find the correct thumbnail for a cluster image
+            // especially when selection a cluster annotation
+            
+            
+            
             if let imageAnnotation = clusterAnnotation.memberAnnotations.first as? ImageAnnotation{
                 
                 // Request an image for the asset from the PHCachingImageManager.
@@ -686,32 +750,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        notification.showMessage(message: "Building Geo Locations")
-   
-        buildImageLibrary()
-       notification.showMessage(message: "Found \(assetMetas.count) Locations")
-        
-        
-        
-        
-        for assetMeta in assetMetas{
-            let annotation = ImageAnnotation(coordinate: assetMeta.geoLocation!)
-            annotation.phAsset = assetMeta.phAsset
-            
-
-            mapView.addAnnotation(annotation)
-            
-        }
-        
-        
-        
-        let menuPressRecognizer = UITapGestureRecognizer()
-        menuPressRecognizer.addTarget(self, action: #selector(menuPressed(_:)) )
-        menuPressRecognizer.allowedPressTypes = [NSNumber(value: UIPressType.menu.rawValue)];
-        mapView.addGestureRecognizer(menuPressRecognizer)
-        
-
+  
     }
 
 
