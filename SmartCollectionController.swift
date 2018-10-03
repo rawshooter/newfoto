@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 private let reuseIdentifier = "Cell"
 private let headerIdentifier = "Header"
@@ -16,7 +17,6 @@ fileprivate let imageManager = PHImageManager()
 fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
 // fileprivate let thumbnailSize =  CGSize(width: 512, height: 512)
 
-import Photos
 
 // this class displays the photo stream in segments
 // and other phasset collections
@@ -26,6 +26,11 @@ class SmartCollectionController: UICollectionViewController {
     // indicates if the photo collection should be grouped
     // by date or just a classic collection
     var groupByDate: Bool = false
+    
+
+    // reference to the map button in
+    // the header view to create a better focus
+    var mapButton: UIButton?
     
     
     // indicator if the current photoset is in photostream mode
@@ -75,6 +80,20 @@ class SmartCollectionController: UICollectionViewController {
         
     }
     
+    
+    // make the collection view as environment first
+    override var preferredFocusEnvironments: [UIFocusEnvironment]{
+        
+        var focusEnvs = collectionView!.preferredFocusEnvironments
+        if(mapButton != nil){
+            focusEnvs.insert(mapButton!, at: focusEnvs.startIndex)
+        }
+        
+        return focusEnvs
+    }
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
  
         if let path = getIndexPath(){
@@ -83,9 +102,7 @@ class SmartCollectionController: UICollectionViewController {
             //collectionView?.selectItem(at: path, animated: false, scrollPosition: .centeredVertically)
              collectionView?.layoutIfNeeded()
         }
-  
 
-        
     }
     func updatePositionFromDetail(){
         //collectionView?.reloadData()
@@ -354,6 +371,10 @@ class SmartCollectionController: UICollectionViewController {
         // section 0 element
         if(indexPath.section == 0){
             view.infoStack.isHidden = false
+            
+            // reference the map button from the
+            // header view to gain access
+            mapButton = view.mapButton
         } else {
             view.infoStack.isHidden = true
         }

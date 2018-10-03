@@ -107,6 +107,7 @@
                                 <outlet property="albumLabel" destination="J1a-Er-X4X" id="pqD-1m-tpn"/>
                                 <outlet property="infoStack" destination="D4y-Fp-DfF" id="OZF-Hl-f2r"/>
                                 <outlet property="label" destination="ulC-WM-iWs" id="0Pn-Bc-mkA"/>
+                                <outlet property="mapButton" destination="6ph-Er-PLu" id="ejK-CP-d4p"/>
                             </connections>
                         </collectionReusableView>
                         <connections>

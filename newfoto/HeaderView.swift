@@ -13,6 +13,7 @@ class HeaderView: UICollectionReusableView {
     // label for date and information display
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var albumLabel: UILabel!
+    @IBOutlet weak var mapButton: UIButton!
     @IBAction func mapButtonAction(_ sender: Any) {
     }
     @IBOutlet weak var infoStack: UIStackView!

@@ -12,7 +12,7 @@ import MapKit
 
 class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    fileprivate let mapRadius = 50.0
+    fileprivate let mapRadius = 200.0
 
     @IBOutlet weak var previewImage: UIImageView!
     var album: AlbumDetail?
