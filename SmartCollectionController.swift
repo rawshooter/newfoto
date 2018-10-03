@@ -32,6 +32,8 @@ class SmartCollectionController: UICollectionViewController {
     // photo stream mode should get by default everytime a grouping by date
     var isPhotoStream: Bool = false
     
+    // name of the collection from outside aka. album name or localized title
+    var albumName = "Photostream"
     
     // phfetch result of the current photos
     var allPhotos: PHFetchResult<PHAsset>?
@@ -323,13 +325,38 @@ class SmartCollectionController: UICollectionViewController {
     
 
     
+    /**
+     Dynamically adjusting the size
+     the @objc annotation is needed since this is an optional function FTW
+     */
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize{
+        print("alled")
+        if (section == 0) {
+                return CGSize(width: collectionView.bounds.width, height: 140)
+        } else {
+                return CGSize(width: collectionView.bounds.width, height: 60)
+            
+        }
+
+    }
+    
     
  
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let view: HeaderView  = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier, for: indexPath) as! HeaderView
         
+        let photoCount = allPhotos?.count ?? 0
         
+        view.albumLabel.text = "\(albumName) – \(photoCount) Photos"
+        
+        // hide dynamically the header info stack when
+        // section 0 element
+        if(indexPath.section == 0){
+            view.infoStack.isHidden = false
+        } else {
+            view.infoStack.isHidden = true
+        }
         
         if(SettingsController.isGroupByDateEnabled() || isPhotoStream){
         

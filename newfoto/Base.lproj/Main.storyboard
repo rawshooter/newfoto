@@ -39,13 +39,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="50" minimumInteritemSpacing="50" id="Gmp-6p-KpG">
                             <size key="itemSize" width="308" height="308"/>
-                            <size key="headerReferenceSize" width="200" height="60"/>
+                            <size key="headerReferenceSize" width="200" height="115"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="90" minY="60" maxX="90" maxY="60"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Ebn-py-tmQ" customClass="SmartCell" customModule="newfoto" customModuleProvider="target">
-                                <rect key="frame" x="90" y="120" width="308" height="308"/>
+                                <rect key="frame" x="90" y="175" width="308" height="308"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="308" height="308"/>
@@ -63,18 +63,49 @@
                             </collectionViewCell>
                         </cells>
                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="jqt-B0-utH" customClass="HeaderView" customModule="newfoto" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="1920" height="60"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1920" height="115"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-WM-iWs">
-                                    <rect key="frame" x="90" y="8" width="1004" height="52"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wRk-W7-zty">
+                                    <rect key="frame" x="60" y="0.0" width="1800" height="107"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="D4y-Fp-DfF">
+                                            <rect key="frame" x="0.0" y="0.0" width="1800" height="72"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="MyAlbumName with long title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1a-Er-X4X" userLabel="albumLabel">
+                                                    <rect key="frame" x="0.0" y="0.0" width="1102" height="72"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ph-Er-PLu" userLabel="mapButton">
+                                                    <rect key="frame" x="1102" y="0.0" width="698" height="72"/>
+                                                    <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                                    <state key="normal" title="Show GPS map"/>
+                                                    <connections>
+                                                        <action selector="mapButtonAction:" destination="jqt-B0-utH" eventType="primaryActionTriggered" id="OEH-7Q-awr"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13.09.2019" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulC-WM-iWs">
+                                            <rect key="frame" x="0.0" y="72" width="1800" height="35"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="bottomMargin" secondItem="wRk-W7-zty" secondAttribute="bottom" id="0Cz-3O-Xke"/>
+                                <constraint firstAttribute="trailing" secondItem="wRk-W7-zty" secondAttribute="trailing" constant="60" id="5BK-HE-tAY"/>
+                                <constraint firstItem="wRk-W7-zty" firstAttribute="top" secondItem="jqt-B0-utH" secondAttribute="top" id="g0W-Rw-IVf"/>
+                                <constraint firstItem="wRk-W7-zty" firstAttribute="leading" secondItem="jqt-B0-utH" secondAttribute="leading" constant="60" id="nYx-gV-ZPZ"/>
+                            </constraints>
                             <connections>
+                                <outlet property="albumLabel" destination="J1a-Er-X4X" id="pqD-1m-tpn"/>
+                                <outlet property="infoStack" destination="D4y-Fp-DfF" id="OZF-Hl-f2r"/>
                                 <outlet property="label" destination="ulC-WM-iWs" id="0Pn-Bc-mkA"/>
                             </connections>
                         </collectionReusableView>
@@ -350,7 +381,7 @@
                                     <action selector="zoomFactorAction:" destination="6g5-67-G4D" eventType="primaryActionTriggered" id="b6r-4q-U8O"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="06O-Ch-D4n">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="06O-Ch-D4n">
                                 <rect key="frame" x="1208" y="758" width="602" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>

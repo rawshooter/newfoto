@@ -171,7 +171,14 @@ class SettingsController: UIViewController {
 
     
     // return if the horizon AI detection is enabled
+    // disabled now in the UI - defaults to FALSE
+    // since the results were not so good
     class func isHorizonEnabled() -> Bool{
+        
+        return false
+        
+        // NOW DISABLED 
+        /*
         // get the defaults
         let defaults = UserDefaults.standard
         
@@ -181,6 +188,7 @@ class SettingsController: UIViewController {
         } else {
             return false
         }
+         */
     }
     
     

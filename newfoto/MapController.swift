@@ -17,14 +17,16 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
     @IBOutlet weak var previewImage: UIImageView!
     var album: AlbumDetail?
     
-    fileprivate let mapThumbSize = CGSize(width: 240, height: 200)
-    fileprivate let mapThumbSizeSmall = CGSize(width: 80, height: 80)
-    fileprivate let mapThumbSizeLarge = CGSize(width: 320, height: 200)
+ //   fileprivate let mapThumbSize = CGSize(width: 240, height: 200)
+    fileprivate let mapThumbSize = CGSize(width: 308, height: 308)
+ //   fileprivate let mapThumbSizeSmall = CGSize(width: 80, height: 80)
+  //  fileprivate let mapThumbSizeLarge = CGSize(width: 320, height: 200)
     
     fileprivate let previewSize = CGSize(width: 1920, height: 1080)
     
     
-    fileprivate let thumbnailSize =  CGSize(width: 160, height: 100)
+    //fileprivate let thumbnailSize =  CGSize(width: 160, height: 100)
+    fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
     fileprivate let imageManager = PHImageManager()
     fileprivate let reuseIdentifier = "cell"
     fileprivate let clusterIdentifier = "photoCluster"
@@ -756,7 +758,6 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
 
     @objc func menuPressed(_ recognizer: UIGestureRecognizer){
         print("menu pressed")
-        notification.showMessage(message: "Menu Pressed")
         // make the collection view as environment first
         
         
