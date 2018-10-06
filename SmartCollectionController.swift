@@ -27,7 +27,10 @@ class SmartCollectionController: UICollectionViewController {
     // by date or just a classic collection
     var groupByDate: Bool = false
     
-
+    // the focus guide to enable access
+    // to the header buttons
+    var headerFocusGuide: UIFocusGuide?
+    
     // reference to the map button in
     // the header view to create a better focus
     var mapButton: UIButton?
@@ -85,9 +88,12 @@ class SmartCollectionController: UICollectionViewController {
     override var preferredFocusEnvironments: [UIFocusEnvironment]{
         
         var focusEnvs = collectionView!.preferredFocusEnvironments
+   
+        /*
         if(mapButton != nil){
             focusEnvs.insert(mapButton!, at: focusEnvs.startIndex)
         }
+        */
         
         return focusEnvs
     }
@@ -369,12 +375,40 @@ class SmartCollectionController: UICollectionViewController {
         
         // hide dynamically the header info stack when
         // section 0 element
+        // we are now in the header
         if(indexPath.section == 0){
             view.infoStack.isHidden = false
             
             // reference the map button from the
             // header view to gain access
             mapButton = view.mapButton
+            
+            // gain access to the header button
+            if(headerFocusGuide == nil){
+                headerFocusGuide = UIFocusGuide()
+                
+                // Indicate where to transfer focus
+               // headerFocusGuide!.preferredFocusEnvironments = [view.mapButton]
+                headerFocusGuide!.preferredFocusEnvironments = [view.mapButton]
+                view.addLayoutGuide(headerFocusGuide!)
+                
+            
+                // Configure size to match origin view
+                headerFocusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                //headerFocusGuide!.heightAnchor.constraint(equalTo: view.mapButton.heightAnchor).isActive = true
+                headerFocusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+                
+                // Attach at the bottom of the origin view
+                headerFocusGuide!.topAnchor.constraint(equalTo: view.mapButton.bottomAnchor).isActive = true
+                headerFocusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+                view.addSubview(FocusGuideDebugView(focusGuide: headerFocusGuide!))
+                
+            }
+            
+            
+            
+            
+            
         } else {
             view.infoStack.isHidden = true
         }
@@ -540,3 +574,18 @@ class SmartCollectionController: UICollectionViewController {
     
 
 }
+
+class FocusGuideDebugView: UIView {
+    
+    init(focusGuide: UIFocusGuide) {
+        super.init(frame: focusGuide.layoutFrame)
+        backgroundColor = UIColor.green.withAlphaComponent(0.15)
+        layer.borderColor = UIColor.green.withAlphaComponent(0.3).cgColor
+        layer.borderWidth = 1
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        return nil
+    }
+}
+
