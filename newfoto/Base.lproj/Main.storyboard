@@ -732,6 +732,10 @@ VERSION 1.19
 
 • NEW: For the first time on tvOS you get a full GPS MAP browser for your photos. This is fully interactive. Please take note that analyzing all your photos may take a while. The map is still interactive and browsable. 
 
+• NEW: Album Title and Photo count in collection view visible
+
+• CHANGE: Removed open for AI auto horizon for better UXP and uncluttered UI 
+
 
 VERSION 1.18
 
