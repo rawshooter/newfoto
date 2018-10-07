@@ -27,9 +27,7 @@ class SmartCollectionController: UICollectionViewController {
     // by date or just a classic collection
     var groupByDate: Bool = false
     
-    // the focus guide to enable access
-    // to the header buttons
-    var headerFocusGuide: UIFocusGuide?
+
     
     // reference to the map button in
     // the header view to create a better focus
@@ -42,6 +40,9 @@ class SmartCollectionController: UICollectionViewController {
     
     // name of the collection from outside aka. album name or localized title
     var albumName = "Photostream"
+
+    // contains the album
+    var album: AlbumDetail?
     
     // phfetch result of the current photos
     var allPhotos: PHFetchResult<PHAsset>?
@@ -82,9 +83,19 @@ class SmartCollectionController: UICollectionViewController {
         
         
     }
+    /*
+    override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+   
+        print("previous \(context.previouslyFocusedView)")
+        print("next \(context.nextFocusedView)")
+
+    }
+    
+    */
     
     
     // make the collection view as environment first
+    /*
     override var preferredFocusEnvironments: [UIFocusEnvironment]{
         
         var focusEnvs = collectionView!.preferredFocusEnvironments
@@ -97,8 +108,18 @@ class SmartCollectionController: UICollectionViewController {
         
         return focusEnvs
     }
+    */
     
     
+    func showMapController(){
+
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "MapController") as? MapController{
+                // give the controller all the needed assets
+                controller.album = album
+                
+                self.show(controller, sender: self)
+            }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
  
@@ -371,7 +392,7 @@ class SmartCollectionController: UICollectionViewController {
         
         let photoCount = allPhotos?.count ?? 0
         
-        view.albumLabel.text = "\(albumName) – \(photoCount) Photos"
+        view.albumLabel.text = "\(albumName)  ·  \(photoCount) Photos"
         
         // hide dynamically the header info stack when
         // section 0 element
@@ -383,27 +404,46 @@ class SmartCollectionController: UICollectionViewController {
             // header view to gain access
             mapButton = view.mapButton
             
+            view.controller = self
+           
+            
             // gain access to the header button
-            if(headerFocusGuide == nil){
-                headerFocusGuide = UIFocusGuide()
+            if(view.focusGuide == nil){
+                view.focusGuide = UIFocusGuide()
                 
                 // Indicate where to transfer focus
-               // headerFocusGuide!.preferredFocusEnvironments = [view.mapButton]
-                headerFocusGuide!.preferredFocusEnvironments = [view.mapButton]
-                view.addLayoutGuide(headerFocusGuide!)
+                view.focusGuide!.preferredFocusEnvironments = [view.mapButton]
+
+                view.addLayoutGuide(view.focusGuide!)
                 
             
                 // Configure size to match origin view
-                headerFocusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                //view.focusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
                 //headerFocusGuide!.heightAnchor.constraint(equalTo: view.mapButton.heightAnchor).isActive = true
-                headerFocusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+                //view.focusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
                 
                 // Attach at the bottom of the origin view
-                headerFocusGuide!.topAnchor.constraint(equalTo: view.mapButton.bottomAnchor).isActive = true
-                headerFocusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-                view.addSubview(FocusGuideDebugView(focusGuide: headerFocusGuide!))
+                //view.focusGuide!.topAnchor.constraint(equalTo: view.mapButton.bottomAnchor).isActive = true
+                //view.focusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
                 
+              //  view.focusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+                //headerFocusGuide!.heightAnchor.constraint(equalTo: view.mapButton.heightAnchor).isActive = true
+                //view.focusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+                
+                // Attach at the bottom of the origin view
+                view.focusGuide!.topAnchor.constraint(equalTo: view.albumLabel.bottomAnchor).isActive = true
+                view.focusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+                
+                view.focusGuide!.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+                view.focusGuide!.widthAnchor.constraint(equalToConstant: 1100).isActive = true
+                
+                
+                view.addSubview(FocusGuideDebugView(focusGuide: view.focusGuide!))
+                
+                view.focusGuide!.isEnabled = true
+
             }
+            
             
             
             

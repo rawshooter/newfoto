@@ -416,6 +416,7 @@ class AlbumController: UICollectionViewController {
             
             controller.albumName = assetCollection.localizedTitle ?? ""
             
+            controller.album = albumDetails
             
             // controller.asset =  colAlbums.object(at: didSelectItemAt.item) as PHAssetCollection
             
