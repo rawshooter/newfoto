@@ -115,6 +115,7 @@ class SmartCollectionController: UICollectionViewController {
 
             if let controller = storyboard?.instantiateViewController(withIdentifier: "MapController") as? MapController{
                 // give the controller all the needed assets
+                
                 controller.album = album
                 
                 self.show(controller, sender: self)
@@ -402,47 +403,44 @@ class SmartCollectionController: UICollectionViewController {
             
             // reference the map button from the
             // header view to gain access
-            mapButton = view.mapButton
             
-            view.controller = self
-           
             
-            // gain access to the header button
-            if(view.focusGuide == nil){
-                view.focusGuide = UIFocusGuide()
-                
-                // Indicate where to transfer focus
-                view.focusGuide!.preferredFocusEnvironments = [view.mapButton]
-
-                view.addLayoutGuide(view.focusGuide!)
-                
+            //mapButton = view.mapButton
             
-                // Configure size to match origin view
-                //view.focusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-                //headerFocusGuide!.heightAnchor.constraint(equalTo: view.mapButton.heightAnchor).isActive = true
-                //view.focusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-                
-                // Attach at the bottom of the origin view
-                //view.focusGuide!.topAnchor.constraint(equalTo: view.mapButton.bottomAnchor).isActive = true
-                //view.focusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-                
-              //  view.focusGuide!.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-                //headerFocusGuide!.heightAnchor.constraint(equalTo: view.mapButton.heightAnchor).isActive = true
-                //view.focusGuide!.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
-                
-                // Attach at the bottom of the origin view
-                view.focusGuide!.topAnchor.constraint(equalTo: view.albumLabel.bottomAnchor).isActive = true
-                view.focusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-                
-                view.focusGuide!.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-                view.focusGuide!.widthAnchor.constraint(equalToConstant: 1100).isActive = true
+            if(album != nil){
+                view.controller = self
                 
                 
-                view.addSubview(FocusGuideDebugView(focusGuide: view.focusGuide!))
-                
-                view.focusGuide!.isEnabled = true
-
+                // gain access to the header button
+                if(view.focusGuide == nil){
+                    view.focusGuide = UIFocusGuide()
+                    view.mapButton.isHidden = false
+                    // Indicate where to transfer focus
+                    view.focusGuide!.preferredFocusEnvironments = [view.mapButton]
+                    
+                    view.addLayoutGuide(view.focusGuide!)
+                    
+                    
+                    // Configure size to match origin view
+                    
+                    // Attach at the bottom of the origin view
+                    view.focusGuide!.topAnchor.constraint(equalTo: view.albumLabel.bottomAnchor).isActive = true
+                    view.focusGuide!.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+                    
+                    view.focusGuide!.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+                    
+                    view.focusGuide!.rightAnchor.constraint(equalTo: view.mapButton.leftAnchor).isActive = true
+                    
+//                    view.addSubview(FocusGuideDebugView(focusGuide: view.focusGuide!))
+                    
+                    view.focusGuide!.isEnabled = true
+                    
+                }
+            } else {
+                view.mapButton.isHidden = true
             }
+            
+   
             
             
             

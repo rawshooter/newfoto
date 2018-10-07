@@ -808,9 +808,21 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             _ = self.loadImage(asset: phAsset, isSynchronous: false){ imageData, dataUTI, orientation, infoArray in
                 
                 assetsToGoCounter = assetsToGoCounter + 1
-                DispatchQueue.main.async {
-                    self.infoLabel.text = "Reading \(assets.count) photos\nAnalyzed \(assetsToGoCounter) and \(self.annotationDic.count) locations"
+                
+                if(assetsToGoCounter == assets.count){
+                    DispatchQueue.main.async {
+                        self.infoLabel.text = "All \(assetsToGoCounter) photos analyzed\nFound \(self.annotationDic.count) locations"
+                    }
+
                 }
+                else {
+                    DispatchQueue.main.async {
+                        self.infoLabel.text = "Reading \(assets.count) photos\nAnalyzed \(assetsToGoCounter) and \(self.annotationDic.count) locations"
+                    }
+
+                }
+                
+                
                 
                 
                 guard let imageData = imageData else { return }
