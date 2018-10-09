@@ -285,7 +285,7 @@ class AlbumController: UICollectionViewController {
         let assetCollection: PHAssetCollection = sortedAlbumArray[indexPath.row].assetCol
         
         cell.titleLabel.text = "\(assetCollection.localizedTitle!)"
-        
+        cell.titleLabel.enablesMarqueeWhenAncestorFocused = true
         
         // and remove all effects from unfocused cell
         // to remove hicups of fast scrolling

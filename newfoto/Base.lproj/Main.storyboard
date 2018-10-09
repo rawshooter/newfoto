@@ -219,25 +219,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="scrollIndicatorInsets" minX="20" minY="20" maxX="20" maxY="20"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="50" minimumInteritemSpacing="50" id="76F-yq-kQ7">
-                            <size key="itemSize" width="308" height="390"/>
+                            <size key="itemSize" width="308" height="350"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="90" minY="60" maxX="90" maxY="60"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumCell" id="SAh-OR-5mT" customClass="AlbumCell" customModule="newfoto" customModuleProvider="target">
-                                <rect key="frame" x="90" y="60" width="308" height="390"/>
+                                <rect key="frame" x="90" y="60" width="308" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="308" height="390"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="308" height="350"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AzB-0x-Gan">
                                             <rect key="frame" x="0.0" y="0.0" width="308" height="308"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Album name with long text to check line size and spacing" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWf-I3-RZZ">
-                                            <rect key="frame" x="0.0" y="312" width="308" height="73"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Album name with long text to check line size and spacing" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWf-I3-RZZ">
+                                            <rect key="frame" x="0.0" y="312" width="308" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                             <nil key="textColor"/>
@@ -717,7 +717,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">NEW IN THIS RELEASE
+                                <string key="text">NEW IN THIS RELEASE
 
 See you Photos interactive on GPS satellite maps!
 
@@ -1068,7 +1068,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
