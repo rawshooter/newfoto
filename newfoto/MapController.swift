@@ -619,7 +619,7 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
         
         if let imageAnnotation = annotation as? ImageAnnotation{
            // let annotationView = MKMarkerAnnotationView()
-            let annotationView = MKAnnotationView()
+            let annotationView = SmartAnnotationView()
             //let annotationView = MKPinAnnotationView()
             
         
@@ -654,6 +654,10 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                     annotationView.layer.shadowRadius = 5;
                     annotationView.layer.shadowOpacity = 0.6;
                  //   annotationView.layer.cornerRadius = 16
+
+                    annotationView.collisionMode = .circle
+                    
+
                     
                 }
             })
@@ -691,14 +695,22 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
             clusterAnnotation.subtitle = ""
             
             //let clusterView = mapView.dequeueReusableAnnotationView(withIdentifier: clusterIdentifier)
-            //let clusterView = MKAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
-            let clusterView = MKMarkerAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
+       //     let clusterView = MKAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
+            
+            
+            
+            // let clusterView = MKMarkerAnnotationView(annotation: clusterAnnotation, reuseIdentifier: clusterIdentifier)
+            
+            
+            let clusterView = SmartMarkerAnnotationView()
             
             clusterView.titleVisibility = .hidden
             clusterView.subtitleVisibility = .hidden
             
-            //    annotationView.titleVisibility = .hidden
-            //    annotationView.subtitleVisibility = .hidden
+            clusterView.glyphText = "\(clusterAnnotation.memberAnnotations.count)"
+            //    clusterView.titleVisibility = .hidden
+            
+          //      clusterView.subtitleVisibility = .hidden
             //    annotationView.displayPriority = .defaultHigh
             
   
@@ -728,8 +740,10 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                         clusterView.layer.masksToBounds = false;
                         clusterView.layer.shadowOffset = CGSize(width:15, height:15);
                         clusterView.layer.shadowRadius = 5;
-                        clusterView.layer.shadowOpacity = 0.6;
+                        clusterView.layer.shadowOpacity = 0.5;
                         clusterView.layer.cornerRadius = 16
+                        
+      clusterView.collisionMode = .circle
                         
                     }
                 })
@@ -998,3 +1012,19 @@ extension UIImage {
 }
 
 
+class SmartAnnotationView: MKAnnotationView{
+    
+    open override var alignmentRectInsets: UIEdgeInsets{
+    
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
+    }
+}
+
+
+class SmartMarkerAnnotationView: MKMarkerAnnotationView{
+    
+    open override var alignmentRectInsets: UIEdgeInsets{
+        
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 8)
+    }
+}
