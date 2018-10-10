@@ -592,7 +592,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">• Higher map density: Much more photos will be displayed on the GPS satellite map, before they get clustered.
+                                <string key="text">• Higher map density: Much more photos will be displayed on the GPS satellite map before they get clustered.
 
 • Added the standard tvOS and iOS Smart Album section. These are automatically filled albums like Portraits, Favorites, Screenshots, etc.
 
@@ -815,7 +815,7 @@ Please stay tuned for upcoming updates. We love to hear feedback from you. Pleas
 
 VERSION 1.20
 
-• NEW: Higher map density: Much more photos will be displayed on the GPS satellite map, before they get clustered.
+• NEW: Higher map density: Much more photos will be displayed on the GPS satellite map before they get clustered.
 
 • NEW: Added the standard tvOS and iOS Smart Album section. These are automatically filled albums like Portraits, Favorites, Screenshots, etc.
 
