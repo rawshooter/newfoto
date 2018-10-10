@@ -51,6 +51,7 @@ class AlbumController: UICollectionViewController {
         
 
         
+        
         activityIndicator.center = CGPoint(x: 960, y: 512)
         
         activityIndicator.startAnimating()
@@ -196,11 +197,19 @@ class AlbumController: UICollectionViewController {
     // populate the array of the albums for better sorting and prefetching
     // for better performance
     func getAlbums(){
+
+        let colAlbums: PHFetchResult<PHAssetCollection>
+        if(tabBarController?.selectedIndex == 0){
         
+            // for ph asset collection there are no sort options available from the current tvos and ios API
+            // get all albums
+            colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
+            
+            
+        } else {
+            colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.any, options: nil)
+        }
         
-        // for ph asset collection there are no sort options available from the current tvos and ios API
-        // get all albums
-        let colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
         
 
         
@@ -284,7 +293,8 @@ class AlbumController: UICollectionViewController {
         // get the album of the sorted array
         let assetCollection: PHAssetCollection = sortedAlbumArray[indexPath.row].assetCol
         
-        cell.titleLabel.text = "\(assetCollection.localizedTitle!)"
+        let title = assetCollection.localizedTitle ?? ""
+        cell.titleLabel.text = title
         cell.titleLabel.enablesMarqueeWhenAncestorFocused = true
         
         // and remove all effects from unfocused cell

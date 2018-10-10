@@ -22,6 +22,7 @@
                     <connections>
                         <segue destination="Ghx-ey-E3W" kind="relationship" relationship="viewControllers" id="hX3-nn-owj"/>
                         <segue destination="Ii0-06-TAq" kind="relationship" relationship="viewControllers" id="Oqq-ou-E4J"/>
+                        <segue destination="Ghx-ey-E3W" kind="relationship" relationship="viewControllers" id="btX-Hm-ENc"/>
                         <segue destination="6g5-67-G4D" kind="relationship" relationship="viewControllers" id="JtL-89-1tn"/>
                     </connections>
                 </tabBarController>
@@ -272,7 +273,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GVX-J4-yeH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-763" y="-187"/>
+            <point key="canvasLocation" x="-1999" y="-482"/>
         </scene>
         <!--Settings-->
         <scene sceneID="FDY-Wt-coJ">
@@ -666,7 +667,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HTg-tk-sOs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4736" y="-5772"/>
+            <point key="canvasLocation" x="6868" y="-5772"/>
         </scene>
         <!--UHD View Controller-->
         <scene sceneID="G4S-O8-TsN">
@@ -1156,4 +1157,7 @@ http://vah.dy.fi/testcard</string>
         <image name="IMG_1087" width="1051.199951171875" height="591.29998779296875"/>
         <image name="glossy_gradient" width="640" height="480"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="hX3-nn-owj"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -10,6 +10,10 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    
+    let sharedAlbumsText = "Shared Albums"
+    let smartAlbumsText = "Smart Albums"
+    
     // will be true when the focus in the
     // first subcontroller was loaded (the focus environment)
     let font = UIFont.systemFont(ofSize: 29, weight: .bold)
@@ -70,6 +74,17 @@ class TabBarController: UITabBarController {
     func setupUI(){
         
         
+        if let tabItems = tabBar.items{
+            let tab1 = tabItems[0]
+            tab1.title = sharedAlbumsText
+       
+            let tab3 = tabItems[2]
+            tab3.title = smartAlbumsText
+            
+            
+        }
+        
+
         
         
         label.font = font
