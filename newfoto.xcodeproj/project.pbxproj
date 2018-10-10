@@ -38,6 +38,7 @@
 		4FCE5C142156D09F004EB734 /* mapThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */; };
 		4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C41F5C338000815763 /* AboutViewController.swift */; };
 		4FDD53C71F5C3D2700815763 /* LicenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */; };
+		4FEFD8A3216E46BC00106158 /* NewsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEFD8A2216E46BC00106158 /* NewsController.swift */; };
 		4FF09F2E1DDCCF6500B84A41 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */; };
 		4FFDE34F1DBB954200CC0435 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFDE34E1DBB954200CC0435 /* AppDelegate.swift */; };
 		4FFDE3561DBB954200CC0435 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFDE3541DBB954200CC0435 /* Main.storyboard */; };
@@ -77,6 +78,7 @@
 		4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapThumbnailCell.swift; sourceTree = "<group>"; };
 		4FDD53C41F5C338000815763 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		4FDD53C61F5C3D2700815763 /* LicenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseViewController.swift; sourceTree = "<group>"; };
+		4FEFD8A2216E46BC00106158 /* NewsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsController.swift; sourceTree = "<group>"; };
 		4FF09F2D1DDCCF6500B84A41 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		4FFDE34B1DBB954200CC0435 /* newfoto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = newfoto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFDE34E1DBB954200CC0435 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			children = (
 				4F8D5C7E1E9D61A800C15DEB /* model */,
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
+				4FEFD8A2216E46BC00106158 /* NewsController.swift */,
 				4F86777A214D9FD7009AA683 /* MapController.swift */,
 				4F82B5F72161089D00A4213A /* focusMapView.swift */,
 				4F45119820152E5B00F383CE /* TabBarController.swift */,
@@ -269,6 +272,7 @@
 				4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */,
 				4FAB8A60214E4E980045CDEB /* AssetMetadata.swift in Sources */,
 				4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */,
+				4FEFD8A3216E46BC00106158 /* NewsController.swift in Sources */,
 				4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */,
 				4F45119920152E5B00F383CE /* TabBarController.swift in Sources */,
 				4F42FD391E9AAB08006BDE11 /* SmartCollectionController.swift in Sources */,

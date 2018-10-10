@@ -88,6 +88,13 @@ class SmartCollectionController: UICollectionViewController {
         }
         
     }
+    
+    
+    
+    
+    
+    
+    
     /*
     override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
    
@@ -230,6 +237,10 @@ class SmartCollectionController: UICollectionViewController {
             // needed sections
             prepareDateArray()
             collectionView?.reloadData()
+
+            // add the notification view
+            view.addSubview(notification)
+            view.bringSubview(toFront: notification)
         }
         
         // Uncomment the following line to preserve selection between presentations
@@ -239,9 +250,7 @@ class SmartCollectionController: UICollectionViewController {
         // self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         
-        // add the notification view
-        view.addSubview(notification)
-        view.bringSubview(toFront: notification)
+
         
 
         

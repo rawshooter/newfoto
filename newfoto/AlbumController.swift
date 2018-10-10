@@ -127,6 +127,33 @@ class AlbumController: UICollectionViewController {
     
     // updated configuration 
     override func viewDidAppear(_ animated: Bool) {
+        
+        
+        
+        // get the defaults
+        // have we already seen the news?
+        let defaults = UserDefaults.standard
+        let versionPref = defaults.object(forKey: NewsController.versionKey) as? String ?? ""
+        
+        if(versionPref != NewsController.version){
+            if let controller = storyboard?.instantiateViewController(withIdentifier: "NewsController") as? NewsController{
+                
+                // show it on the highest level as a modal view
+                // present(controller, animated: false, completion: nil)
+                
+                // show it on the highest level as a modal view
+                //show(controller, sender: self)
+                
+                view.window?.rootViewController = controller
+                
+                
+                // print("name of the presented view controller \(presentedViewController?.restorationIdentifier)")
+                // print("Controller is shown")
+                return
+            }
+        }
+        
+    
 
         let status = PHPhotoLibrary.authorizationStatus()
         
