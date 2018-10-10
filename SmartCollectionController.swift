@@ -55,6 +55,9 @@ class SmartCollectionController: UICollectionViewController {
     // if NIL no information available
     var lastIndexPosition: Int?
 
+    // notification view to display messages
+    let notification: NotificationView = NotificationView()
+    
     // check when the controller is shown if we have access to the photo library
     override func viewDidAppear(_ animated: Bool) {
         let status = PHPhotoLibrary.authorizationStatus()
@@ -80,7 +83,9 @@ class SmartCollectionController: UICollectionViewController {
         print("Collection reappeared")
         updatePositionFromDetail()
         
-        
+        if(allPhotos?.count == 0){
+            notification.showError(message: "This is an empty album.")
+        }
         
     }
     /*
@@ -234,6 +239,11 @@ class SmartCollectionController: UICollectionViewController {
         // self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         
+        // add the notification view
+        view.addSubview(notification)
+        view.bringSubview(toFront: notification)
+        
+
         
     }
 

@@ -42,6 +42,9 @@ class AlbumController: UICollectionViewController {
         return CGAffineTransform(scaleX: 1.0, y: 1.0)
     }
     
+    // notification view to display messages
+    let notification: NotificationView = NotificationView()
+    
     
     // collection of albums can be NIL
    // var colAlbums: PHFetchResult<PHAssetCollection>?
@@ -81,6 +84,11 @@ class AlbumController: UICollectionViewController {
         // handle long press to open dedicated map view
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
         self.view.addGestureRecognizer(lpgr)
+        
+        // add the notification view
+        view.addSubview(notification)
+        view.bringSubview(toFront: notification)
+        
 
     }
     
