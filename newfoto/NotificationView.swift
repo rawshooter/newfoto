@@ -101,7 +101,7 @@ class NotificationView: UIVisualEffectView{
         resetLayout()
         
 
-        let duration: TimeInterval = 1
+        let duration: TimeInterval = 2
         
         DispatchQueue.main.async {
             if(message.count > self.sizeLength ){
@@ -161,7 +161,7 @@ class NotificationView: UIVisualEffectView{
      
      */
     func showMessage(message: String, completion: (() -> Void)? ) {
-        let duration: TimeInterval = 1
+        let duration: TimeInterval = 2
         resetLayout()
         
 
