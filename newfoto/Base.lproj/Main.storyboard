@@ -586,23 +586,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNc-d7-mP1">
-                                <rect key="frame" x="573" y="343" width="1039" height="299"/>
+                                <rect key="frame" x="573" y="343" width="1039" height="327"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">• Much higher density of photos on the map canvas
+                                <string key="text">• Higher map density: Much more photos will be displayed on the GPS satellite map, before they get clustered.
 
-• Smart Albums like Portraits, Favorites, etc. are displayed
+• Added the standard tvOS and iOS Smart Album section. These are automatically filled albums like Portraits, Favorites, Screenshots, etc.
 
-• Splash screen when updated
-
-• Information when album is empty</string>
+• Onboarding screen with update and news information on first time launch or updates.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="original" translatesAutoresizingMaskIntoConstraints="NO" id="5Jl-ch-lxz">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppleTV-Icon-App-Large-1280x768" translatesAutoresizingMaskIntoConstraints="NO" id="5Jl-ch-lxz">
                                 <rect key="frame" x="41" y="343" width="401" height="293"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -774,122 +772,7 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">NEW IN THIS RELEASE
-
-See you Photos interactive on GPS satellite maps!
-
-Thank you for using 4K Photo and giving so much inspiration and feedback. 
-
-Brand new with this release you can now see your photos directly on a GPS satellite map full interactively. 
-
-Please stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
- 
-
-VERSION 1.19
-
-• NEW: For the first time on tvOS you get a full GPS MAP browser for your photos. This is fully interactive. Please take note that analyzing all your photos may take a while. The map is still interactive and browsable. 
-
-• NEW: Album Title and Photo count in collection view visible
-
-• CHANGE: Removed open for AI auto horizon for better UXP and uncluttered UI 
-
-
-VERSION 1.18
-
-• NEW: Displays the current zoom factor when double tapping on a photo to zoom in
-
-• FIX: GPS EXIF detection greatly enhanced. 4K Photo now parses directly the EXIF information for the selected photo and can now display more reliable the corresponding map.  
-
-
-VERSION 1.17
-
-• NEW: Displays the current time with a small clock in the menu bar. Enjoy your browsing time.
-
-• FIX: Flickering on background animation removed, when changing the settings or leaving the app for access to Photo Library
-
-
-VERSION 1.16
-
-• CHANGE: For easier navigation the tab bar will fade out when all albums have been loaded on intial start
-• CHANGE: compiled for tvOS 11.4
-
-
-VERSION 1.15
-
-We have a brand new update for you: AI Horizon Autoadjust
-
-Leveraging Artificial Intelligence (AI) with Computer Vision the new 4K🌻Photo release is now able to detect the horizon of your taken photos. The new AI Horizon Autoadjust feature can set the photo rotation and zoom factor based on the image horizon.
-
-• NEW: Experimental automatic horizon detection with AI Autoadjustment. This works on landscape photos starting with aspect ratios of 4:3, 3:2, 16:9 and so on. Portrait photos can be also auto adjusted. When 4K Photo detects a possible correction angle between -6° and 6° the double tap zoom feature switches to autoadjust. This option can be also configured in the settings tab.
-
-• NEW: Updated look of the navigation bar at the top to resemble the bolder and bigger fonts for better visual appearance and accessbility
-
-• FIX: Smoother cloud placeholder images
-
-
-VERSION 1.14
-
-Thank you for using 4K Photo in 2018! We have a quick update for you.
-
-• NEW: Ever wanted to display all photos in an album or have the option to group all the photos by day? The new settings option allows you to enable or disable the grouping by date based on your preferences. The Photo Stream tab still groups by day. 
-
-
-VERSION 1.13
-
-• Faster startup time and splash image for better UXP
-• Indicator when loading album collections, helpful for large libraries
- 
-
-VERSION 1.12
-
-• Sharper text on thumbnails overview when running in UHD 4K resolution
-
-
-VERSION 1.11.1
-
-• Enables scrolling in the About and Acknowledgements section
-
-
-VERSION 1.11 
-
-4K🌻Photo now supports Machine Learning and Computer Vision. With this fun feature 4K🌻Photo now detects the image contents based on objects using core ML.
-
-
-WHAT´S NEW
-
-• Big Data core ML image detection: Up to three categories can be detected from the core ML engine. Please note that mainly objects are supported. Some detections might not be accurate and should only give a fun fact about the image. This feature is enabled by default.
-
-• Pixel dimension information in Metadata Display of the current photo
-
-• Image prefetching for faster loading. Loads the next two upcoming images in background. This is indicated with a small cloud symbol after loading the current image. The second image is loaded in the background for better performance.
-
-• Activity indicator to display loading of larger image sets on first startup
-
-• HD (1920x1080) and UHD (3840x2160) calibration images to adjust your television setup for best viewing experience
-
-
-CHANGES
-
-• Removed option for lowres and highres image downloads. The only option is now highres.
-
-• Default Zoom is now set to 3.0x. Zoom Factors vary now from 1.5 up to 4.0 to give better 4K response and support for larger TV sets
-
-• Refined loading indicators
-
-• First tab is now Shared Albums and then the Photostream tab. This comes closer to family picture viewing habits.
-
-• General support for tvOS 11
-
-
-FIXES
-
-• Now correct loading Metadata on initial startup 
-
-
-Stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
- 
-
-ABOUT 4K🌻Photo
+                                <mutableString key="text">ABOUT 4K🌻Photo
 
 See your Photos with GPS data on interactive GPS maps. 4K Photo is the first tvOS photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
@@ -921,18 +804,30 @@ Stay tuned for upcoming updates. We love to hear feedback from you. Please conta
 
 FULL RELEASE NOTES
 
-See you Photos interactive on GPS satellite maps!
+See your Photos on interactive GPS satellite maps.
 
 Thank you for using 4K Photo and giving so much inspiration and feedback. 
 
-Brand new with this release you can now see your photos directly on a GPS satellite map full interactively. 
+Brand new with this release you can now see your photos directly on a full screen GPS satellite map and browse interactively. 
 
 Please stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
  
 
+VERSION 1.20
+
+• NEW: Higher map density: Much more photos will be displayed on the GPS satellite map, before they get clustered.
+
+• NEW: Added the standard tvOS and iOS Smart Album section. These are automatically filled albums like Portraits, Favorites, Screenshots, etc.
+
+• NEW: Onboarding screen with update and news information on first time launch or updates.
+
 VERSION 1.19
 
 • NEW: For the first time on tvOS you get a full GPS MAP browser for your photos. This is fully interactive. Please take note that analyzing all your photos may take a while. The map is still interactive and browsable. 
+
+• NEW: Album Title and Photo count in collection view visible
+
+• CHANGE: Removed open for AI auto horizon for better UXP and uncluttered UI
 
 
 VERSION 1.18
@@ -1125,7 +1020,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1210,9 +1105,9 @@ http://vah.dy.fi/testcard</string>
     <resources>
         <image name="1920x1080" width="1920" height="1080"/>
         <image name="3840x2160" width="3840" height="2160"/>
+        <image name="AppleTV-Icon-App-Large-1280x768" width="1280" height="768"/>
         <image name="IMG_1087" width="1051.199951171875" height="591.29998779296875"/>
         <image name="glossy_gradient" width="640" height="480"/>
-        <image name="original" width="1280" height="768"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="hX3-nn-owj"/>
