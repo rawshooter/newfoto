@@ -1016,7 +1016,7 @@ class SmartAnnotationView: MKAnnotationView{
     
     open override var alignmentRectInsets: UIEdgeInsets{
     
-        return UIEdgeInsets(top: 10, left: 50, bottom: 50, right: 10)
+        return UIEdgeInsets(top: 5, left: 50, bottom: 50, right: 5)
     }
 }
 
@@ -1025,7 +1025,7 @@ class SmartMarkerAnnotationView: MKMarkerAnnotationView{
     
     open override var alignmentRectInsets: UIEdgeInsets{
         
-        return UIEdgeInsets(top: 10, left: 50, bottom: 50, right: 10)
+        return UIEdgeInsets(top: 5, left: 50, bottom: 50, right: 5)
         
     }
 }
