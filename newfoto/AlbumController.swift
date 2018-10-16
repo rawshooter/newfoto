@@ -241,6 +241,8 @@ class AlbumController: UICollectionViewController {
             colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: nil)
             
             
+            
+            
         } else {
             colAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.any, options: nil)
         }
@@ -250,7 +252,14 @@ class AlbumController: UICollectionViewController {
         
         // fill our helper albumArray structure
         for index in 0..<colAlbums.count{
-            sortedAlbumArray.append(AlbumDetail(assetCollection: colAlbums.object(at: index) as PHAssetCollection))
+            
+            let assetCol = colAlbums.object(at: index) as PHAssetCollection
+            
+            // hide the HIDDEN smart album
+            if(assetCol.assetCollectionSubtype != .smartAlbumAllHidden){
+                sortedAlbumArray.append(AlbumDetail(assetCollection: assetCol ) )
+            }
+
         }
         
         // just sort
