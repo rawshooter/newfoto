@@ -119,7 +119,12 @@ class MapController: UIViewController, MKMapViewDelegate, UICollectionViewDelega
                 
                 if let image = UIImage(data: imageData){
                     if(cell.indexPath?.row == index){
-                        cell.imageView.image = image
+                        
+                        // add a fix for orientation of the image
+                        // with the RotationImage extension
+                        // seems to be only with really fast loading
+                        // images, sacrificing the orientation already rendered from UIKit...
+                        cell.imageView.image = image.fixedOrientation()
                     }
                 }
                 

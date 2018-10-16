@@ -34,6 +34,7 @@
 		4FAC56AB1DF34BE400895280 /* AppleTV-TopShelf-1920x720.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */; };
 		4FAC56AC1DF34BE400895280 /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FAC56A81DF34BE400895280 /* original.jpg */; };
 		4FB809D41F5C64C9005A836C /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */; };
+		4FBB28D121762D75006184C1 /* RotationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBB28D021762D75006184C1 /* RotationImage.swift */; };
 		4FC65CBA1E54CEE20075EA4B /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FC65CB91E54CEE20075EA4B /* Media.xcassets */; };
 		4FCE5C142156D09F004EB734 /* mapThumbnailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */; };
 		4FDD53C51F5C338000815763 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD53C41F5C338000815763 /* AboutViewController.swift */; };
@@ -74,6 +75,7 @@
 		4FAC56A71DF34BE400895280 /* AppleTV-TopShelf-1920x720.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppleTV-TopShelf-1920x720.png"; sourceTree = "<group>"; };
 		4FAC56A81DF34BE400895280 /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original.jpg; sourceTree = "<group>"; };
 		4FB809D21F5C64B0005A836C /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
+		4FBB28D021762D75006184C1 /* RotationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotationImage.swift; sourceTree = "<group>"; };
 		4FC65CB91E54CEE20075EA4B /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4FCE5C132156D09F004EB734 /* mapThumbnailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapThumbnailCell.swift; sourceTree = "<group>"; };
 		4FDD53C41F5C338000815763 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				4FFDE3541DBB954200CC0435 /* Main.storyboard */,
 				4FEFD8A2216E46BC00106158 /* NewsController.swift */,
 				4F86777A214D9FD7009AA683 /* MapController.swift */,
+				4FBB28D021762D75006184C1 /* RotationImage.swift */,
 				4F82B5F72161089D00A4213A /* focusMapView.swift */,
 				4F45119820152E5B00F383CE /* TabBarController.swift */,
 				4F8863451F658E27003BBF0D /* HDViewController.swift */,
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FBB28D121762D75006184C1 /* RotationImage.swift in Sources */,
 				4F8D5C801E9D622500C15DEB /* DateAssets.swift in Sources */,
 				4FAB8A60214E4E980045CDEB /* AssetMetadata.swift in Sources */,
 				4F578F2D1DD7A61500252331 /* OverviewCell.swift in Sources */,
