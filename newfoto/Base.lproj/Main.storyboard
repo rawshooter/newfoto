@@ -592,11 +592,9 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">• Higher map density: Much more photos will be displayed on the GPS satellite map before they get clustered.
+                                <string key="text">• In the GPS map view sometimes images appeared in the wrong orientation. This is now fixed for the lower collection of thumbnails in the map view.
 
-• Added the standard tvOS and iOS Smart Album section. These are automatically filled albums like Portraits, Favorites, Screenshots, etc.
-
-• Onboarding screen with update and news information on first time launch or updates.</string>
+• Display of the hidden smart album is now disabled to reflect the 'hidden' state.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -812,6 +810,13 @@ Brand new with this release you can now see your photos directly on a full scree
 
 Please stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
  
+
+VERSION 1.21
+
+• FIX: In the GPS map view sometimes images appeared in the wrong orientation. This is now fixed for the lower collection of thumbnails in the map view.
+
+• CHANGE: Display of the hidden smart album is now disabled to reflect the 'hidden' state.
+
 
 VERSION 1.20
 
