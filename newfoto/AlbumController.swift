@@ -14,7 +14,8 @@ private let reuseIdentifier = "AlbumCell"
 fileprivate let imageManager = PHCachingImageManager()
 //fileprivate let thumbnailSize =  CGSize(width: 616, height: 616)
 fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
-//fileprivate let thumbnailSize =  CGSize(width: 512, height: 512)
+//fileprivate let thumbnailSizeUHD =  CGSize(width: 512, height: 512)
+fileprivate let thumbnailSizeUHD =  CGSize(width: 616, height: 616)
 
 
 
@@ -326,6 +327,10 @@ class AlbumController: UICollectionViewController {
         // get the custom album cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AlbumCell
         
+        // use the indexpath as an unique identifier
+        // to check for async loading if this is the right cell
+        cell.indexPath = indexPath
+        
         
         // intially we don´t want to have a glossy cell since it is currently NOT in focus
         cell.glossyView!.layer.opacity = 0
@@ -386,38 +391,54 @@ class AlbumController: UICollectionViewController {
             // Determine the size of the thumbnails to request from the PHCachingImageManager
             // TODO: WRONG SIZE? The thumbnail is not the cell size but a smaller portion of the image
             // might lead to aliasing
-            /*
-            let scale = UIScreen.main.scale
-            let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-            thumbnailSize = CGSize(width: (cellSize.width) * scale, height: (cellSize.height) * scale)
-*/
+            
+
+            var tvScaleThumbnailSize = thumbnailSize
+            if(UIScreen.main.scale >= 2.0){
+                tvScaleThumbnailSize = thumbnailSizeUHD
+            }
+
             
             
             //TODO: Set an intermediate loading image while the thumbnail IS loading??
             
+            // better photo fetch options
+            let options: PHImageRequestOptions = PHImageRequestOptions()
+            // important for loading network resources and progressive handling with callback handler
+            options.isNetworkAccessAllowed = true
+            options.deliveryMode = .opportunistic
+            // only on async the handler is being requested
+            // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
+            options.isSynchronous = false
             
             // Request an image for the asset from the PHCachingImageManager.
             //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
+            imageManager.requestImage(for: asset, targetSize: tvScaleThumbnailSize, contentMode: .aspectFill, options: options, resultHandler: { image, _ in
                 // The cell may have been recycled by the time this handler gets called;
                 // set the cell's thumbnail image only if it's still showing the same asset.
-                
-                if(image==nil){
-                    print("NIL image: fallback loaded")
-                    cell.imageView?.image = UIImage(named: "taxcloud_small")
-                } else {
-                    // HERE WE SET THE IMAGE
-                    cell.imageView?.image = image
+                if(cell.indexPath == indexPath){
+                    
+                    if(image==nil){
+                        print("NIL image: fallback loaded")
+                        DispatchQueue.main.async {
+                            cell.imageView.image = #imageLiteral(resourceName: "taxcloud_small")
+                        }
+                        
+                    } else {
+                        // HERE WE SET THE IMAGE
+                        DispatchQueue.main.async {
+                            cell.imageView.image = image
+                        }
+                    }
                 }
                 
-
                 
             })
 
 
         } else {
             print("empty album: settings fallback image")
-            cell.imageView?.image = UIImage(named: "taxcloud_small")
+            cell.imageView.image = #imageLiteral(resourceName: "taxcloud_small")
         }
         
         

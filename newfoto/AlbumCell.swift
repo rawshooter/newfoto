@@ -18,6 +18,10 @@ class AlbumCell: UICollectionViewCell {
     @IBOutlet weak var glossyParentView: UIView!
     
      
+    // unique information for the cell when setting the
+    // image asyncronously the call back handler can check the validity of the
+    // indexpath
+    var indexPath: IndexPath? = nil
     
     
 }

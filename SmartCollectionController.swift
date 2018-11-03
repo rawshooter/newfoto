@@ -16,6 +16,8 @@ fileprivate let imageManager = PHImageManager()
 //fileprivate let thumbnailSize =  CGSize(width: 616, height: 616)
 fileprivate let thumbnailSize =  CGSize(width: 308, height: 308)
 // fileprivate let thumbnailSize =  CGSize(width: 512, height: 512)
+fileprivate let thumbnailSizeUHD =  CGSize(width: 616, height: 616)
+//fileprivate let thumbnailSizeUHD =  CGSize(width: 400, height: 400)
 
 
 // this class displays the photo stream in segments
@@ -392,9 +394,10 @@ class SmartCollectionController: UICollectionViewController {
     /**
      Dynamically adjusting the size
      the @objc annotation is needed since this is an optional function FTW
+     this is for the header section with the maps button
      */
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize{
-        print("alled")
+
         if (section == 0) {
                 return CGSize(width: collectionView.bounds.width, height: 140)
         } else {
@@ -528,62 +531,70 @@ class SmartCollectionController: UICollectionViewController {
         
         
         
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SmartCell {
-            
-            // use the indexpath as an unique identifier
-            // to check for asny loading if this is the right cell
-            cell.indexPath = indexPath
-            
-            
-            
-            
-            
-            // Request an image for the asset from the PHCachingImageManager.
-            //  cell.representedAssetIdentifier = asset.localIdentifier
-            imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
-                
-                
-                // The cell may have been recycled by the time this handler gets called;
-                // set the cell's thumbnail image only if it's still showing the same asset
-                if(cell.indexPath == indexPath){
-                    
-                    
-                    if(image==nil){
-                        print("NIL image: fallback loaded")
-                        cell.imageView?.image = UIImage(named: "taxcloud_small")
-                    } else {
-                        // HERE WE SET THE IMAGE
-                        cell.imageView?.image = image
-                    }
-                    
-                    
-                } else {
-                    // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
-                }
-                
-            })
-            
-            // TODO: WARNING Rasterization bakes all the layers
-            // and cannot be moved individually
-//            cell.layer.rasterizationScale = UIScreen.main.scale;
-            
-//            cell.layer.shouldRasterize = true;
-            
-            print("UIScreen.main.scale: \(UIScreen.main.nativeScale) and \(UIScreen.main.nativeBounds)")
-            return cell
-            
-            
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SmartCell
+        
+        // use the indexpath as an unique identifier
+        // to check for async loading if this is the right cell
+        cell.indexPath = indexPath
+        
+        
+        // Determine the size of the thumbnails to request from the PHCachingImageManager
+        // TODO: WRONG SIZE? The thumbnail is not the cell size but a smaller portion of the image
+        // might lead to aliasing
+        var tvScaleThumbnailSize = thumbnailSize
+        if(UIScreen.main.scale >= 2.0){
+            tvScaleThumbnailSize = thumbnailSizeUHD
         }
         
         
+        // Request an image for the asset from the PHCachingImageManager.
+        //  cell.representedAssetIdentifier = asset.localIdentifie
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         
-        // Configure the cell
         
+        // better photo fetch options
+        let options: PHImageRequestOptions = PHImageRequestOptions()
+        // important for loading network resources and progressive handling with callback handler
+        options.isNetworkAccessAllowed = true
+        options.deliveryMode = .opportunistic
+        // only on async the handler is being requested
+        // TODO: Warning isSync FALSE produces currently unwanted errors for image loading
+        options.isSynchronous = false
+        
+        
+        imageManager.requestImage(for: asset, targetSize: tvScaleThumbnailSize, contentMode: .aspectFill, options: options, resultHandler: { image, _ in
+            // The cell may have been recycled by the time this handler gets called;
+            // set the cell's thumbnail image only if it's still showing the same asset
+         if(cell.indexPath == indexPath){
+                
+                if(image == nil){
+                    DispatchQueue.main.async {
+                        cell.imageView.image = #imageLiteral(resourceName: "taxcloud_small")
+                    }
+                } else {
+                    // HERE WE SET THE IMAGE
+                    DispatchQueue.main.async {
+                        cell.imageView.image = image
+                    }
+
+                }
+                
+                
+            } else {
+                // INFO: Scrolloing was to fast for setting this image. Maybe this cell has alreay a newer image
+          //      print("indexpath not matching")
+            }
+            
+        })
+        
+        // TODO: WARNING Rasterization bakes all the layers
+        // and cannot be moved individually
+        //            cell.layer.rasterizationScale = UIScreen.main.scale;
+        
+        //            cell.layer.shouldRasterize = true;
+        
+        //    print("UIScreen.main.scale: \(UIScreen.main.nativeScale) and \(UIScreen.main.nativeBounds)")
         return cell
-        
-        
         
     }
     
