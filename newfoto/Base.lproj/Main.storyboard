@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="62x-79-U6D">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <deployment identifier="tvOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -585,25 +586,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNc-d7-mP1">
-                                <rect key="frame" x="573" y="343" width="918" height="388"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" notEnabled="YES"/>
-                                </accessibility>
-                                <string key="text">• In the GPS map view sometimes images appeared in the wrong orientation. This is now fixed for the lower collection of thumbnails in the map view.
-
-• Display of the hidden smart album is now disabled to reflect the 'hidden' state.</string>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppleTV-Icon-App-Large-1280x768" translatesAutoresizingMaskIntoConstraints="NO" id="5Jl-ch-lxz">
                                 <rect key="frame" x="84" y="343" width="401" height="293"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6F5-rF-2hK">
-                                <rect key="frame" x="690" y="779" width="541" height="86"/>
+                                <rect key="frame" x="690" y="897" width="541" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
                                 <state key="normal" title="Continue"/>
@@ -611,6 +599,24 @@
                                     <action selector="continueAction:" destination="rEM-79-LaO" eventType="primaryActionTriggered" id="FLW-Q5-iWA"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zNc-d7-mP1">
+                                <rect key="frame" x="539" y="285" width="918" height="578"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <string key="text">• Sharper thumbnails for UHD TVs: Now with asynchronous loading of thumbnails of all preview images. Due to more network traffic this might take a while to download all the 4K previews. Enjoy the better image quality.
+
+• Navigation in the album collections is now smooth and predictable again: Scrolling and moving the focus now works like expected in the tvOS collection views.
+
+• Recompiled for tvOS 12.1 
+
+
+Thank you for using 4K Photo and giving so much inspiration and feedback.</string>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                     </view>
                 </viewController>
@@ -811,7 +817,18 @@ Brand new with this release you can now see your photos directly on a full scree
 Please stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
  
 
+VERSION 1.22
+
+
+• CHANGE: Sharper thumbnails for UHD TVs: Now with asynchronous loading of thumbnails of all preview images. Due to more network traffic this might take a while to download all the 4K previews. Enjoy the better image quality.
+
+• FIX: Navigation in the album collections is now smooth and predictable again: Scrolling and moving the focus now works like expected in the tvOS collection views.
+
+• CHANGE: Recompiled for tvOS 12.1 
+
+
 VERSION 1.21
+
 
 • FIX: In the GPS map view sometimes images appeared in the wrong orientation. This is now fixed for the lower collection of thumbnails in the map view.
 
