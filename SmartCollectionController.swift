@@ -405,6 +405,7 @@ class SmartCollectionController: UICollectionViewController {
     }
     
     
+    
  
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -413,6 +414,8 @@ class SmartCollectionController: UICollectionViewController {
         let photoCount = allPhotos?.count ?? 0
         
         view.albumLabel.text = "\(albumName)  ·  \(photoCount) Photos"
+        
+
         
         // hide dynamically the header info stack when
         // section 0 element
@@ -453,20 +456,37 @@ class SmartCollectionController: UICollectionViewController {
 //                    view.addSubview(FocusGuideDebugView(focusGuide: view.focusGuide!))
                     
                     view.focusGuide!.isEnabled = true
+                    view.mapButton.isEnabled = true
                     
                 }
             } else {
+                // there was no album
+                // hide the infostack
+                
                 view.mapButton.isHidden = true
+                
+                view.mapButton.isEnabled = false
+                
+                // remove the focus guide if the
+                // header was reused
+                view.focusGuide = nil
+                
             }
-            
-   
-            
-            
-            
-            
             
             
         } else {
+            
+            // cleanup
+            // we have no infostack since we are not
+            // in the first row
+            view.mapButton.isHidden = true
+            
+            view.mapButton.isEnabled = false
+            
+            // remove the focus guide if the
+            // header was reused
+            view.focusGuide = nil
+            
             view.infoStack.isHidden = true
         }
         
