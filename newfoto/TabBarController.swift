@@ -19,6 +19,10 @@ class TabBarController: UITabBarController {
     let font = UIFont.systemFont(ofSize: 29, weight: .bold)
     let tabFont = UIFont.systemFont(ofSize: 40, weight: .bold)
     var label = UILabel(frame: CGRect(x: 1795, y: 42, width: 150, height: 60))
+    var seasonlabel = UILabel(frame: CGRect(x: 50, y: 42, width: 400, height: 60))
+    
+    let xmas = "🎄🌟🎁💫☃️"
+    let sylvester = "🍾🎆☃️🎇🎉"
     
     
     func getLabelColor() -> UIColor {
@@ -70,6 +74,57 @@ class TabBarController: UITabBarController {
     
     
     
+    func addSeasonLabel(){
+        seasonlabel.font = tabFont
+        tabBar.addSubview(seasonlabel)
+        seasonlabel.numberOfLines = 0
+        tabBar.bringSubview(toFront: seasonlabel)
+        
+        let calendar = Calendar.current
+        let date = Date()
+
+        //Now asking the calendar what month are we in today’s date:
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+
+        // christmas season
+
+
+        if(month == 12 && day < 31){
+            seasonlabel.text = "☃️🕯❄️"
+        }
+        
+        if(month == 12 && day == 24 ){
+            seasonlabel.text = xmas
+        }
+        
+        if(month == 12 && day == 25 ){
+            seasonlabel.text = xmas
+        }
+        
+        if(month == 12 && day == 26 ){
+            seasonlabel.text = xmas
+        }
+        
+        
+
+        
+        if(month == 1 && day < 2){
+            seasonlabel.text = sylvester
+        }
+        
+        
+        if(month == 1 && day < 15){
+            seasonlabel.text = "☃️"
+        }
+
+        
+        
+        
+        
+    }
+    
+    
     
     func setupUI(){
         
@@ -84,6 +139,7 @@ class TabBarController: UITabBarController {
             
         }
         
+        addSeasonLabel()
 
         
         
