@@ -139,10 +139,42 @@ class DisclaimerViewController: UIViewController {
        // }
     }
     
+    func addSnow(){
+        
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.40)
+        
+        let flakeEmitterCell = CAEmitterCell()
+        flakeEmitterCell.contents = UIImage(named: "snow")?.cgImage
+        flakeEmitterCell.scale = 0.02
+        flakeEmitterCell.scaleRange = 0.06
+        flakeEmitterCell.emissionRange = .pi
+        flakeEmitterCell.lifetime = 21.0
+        flakeEmitterCell.birthRate = 500
+        flakeEmitterCell.velocity = -8
+        flakeEmitterCell.velocityRange = -12
+        flakeEmitterCell.yAcceleration = 5
+        flakeEmitterCell.xAcceleration = 0.5
+        flakeEmitterCell.spin = -0.5
+        flakeEmitterCell.spinRange = 1.0
+        
+        let snowEmitterLayer = CAEmitterLayer()
+        snowEmitterLayer.emitterPosition = CGPoint(x: view.bounds.width / 2.0, y: -50)
+        snowEmitterLayer.emitterSize = CGSize(width: view.bounds.width, height: 0)
+        snowEmitterLayer.emitterShape = kCAEmitterLayerLine
+        snowEmitterLayer.beginTime = CACurrentMediaTime()
+        snowEmitterLayer.timeOffset = 10
+        snowEmitterLayer.emitterCells = [flakeEmitterCell]
+        
+        view.layer.addSublayer(snowEmitterLayer)
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        addSnow()
+        
         // if access to the library is not
         // determined yet and not accessed or denied
         // show the get access button

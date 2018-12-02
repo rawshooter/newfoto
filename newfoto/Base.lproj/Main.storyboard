@@ -134,7 +134,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_1087" translatesAutoresizingMaskIntoConstraints="NO" id="Rb3-1M-K1E">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_1495" translatesAutoresizingMaskIntoConstraints="NO" id="Rb3-1M-K1E">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -288,7 +288,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_1087" translatesAutoresizingMaskIntoConstraints="NO" id="sab-VP-Rzb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="IMG_6810" translatesAutoresizingMaskIntoConstraints="NO" id="sab-VP-Rzb">
                                 <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -776,7 +776,7 @@ Thank you for using 4K Photo and giving so much inspiration and feedback.</strin
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">ABOUT 4K🌻Photo
+                                <string key="text">ABOUT 4K🌻Photo
 
 See your Photos with GPS data on interactive GPS maps. 4K Photo is the first tvOS photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
@@ -1042,7 +1042,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1128,7 +1128,8 @@ http://vah.dy.fi/testcard</string>
         <image name="1920x1080" width="1920" height="1080"/>
         <image name="3840x2160" width="3840" height="2160"/>
         <image name="AppleTV-Icon-App-Large-1280x768" width="1280" height="768"/>
-        <image name="IMG_1087" width="1051.199951171875" height="591.29998779296875"/>
+        <image name="IMG_1495" width="3050" height="1536"/>
+        <image name="IMG_6810" width="2048" height="1536"/>
         <image name="glossy_gradient" width="640" height="480"/>
     </resources>
     <inferredMetricsTieBreakers>
