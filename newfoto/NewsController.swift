@@ -11,7 +11,7 @@ import Photos
 
 class NewsController: UIViewController {
     
-    static let version = "1.22"
+    static let version = "1.23"
     static let versionKey = "VERSION"
     
 

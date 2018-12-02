@@ -606,12 +606,9 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">• Sharper thumbnails for UHD TVs: Now with asynchronous loading of thumbnails of all preview images. Due to more network traffic this might take a while to download all the 4K previews. Enjoy the better image quality.
+                                <string key="text">Season greetings: We whish you a relaxing and nice Christmas season and a Happy New Year! 
 
-• Navigation in the album collections is now smooth and predictable again: Scrolling and moving the focus now works like expected in the tvOS collection views.
-
-• Recompiled for tvOS 12.1 
-
+• Snow effect in the start and settings screen to embrace the holiday season and new year.
 
 Thank you for using 4K Photo and giving so much inspiration and feedback.</string>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
@@ -776,7 +773,7 @@ Thank you for using 4K Photo and giving so much inspiration and feedback.</strin
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <string key="text">ABOUT 4K🌻Photo
+                                <mutableString key="text">ABOUT 4K🌻Photo
 
 See your Photos with GPS data on interactive GPS maps. 4K Photo is the first tvOS photo viewer with AI Computer Vision, EXIF and GPS maps support, including Zoom (1.5x - 4.0x) and core ML image detection.
 
@@ -816,6 +813,11 @@ Brand new with this release you can now see your photos directly on a full scree
 
 Please stay tuned for upcoming updates. We love to hear feedback from you. Please contact me at 4kphoto@alexnat.de or follow me at twitter @innovateme. See full release notes for more details. 
  
+
+VERSION 1.23
+
+• NEW: Season greetings: Have a nice Christmas season and a Happy New Year! Snow effect in the start and settings screen to embrace the holiday season and new year.
+
 
 VERSION 1.22
 
@@ -1042,7 +1044,7 @@ VERSION 1.0
 - Double Tap will enable a 4K Zoom, enlarging the photo
 - Optional Metadata (GPS) is displayed when available
 
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="30"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
